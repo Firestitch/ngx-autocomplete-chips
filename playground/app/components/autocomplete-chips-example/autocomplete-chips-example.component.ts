@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { FsArray } from '@firestitch/common';
 import 'rxjs/add/operator/map';
+import { filter, list, remove } from '@firestitch/common/array';
 
 
 interface User {
@@ -34,15 +34,15 @@ export class AutocompleteChipsExampleComponent implements OnInit, OnDestroy {
 
   public filteredOptions: User[];
 
-  constructor(private _fsArray: FsArray) { }
+  constructor() { }
 
   ngOnInit() {
 
     this.loadUsers$
       .map((name) => name ? this.filter(name) : this._list.slice())
       .map(data => {
-        const selectedUsersIds: number[] = (<number[]>this._fsArray.list(this.selectedUsers, 'value'));
-        return this._fsArray.filter(data, (user) => {
+        const selectedUsersIds: number[] = (<number[]>list(this.selectedUsers, 'value'));
+        return filter(data, (user) => {
           return selectedUsersIds.indexOf(user.value) === -1;
         });
       })
@@ -78,12 +78,23 @@ export class AutocompleteChipsExampleComponent implements OnInit, OnDestroy {
   }
 
   public removeUser(user): void {
-    this._fsArray.remove(this.selectedUsers, { value: user.value });
+    remove(this.selectedUsers, { value: user.value });
     this.loadUsers$.next(null);
   }
 
   public displayFn(data): string {
     return data ? data.name : data;
+  }
+
+  /**
+   * TODO
+   * Created for removing Material bug
+   * Which doent's allow to open dropdown after removing the last element
+   * Or choosing new element
+   */
+  public clickOnInput(event) {
+    this.input.nativeElement.blur();
+    this.input.nativeElement.focus();
   }
 
   ngOnDestroy() {

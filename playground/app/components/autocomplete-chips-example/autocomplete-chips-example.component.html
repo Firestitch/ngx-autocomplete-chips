@@ -13,6 +13,7 @@
         type="text"
         name="user"
         placeholder="Search Users"
+        (click)="clickOnInput($event)"
         [matChipInputFor]="chipList"
         [matAutocomplete]="userAutocompleteInput">
     </mat-chip-list>
