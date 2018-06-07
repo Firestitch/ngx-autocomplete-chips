@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { FsExampleModule } from '@firestitch/example';
 import { FsArray } from '@firestitch/common';
+import { FsApiModule, FsApi } from '@firestitch/api';
 
 import { FsAutocompleteChipsModule } from '../src';
 
@@ -21,6 +22,8 @@ import { AutocompleteChipsExampleComponent } from './app/components';
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
+
+    FsApiModule,
 
     FsExampleModule,
 
@@ -37,6 +40,7 @@ import { AutocompleteChipsExampleComponent } from './app/components';
   ],
   providers: [
     FsArray,
+    FsApi
   ],
 })
 export class PlaygroundModule {

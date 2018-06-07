@@ -1,27 +1,14 @@
-<form>
-  <mat-form-field>
-    <mat-chip-list #chipList>
-      <mat-chip *ngFor="let item of selectedUsers" (remove)="removeUser(item, $event)">
-        {{ item.name }}&nbsp;<em>&lt;{{ item.email }}&gt;</em> <mat-icon matChipRemove>cancel</mat-icon>
-      </mat-chip>
+<fs-autocomplete-chips
+  [(ngModel)]="model"
+  [fetch]="fetch"
+  removable="true"
+  draggable="true"
+  name="autocomplete-chips">
+    <ng-template let-data="item" fs-autocomplete-chip>
+      {{ data.name }}
+    </ng-template>
+</fs-autocomplete-chips>
 
-      <input
-        matInput
-        #input
-        (ngModelChange)="inputChanged($event)"
-        [(ngModel)]="user"
-        type="text"
-        name="user"
-        placeholder="Search Users"
-        (click)="clickOnInput($event)"
-        [matChipInputFor]="chipList"
-        [matAutocomplete]="userAutocompleteInput">
-    </mat-chip-list>
-
-    <mat-autocomplete #userAutocompleteInput="matAutocomplete" [displayWith]="displayFn" (optionSelected)="addUser($event)">
-      <mat-option *ngFor="let item of filteredOptions" [value]="item">{{ item.name }}</mat-option>
-    </mat-autocomplete>
-
-    <mat-hint *ngIf="selectedUsers.length">{{ selectedUsers | json }}</mat-hint>
-  </mat-form-field>
-</form>
+<fieldset>
+  {{ model | json }}
+</fieldset>
