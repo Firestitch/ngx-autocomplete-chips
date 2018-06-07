@@ -1,14 +1,27 @@
-<fs-autocomplete-chips
-  [(ngModel)]="model"
-  [fetch]="fetch"
-  removable="true"
-  draggable="true"
-  name="autocomplete-chips">
-    <ng-template let-data="item" fs-autocomplete-chip>
-      {{ data.name }}
-    </ng-template>
-</fs-autocomplete-chips>
+<form (fsForm)="save(form)" #form="ngForm">
+  <fs-autocomplete-chips
+    [(ngModel)]="model"
+    [fetch]="fetch"
+    placeholder="Select..."
+    removable="true"
+    draggable="true"
+    fsFormRequired="true"
+    [disabled]="disabled"
+    (selected)="onSelected($event)"
+    (remove)="onRemove($event)"
+    (drop)="onDrop($event)"
+    name="autocomplete-chips">
+      <ng-template let-data="item" fs-autocomplete-chip>
+        {{ data.name }}
+      </ng-template>
+  </fs-autocomplete-chips>
 
-<fieldset>
-  {{ model | json }}
-</fieldset>
+  <fieldset>
+    {{ model | json }}
+  </fieldset>
+
+  <fieldset>
+    <button mat-raised-button color="primary">Save</button>
+    <button type="button" mat-raised-button (click)="disabled = !disabled">Switch Disable</button>
+  </fieldset>
+</form>

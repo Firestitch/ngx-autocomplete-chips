@@ -21,6 +21,8 @@ export class AutocompleteChipsExampleComponent implements OnInit {
 
   public model = [];
 
+  public disabled = false;
+
   constructor(private fsApi: FsApi) { }
 
   ngOnInit() {
@@ -35,5 +37,21 @@ export class AutocompleteChipsExampleComponent implements OnInit {
       }
       return response;
     });
+  }
+
+  save(form) {
+    console.log(form);
+  }
+
+  onSelected(data) {
+    console.log(data);
+  }
+
+  onRemove(data) {
+    console.log(data);
+  }
+
+  onDrop(data) {
+    console.log(data);
   }
 }

@@ -1,5 +1,5 @@
 <mat-form-field>
-  <mat-chip-list #chipList>
+  <mat-chip-list #chipList [disabled]="disabled">
     <mat-chip
       *ngFor="let item of model"
       [selectable]="selectable"
@@ -7,23 +7,27 @@
       [attr.data-id]="item[indexField]"
       (removed)="onRemove(item)">
 
+      <mat-icon *ngIf="draggable && !disabled" class="mat-chip-drag">drag_handle</mat-icon>
       <ng-template
         [ngTemplateOutlet]="chipTemplate"
         [ngTemplateOutletContext]="{ item: item }"
       ></ng-template>
 
-      <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+      <mat-icon matChipRemove *ngIf="removable && !disabled">cancel</mat-icon>
     </mat-chip>
     <input
       placeholder="{{ placeholder }}"
       #keywordInput
+      name="input-keyword"
       [(ngModel)]="keyword"
+      [disabled]="disabled"
       [matAutocomplete]="autocomplete"
       [matChipInputFor]="chipList"
       [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
       [matChipInputAddOnBlur]="addOnBlur"
       (matChipInputTokenEnd)="add($event)"
       (ngModelChange)="keywordChange()"
+      (click)="onClick($event)"
     />
   </mat-chip-list>
   <mat-autocomplete #autocomplete="matAutocomplete" (optionSelected)="onSelected($event)">

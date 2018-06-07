@@ -9,3 +9,14 @@ mat-form-field {
   }
 }
 
+/deep/ mat-chip {
+  mat-icon.mat-chip-drag {
+    color: rgba(0, 0, 0, .87);
+    opacity: 0.54;
+    margin-right: 6px;
+    width: 1em;
+    height: 1em;
+    font-size: 21px;
+    cursor: pointer;
+  }
+}

@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, ElementRef, ContentChild, TemplateRef,
-  OnInit, ViewChild } from '@angular/core';
+  ViewChild, OnInit, OnChanges, OnDestroy } from '@angular/core';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatAutocompleteSelectedEvent, MatChipInputEvent } from '@angular/material';
 import { DragulaService } from 'ng2-dragula';
@@ -17,7 +17,7 @@ import { FS_AUTOCOMPLETE_CHIPS_ACCESSOR } from './../../value-accessors';
   styleUrls: [ './fs-autocomplete-chips.component.scss' ],
   providers: [FS_AUTOCOMPLETE_CHIPS_ACCESSOR]
 })
-export class FsAutocompleteChipsComponent implements OnInit {
+export class FsAutocompleteChipsComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() public fetch = null;
 
@@ -26,18 +26,23 @@ export class FsAutocompleteChipsComponent implements OnInit {
   @Input() public addOnBlur = false;
   @Input() public selectable = true;
   @Input() public draggable = false;
+  @Input() public disabled = false;
   @Input() public indexField = 'id';
 
   @Output() selected = new EventEmitter<any>();
   @Output() remove = new EventEmitter<any>();
   @Output() drop = new EventEmitter<any>();
 
-  public keyword = null;
+  public keyword = '';
   public autocompleteData: object[] = null;
 
   public separatorKeysCodes = [ENTER, COMMA];
 
   private _model = [];
+
+  private bagName = 'bag-chips';
+
+  private $drop = null;
 
   public get model () {
     return this._model;
@@ -62,11 +67,6 @@ export class FsAutocompleteChipsComponent implements OnInit {
     const model = [];
     const [el, parent] = args;
 
-    // const newPosition = this.getElementIndex(el);
-
-    // const existingElement = model[newPosition] ? model[newPosition] : null;
-    // const draggableItem = filter(model, { [this.indexField]: el.getAttribute('data-id') })[0];
-
     for (var i = 0; i < parent.childNodes.length; i++) {
       if (parent.childNodes[i].tagName === 'MAT-CHIP') {
         const item = filter(this.model, { [this.indexField]: parent.childNodes[i].getAttribute('data-id') })[0];
@@ -74,7 +74,7 @@ export class FsAutocompleteChipsComponent implements OnInit {
       }
     }
 
-    this.writeValue(model);
+    this.writeValue(model, true);
     this.drop.emit(model);
   }
 
@@ -82,23 +82,49 @@ export class FsAutocompleteChipsComponent implements OnInit {
     return [].slice.call(el.parentElement.children).indexOf(el);
   }
 
-  ngOnInit() {
-    if (this.draggable) {
-      this.dragula.setOptions('bag-chips', {
-        isContainer(el) {
-          return el.classList.contains('mat-chip-list-wrapper');
-        },
-        direction: 'horizontal'
-      });
+  ngOnInit() { }
 
-      this.dragula.drop.subscribe((value) => {
-        this.onDrop(value.slice(1));
-      });
+  ngOnChanges(changes) {
+
+    if (!changes) {
+      return;
+    }
+
+    if (changes.draggable || changes.disabled) {
+      if (this.draggable && !this.disabled) {
+        this.dragInit();
+      } else {
+        this.dragRemove();
+      }
     }
   }
 
-  writeValue(value: any): void {
+  dragInit() {
+    this.dragula.setOptions(this.bagName, {
+      isContainer(el) {
+        return el.classList.contains('mat-chip-list-wrapper');
+      },
+      direction: 'horizontal'
+    });
+
+    this.$drop = this.dragula.drop.subscribe((value) => {
+      this.onDrop(value.slice(1));
+    });
+  }
+
+  dragRemove() {
+    if (this.$drop) {
+      this.dragula.destroy(this.bagName);
+      this.$drop.unsubscribe();
+    }
+  }
+
+  writeValue(value: any, allowEmpty = false): void {
     value = Array.isArray(value) ? value : [];
+
+    if (!allowEmpty && !value.length) {
+      return;
+    }
 
     this._model = value;
     this._onChange(this._model);
@@ -106,9 +132,8 @@ export class FsAutocompleteChipsComponent implements OnInit {
 
   keywordChange() {
 
-    this.autocompleteData = [];
-
     if (!this.fetch) {
+      this.autocompleteData = [];
       return;
     }
 
@@ -126,7 +151,7 @@ export class FsAutocompleteChipsComponent implements OnInit {
   }
 
   onSelected (event: MatAutocompleteSelectedEvent): void {
-    this.writeValue([...this._model, ...[event.option.value]]);
+    this.writeValue([...this._model, ...[event.option.value]], true);
     this.keyword = '';
     this.keywordInput.nativeElement.value = '';
     this.selected.emit(event.option.value);
@@ -142,8 +167,18 @@ export class FsAutocompleteChipsComponent implements OnInit {
 
     if (index !== -1) {
       model.splice(index, 1);
-      this.writeValue(model);
+      this.writeValue(model, true);
       this.remove.emit(item);
     }
+  }
+
+  onClick(event) {
+    this.keywordChange();
+    this.keywordInput.nativeElement.blur();
+    this.keywordInput.nativeElement.focus();
+  }
+
+  ngOnDestroy() {
+    this.dragRemove();
   }
 }
