@@ -4,11 +4,13 @@
     [fetch]="fetch"
     placeholder="Select..."
     removable="true"
+    draggable="true"
     fsFormRequired="true"
     [disabled]="disabled"
     (selected)="onSelected($event)"
     (remove)="onRemove($event)"
-    name="autocomplete-chips">
+    (drop)="onDrop($event)"
+    name="autocomplete-chips-orderable">
       <ng-template let-data="item" fs-autocomplete-chip>
         {{ data.name }}
       </ng-template>

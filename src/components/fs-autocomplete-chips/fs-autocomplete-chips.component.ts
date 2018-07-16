@@ -33,6 +33,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnChanges, OnDestro
   @Output() remove = new EventEmitter<any>();
   @Output() drop = new EventEmitter<any>();
 
+  public uniqueId = null;
   public keyword = '';
   public autocompleteData: object[] = null;
 
@@ -82,7 +83,9 @@ export class FsAutocompleteChipsComponent implements OnInit, OnChanges, OnDestro
     return [].slice.call(el.parentElement.children).indexOf(el);
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.uniqueId = `mat-chip-list${this.hash()}`;
+  }
 
   ngOnChanges(changes) {
 
@@ -101,13 +104,18 @@ export class FsAutocompleteChipsComponent implements OnInit, OnChanges, OnDestro
 
   dragInit() {
     this.dragula.setOptions(this.bagName, {
-      isContainer(el) {
-        return el.classList.contains('mat-chip-list-wrapper');
+      isContainer: el => {
+
+        if (!(el.parentElement && el.parentElement.classList)) {
+          return false;
+        }
+
+        return !!(el.classList.contains('mat-chip-list-wrapper') && el.parentElement.classList.contains(this.uniqueId));
       },
       direction: 'horizontal'
     });
 
-    this.$drop = this.dragula.drop.subscribe((value) => {
+    this.$drop = this.dragula.drop.subscribe(value => {
       this.onDrop(value.slice(1));
     });
   }
@@ -177,6 +185,10 @@ export class FsAutocompleteChipsComponent implements OnInit, OnChanges, OnDestro
     this.keywordInput.nativeElement.blur();
     this.keywordInput.nativeElement.focus();
   }
+
+  private hash() {
+    return '_' + Math.random().toString(36).substr(2, 9);
+  };
 
   ngOnDestroy() {
     this.dragRemove();

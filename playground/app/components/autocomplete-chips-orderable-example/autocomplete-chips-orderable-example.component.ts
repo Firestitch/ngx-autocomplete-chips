@@ -7,10 +7,10 @@ import { FsApi } from '@firestitch/api';
 
 
 @Component({
-  selector: 'autocomplete-chips-example',
-  templateUrl: './autocomplete-chips-example.component.html'
+  selector: 'autocomplete-chips-orderable-example',
+  templateUrl: './autocomplete-chips-orderable-example.component.html'
 })
-export class AutocompleteChipsExampleComponent implements OnInit {
+export class AutocompleteChipsOrderableExampleComponent implements OnInit {
 
   public list = [
     { name: 'Bob', value: 1 },
@@ -48,6 +48,10 @@ export class AutocompleteChipsExampleComponent implements OnInit {
   }
 
   onRemove(data) {
+    console.log(data);
+  }
+
+  onDrop(data) {
     console.log(data);
   }
 }

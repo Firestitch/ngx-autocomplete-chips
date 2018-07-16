@@ -1,5 +1,5 @@
 <mat-form-field>
-  <mat-chip-list #chipList [disabled]="disabled">
+  <mat-chip-list #chipList [disabled]="disabled" class="mat-chip-list {{ uniqueId }}">
     <mat-chip
       *ngFor="let item of model"
       [selectable]="selectable"

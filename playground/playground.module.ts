@@ -14,7 +14,7 @@ import { FsAutocompleteChipsModule } from '../src';
 
 import { AppComponent } from './app/app.component';
 import { AppMaterialModule } from './app/material.module';
-import { AutocompleteChipsExampleComponent } from './app/components';
+import { AutocompleteChipsExampleComponent, AutocompleteChipsOrderableExampleComponent } from './app/components';
 
 
 @NgModule({
@@ -34,7 +34,8 @@ import { AutocompleteChipsExampleComponent } from './app/components';
   declarations: [
     AppComponent,
 
-    AutocompleteChipsExampleComponent
+    AutocompleteChipsExampleComponent,
+    AutocompleteChipsOrderableExampleComponent
   ],
   providers: [
     FsArray,
