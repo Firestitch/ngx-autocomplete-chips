@@ -7,6 +7,7 @@ import { DragulaService } from 'ng2-dragula';
 import { filter, list, sort, indexOf } from '@firestitch/common/array';
 
 import { FsAutocompleteChipDirective, FsAutocompleteDirective } from './../../directives';
+import { AutocompleteGroup } from './../../interfaces';
 
 import { FS_AUTOCOMPLETE_CHIPS_ACCESSOR } from './../../value-accessors';
 
@@ -29,13 +30,15 @@ export class FsAutocompleteChipsComponent implements OnInit, OnChanges, OnDestro
   @Input() public disabled = false;
   @Input() public indexField = 'id';
 
+  @Input() public groups = false;
+
   @Output() selected = new EventEmitter<any>();
   @Output() remove = new EventEmitter<any>();
   @Output() drop = new EventEmitter<any>();
 
   public uniqueId = null;
   public keyword = '';
-  public autocompleteData: object[] = null;
+  public autocompleteData: object[] | AutocompleteGroup[] = null;
 
   public separatorKeysCodes = [ENTER, COMMA];
 
@@ -150,7 +153,14 @@ export class FsAutocompleteChipsComponent implements OnInit, OnChanges, OnDestro
 
       const selected = list(this.model, this.indexField);
 
-      this.autocompleteData = filter(response, item => selected.indexOf(item[this.indexField]) === -1);
+      if (this.groups) {
+        for (let group of response) {
+          group['data'] = filter(group.data || [], item => selected.indexOf(item[this.indexField]) === -1);
+        }
+        this.autocompleteData = response;
+      } else {
+        this.autocompleteData = filter(response, item => selected.indexOf(item[this.indexField]) === -1);
+      }
     });
   }
 

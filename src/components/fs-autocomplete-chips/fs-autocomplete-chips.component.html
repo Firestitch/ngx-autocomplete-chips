@@ -31,11 +31,24 @@
     />
   </mat-chip-list>
   <mat-autocomplete #autocomplete="matAutocomplete" (optionSelected)="onSelected($event)">
-    <mat-option *ngFor="let item of autocompleteData" [value]="item">
-      <ng-template
-        [ngTemplateOutlet]="autocompleteTemplate || chipTemplate"
-        [ngTemplateOutletContext]="{ item: item }"
-      ></ng-template>
-    </mat-option>
+    <ng-container *ngIf="groups">
+      <ng-container *ngFor="let group of autocompleteData">
+        <mat-option class="autocomplete-group-label" disabled="true">{{ group.name }}</mat-option>
+        <mat-option *ngFor="let item of group.data" [value]="item">
+          <ng-template
+            [ngTemplateOutlet]="autocompleteTemplate || chipTemplate"
+            [ngTemplateOutletContext]="{ item: item }"
+          ></ng-template>
+        </mat-option>
+      </ng-container>
+    </ng-container>
+    <ng-container *ngIf="!groups">
+      <mat-option *ngFor="let item of autocompleteData" [value]="item">
+        <ng-template
+          [ngTemplateOutlet]="autocompleteTemplate || chipTemplate"
+          [ngTemplateOutletContext]="{ item: item }"
+        ></ng-template>
+      </mat-option>
+    </ng-container>
   </mat-autocomplete>
 </mat-form-field>
