@@ -1,7 +1,7 @@
 {
   "name": "@firestitch/autocomplete-chips",
   "description": "@firestitch/autocomplete-chips",
-  "version": "0.1.4",
+  "version": "0.1.6",
   "repository": {
     "type": "git",
     "url": "https://github.com/Firestitch/fs-autocomplete-chips"

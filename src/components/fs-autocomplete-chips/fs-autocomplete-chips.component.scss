@@ -7,16 +7,25 @@ mat-form-field {
   /deep/ .mat-input-wrapper {
     width: 100%;
   }
+  /deep/ .mat-form-field-wrapper {
+    width: 100%;
+  }
 }
 
 /deep/ mat-chip {
-  mat-icon.mat-chip-drag {
-    color: rgba(0, 0, 0, .87);
-    opacity: 0.54;
-    margin-right: 6px;
-    width: 1em;
-    height: 1em;
-    font-size: 21px;
-    cursor: pointer;
+  mat-icon {
+    width: 18px !important;
+    height: 18px !important;
+    font-size: 18px !important;
+    line-height: normal !important;
+    &.mat-chip-drag {
+      color: rgba(0, 0, 0, .87);
+      opacity: 0.54;
+      margin-right: 6px;
+      width: 1em;
+      height: 1em;
+      font-size: 21px;
+      cursor: pointer;
+    }
   }
 }
