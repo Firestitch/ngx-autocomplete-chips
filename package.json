@@ -1,5 +1,6 @@
 {
   "name": "@firestitch/autocomplete-chips",
+  "title": "Autocomplete Chips",
   "description": "@firestitch/autocomplete-chips",
   "version": "0.2.0",
   "repository": {
@@ -45,9 +46,8 @@
     "@compodoc/compodoc": "^1.1.7",
     "@firestitch/api": "^0.3.0",
     "@firestitch/common": "^0.5.1",
-    "@firestitch/example": "^0.5.2",
+    "@firestitch/example": "^0.6.0",
     "@firestitch/form": "^1.2.0",
-    "@firestitch/iframe": "^0.2.0",
     "@firestitch/message": "^0.2.0",
     "codelyzer": "^4.5.0",
     "cpx": "^1.5.0",
