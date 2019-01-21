@@ -1,21 +1,41 @@
-import { Component, Input, Output, EventEmitter, ElementRef, ContentChild, TemplateRef,
-  ViewChild, OnInit, OnChanges, OnDestroy } from '@angular/core';
+import {
+  Component,
+  ContentChild,
+  ElementRef,
+  EventEmitter,
+  forwardRef,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  Provider,
+  TemplateRef,
+  ViewChild
+} from '@angular/core';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatAutocompleteSelectedEvent, MatChipInputEvent } from '@angular/material';
 import { DragulaService } from 'ng2-dragula';
 
-import { filter, list, sort, indexOf } from '@firestitch/common/array';
+import { filter, indexOf, list } from '@firestitch/common';
 
-import { FsAutocompleteChipDirective, FsAutocompleteDirective } from './../../directives';
-import { AutocompleteGroup } from './../../interfaces';
+import { FsAutocompleteDirective } from '../../directives/autocomplete/autocomplete.directive';
+import { FsAutocompleteChipDirective } from '../../directives/autocomplete-chip/autocomplete-chip.directive';
+import { AutocompleteGroup } from '../../interfaces/autocomplete-group';
 
-import { FS_AUTOCOMPLETE_CHIPS_ACCESSOR } from './../../value-accessors';
+
+export const FS_AUTOCOMPLETE_CHIPS_ACCESSOR: Provider = {
+  provide: NG_VALUE_ACCESSOR,
+  useExisting: forwardRef(() => FsAutocompleteChipsComponent),
+  multi: true
+};
 
 
 @Component({
   selector: 'fs-autocomplete-chips',
-  templateUrl: './fs-autocomplete-chips.component.html',
-  styleUrls: [ './fs-autocomplete-chips.component.scss' ],
+  templateUrl: './autocomplete-chips.component.html',
+  styleUrls: ['./autocomplete-chips.component.scss'],
   providers: [FS_AUTOCOMPLETE_CHIPS_ACCESSOR]
 })
 export class FsAutocompleteChipsComponent implements OnInit, OnChanges, OnDestroy {
@@ -48,7 +68,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnChanges, OnDestro
 
   private $drop = null;
 
-  public get model () {
+  public get model() {
     return this._model;
   }
 
@@ -57,19 +77,28 @@ export class FsAutocompleteChipsComponent implements OnInit, OnChanges, OnDestro
 
   @ViewChild('keywordInput') keywordInput: ElementRef = null;
 
-  _onTouched = () => { };
-  _onChange = (value: any) => { };
-  onFocused = (event: any) => { };
+  _onTouched = () => {
+  };
+  _onChange = (value: any) => {
+  };
+  onFocused = (event: any) => {
+  };
 
-  registerOnChange(fn: (value: any) => any): void { this._onChange = fn }
-  registerOnTouched(fn: () => any): void { this._onTouched = fn }
+  registerOnChange(fn: (value: any) => any): void {
+    this._onChange = fn
+  }
 
-  constructor(private dragula: DragulaService) { }
+  registerOnTouched(fn: () => any): void {
+    this._onTouched = fn
+  }
 
-  private onDrop(args) {
+  constructor(private dragula: DragulaService) {
+  }
+
+  private onDrop(el) {
 
     const model = [];
-    const [el, parent] = args;
+    const parent = el.parentElement;
 
     for (var i = 0; i < parent.childNodes.length; i++) {
       if (parent.childNodes[i].tagName === 'MAT-CHIP') {
@@ -106,7 +135,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnChanges, OnDestro
   }
 
   dragInit() {
-    this.dragula.setOptions(this.bagName, {
+    this.dragula.createGroup(this.bagName, {
       isContainer: el => {
 
         if (!(el.parentElement && el.parentElement.classList)) {
@@ -118,8 +147,8 @@ export class FsAutocompleteChipsComponent implements OnInit, OnChanges, OnDestro
       direction: 'horizontal'
     });
 
-    this.$drop = this.dragula.drop.subscribe(value => {
-      this.onDrop(value.slice(1));
+    this.$drop = this.dragula.drop(this.bagName).subscribe(value => {
+      this.onDrop(value.el);
     });
   }
 
@@ -149,26 +178,26 @@ export class FsAutocompleteChipsComponent implements OnInit, OnChanges, OnDestro
     }
 
     this.fetch(this.keyword)
-    .subscribe(response => {
+      .subscribe(response => {
 
-      const selected = list(this.model, this.indexField);
+        const selected = list(this.model, this.indexField);
 
-      if (this.groups) {
-        for (let group of response) {
-          group['data'] = filter(group.data || [], item => selected.indexOf(item[this.indexField]) === -1);
+        if (this.groups) {
+          for (let group of response) {
+            group['data'] = filter(group.data || [], item => selected.indexOf(item[this.indexField]) === -1);
+          }
+          this.autocompleteData = response;
+        } else {
+          this.autocompleteData = filter(response, item => selected.indexOf(item[this.indexField]) === -1);
         }
-        this.autocompleteData = response;
-      } else {
-        this.autocompleteData = filter(response, item => selected.indexOf(item[this.indexField]) === -1);
-      }
-    });
+      });
   }
 
   add(event: MatChipInputEvent): void {
     // User should select from the list
   }
 
-  onSelected (event: MatAutocompleteSelectedEvent): void {
+  onSelected(event: MatAutocompleteSelectedEvent): void {
     this.writeValue([...this._model, ...[event.option.value]], true);
     this.keyword = '';
     this.keywordInput.nativeElement.value = '';

@@ -1,7 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { startWith } from 'rxjs/operators';
-import 'rxjs/add/operator/map';
+import { Component, OnInit } from '@angular/core';
+import { map } from 'rxjs/operators';
 
 import { FsApi } from '@firestitch/api';
 
@@ -30,13 +28,15 @@ export class AutocompleteChipsOrderableExampleComponent implements OnInit {
 
   public fetch = keyword => {
     return this.fsApi.get('https://boilerplate.firestitch.com/api/dummy', { name: keyword })
-    .map(response => response.data.objects)
-    .map(response => {
-      for (let key in response) {
-        response[key].id = +key + 1;
-      }
-      return response;
-    });
+      .pipe(
+        map(response => response.data.objects),
+        map(response => {
+          for (let key in response) {
+            response[key].id = +key + 1;
+          }
+          return response;
+        })
+      );
   }
 
   save(form) {

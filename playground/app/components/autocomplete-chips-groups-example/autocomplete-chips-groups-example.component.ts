@@ -1,10 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { startWith } from 'rxjs/operators';
-import 'rxjs/add/operator/map';
+import { map } from 'rxjs/operators';
 
 import { FsApi } from '@firestitch/api';
-import { sort } from '@firestitch/common/array';
+import { sort } from '@firestitch/common';
 
 
 @Component({
@@ -35,27 +33,29 @@ export class AutocompleteChipsGroupsExampleComponent implements OnInit {
 
   public fetch = keyword => {
     return this.fsApi.get('https://boilerplate.firestitch.com/api/dummy', { name: keyword })
-    .map(response => response.data.objects)
-    .map(response => sort([...response, ...this.createdItems], 'name'))
-    .map(response => {
+      .pipe(
+        map(response => response.data.objects),
+        map(response => sort([...response, ...this.createdItems], 'name')),
+        map(response => {
 
-      for (let key in response) {
-        response[key].id = +key + 1;
-      }
+          for (let key in response) {
+            response[key].id = +key + 1;
+          }
 
-      const result = [{ name: 'Objects', data: response }];
+          const result = [{ name: 'Objects', data: response }];
 
-      if (keyword) {
-        result.push({
-          name: 'Create new object',
-          data: [
-            { id: null, name: keyword }
-          ]
-        });
-      }
+          if (keyword) {
+            result.push({
+              name: 'Create new object',
+              data: [
+                { id: null, name: keyword }
+              ]
+            });
+          }
 
-      return result;
-    });
+          return result;
+        })
+      );
   }
 
   save(form) {

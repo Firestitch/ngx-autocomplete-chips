@@ -1,7 +1,7 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { DragulaModule } from 'ng2-dragula';
+import { DragulaModule, DragulaService } from 'ng2-dragula';
 
 import {
   MatAutocompleteModule,
@@ -9,11 +9,10 @@ import {
   MatInputModule,
   MatIconModule } from '@angular/material';
 
-import {
-  FsAutocompleteChipsComponent
-} from './components';
+import { FsAutocompleteChipsComponent } from './components/autocomplete-chips/autocomplete-chips.component';
 
-import { FsAutocompleteChipDirective, FsAutocompleteDirective } from './directives';
+import { FsAutocompleteDirective } from './directives/autocomplete/autocomplete.directive';
+import { FsAutocompleteChipDirective } from './directives/autocomplete-chip/autocomplete-chip.directive';
 
 
 @NgModule({
@@ -45,6 +44,9 @@ export class FsAutocompleteChipsModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: FsAutocompleteChipsModule,
+      providers: [
+        DragulaService,
+      ]
     };
   }
 }
