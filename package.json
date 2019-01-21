@@ -1,7 +1,7 @@
 {
   "name": "@firestitch/autocomplete-chips",
   "description": "@firestitch/autocomplete-chips",
-  "version": "0.1.6",
+  "version": "0.2.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/Firestitch/ngx-autocomplete-chips"
@@ -46,7 +46,7 @@
     "@firestitch/api": "^0.3.0",
     "@firestitch/common": "^0.5.1",
     "@firestitch/example": "^0.5.2",
-    "@firestitch/form": "^1.1.7",
+    "@firestitch/form": "^1.2.0",
     "@firestitch/iframe": "^0.2.0",
     "@firestitch/message": "^0.2.0",
     "codelyzer": "^4.5.0",
