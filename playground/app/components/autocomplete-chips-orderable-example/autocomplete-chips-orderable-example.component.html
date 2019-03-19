@@ -1,16 +1,14 @@
-<form (fsForm)="save(form)" #form="ngForm">
-  <fs-autocomplete-chips
-    [fetch]="fetch"
-    [(ngModel)]="model"
-    placeholder="Select Accounts"
-    [orderable]="true"
-    removable="true"
-    labelProperty="name"
-    imageProperty="image.small"
-    name="model">
-  </fs-autocomplete-chips>
+<fs-autocomplete-chips
+  [fetch]="fetch"
+  [(ngModel)]="model"
+  placeholder="Select Accounts"
+  [orderable]="true"
+  removable="true"
+  labelProperty="name"
+  imageProperty="image.small"
+  name="model">
+</fs-autocomplete-chips>
 
-  <fieldset>
-    {{ model | json }}
-  </fieldset>
-</form>
+<fieldset>
+  {{ model | json }}
+</fieldset>
