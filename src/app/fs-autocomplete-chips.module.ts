@@ -1,7 +1,8 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { DragulaModule, DragulaService } from 'ng2-dragula';
+
+import { FsBadgeModule } from '@firestitch/badge';
 
 import {
   MatAutocompleteModule,
@@ -13,17 +14,20 @@ import { FsAutocompleteChipsComponent } from './components/autocomplete-chips/au
 
 import { FsAutocompleteDirective } from './directives/autocomplete/autocomplete.directive';
 import { FsAutocompleteChipDirective } from './directives/autocomplete-chip/autocomplete-chip.directive';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ExampleService } from 'playground/app/services/example.service';
 
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    DragulaModule,
+    FsBadgeModule,
     MatAutocompleteModule,
     MatChipsModule,
     MatInputModule,
-    MatIconModule
+    MatIconModule,
+    DragDropModule
   ],
   exports: [
     FsAutocompleteChipsComponent,
@@ -38,6 +42,7 @@ import { FsAutocompleteChipDirective } from './directives/autocomplete-chip/auto
     FsAutocompleteDirective
   ],
   providers: [
+    ExampleService
   ],
 })
 export class FsAutocompleteChipsModule {
@@ -45,7 +50,6 @@ export class FsAutocompleteChipsModule {
     return {
       ngModule: FsAutocompleteChipsModule,
       providers: [
-        DragulaService,
       ]
     };
   }

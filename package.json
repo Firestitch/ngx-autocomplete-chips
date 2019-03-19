@@ -62,15 +62,16 @@
     "webpack-dev-server": "^3.1.14",
     "zone.js": "^0.8.29",
     "tslint": "^5.12.1",
-    "ng2-dragula": "^2.1.1",
+    "lodash-es": "^4.17.10",
+    "@firestitch/badge": "^7.0.0",
     "date-fns": "^2.0.0-alpha.27"
   },
   "engines": {
     "node": ">=6.0.0"
   },
   "peerDependencies": {
-    "@firestitch/common": ">=7.0.0",
-    "@firestitch/form": ">=7.0.0",
-    "ng2-dragula": ">=2.1.1"
+    "lodash-es": ">=4.17.10",
+    "@firestitch/badge": ">=7.0.0",
+    "@angular/cdk": ">=7.2.1"
   }
 }

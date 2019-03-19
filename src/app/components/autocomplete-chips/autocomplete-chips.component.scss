@@ -1,31 +1,66 @@
-@import "~dragula/dist/dragula.css";
-
-mat-form-field {
-  display: flex;
-  flex: 1;
-  flex-direction: row;
-  /deep/ .mat-input-wrapper {
+:host {
+  mat-form-field {
     width: 100%;
   }
-  /deep/ .mat-form-field-wrapper {
-    width: 100%;
+
+  .item-template {
+
+    fs-badge {
+      margin-left: -12px;
+    }
   }
 }
 
-/deep/ mat-chip {
-  mat-icon {
-    width: 18px !important;
-    height: 18px !important;
-    font-size: 18px !important;
-    line-height: normal !important;
-    &.mat-chip-drag {
-      color: rgba(0, 0, 0, .87);
-      opacity: 0.54;
-      margin-right: 6px;
-      width: 1em;
-      height: 1em;
-      font-size: 21px;
-      cursor: pointer;
+
+::ng-deep {
+  .fs-autocomplete-chip.mat-chip.mat-standard-chip {
+
+    padding-right: 3px;
+
+    &.imaged {
+      padding-left: 0;
+    }
+
+    .mat-chip-remove {
+        color: rgb(71, 71, 71);
+        opacity: 1;
+        width: 24px;
+        height: 24px;
+        font-size: 24px;
+    }
+
+    fs-badge {
+      margin-right: 10px;
+      display: flex;
     }
   }
+}
+
+::ng-deep .fs-account-picker-autocomplete {
+
+
+  fs-badge {
+    margin-right: 10px;
+    display: flex;
+  }
+
+  .mat-option-text {
+    align-items: center;
+    display: inline-flex;
+  }
+
+  .invalid-message .mat-option-text {
+    line-height: normal;
+    flex-direction: column;
+    align-items: start;
+    font-size: 80%;
+  }
+}
+
+::ng-deep .fs-account-picker-autocomplete .item-template,
+:host .item-template {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
 }

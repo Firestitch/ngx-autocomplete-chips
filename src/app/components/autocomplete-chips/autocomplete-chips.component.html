@@ -1,54 +1,74 @@
 <mat-form-field>
-  <mat-chip-list #chipList [disabled]="disabled" class="mat-chip-list {{ uniqueId }}">
+
+  <mat-chip-list
+    #searchList
+    cdkDropList
+    cdkDropListOrientation="horizontal"
+    (cdkDropListDropped)="drop($event)">
     <mat-chip
       *ngFor="let item of model"
-      [selectable]="selectable"
-      [removable]="removable"
-      [attr.data-id]="item[indexField]"
-      (removed)="onRemove(item)">
-
-      <mat-icon *ngIf="draggable && !disabled" class="mat-chip-drag">drag_handle</mat-icon>
-      <ng-template
-        [ngTemplateOutlet]="chipTemplate"
-        [ngTemplateOutletContext]="{ item: item }"
-      ></ng-template>
-
-      <mat-icon matChipRemove *ngIf="removable && !disabled">cancel</mat-icon>
+      [selectable]="true"
+      [removable]="true"
+      (removed)="onRemove(item)"
+      class="fs-autocomplete-chip"
+      [ngClass]="{ imaged: item.image }"
+      [cdkDragDisabled]="!orderable"
+      cdkDrag
+      cdkDragHandle>
+        <ng-container
+          [ngTemplateOutlet]="itemTemplate"
+          [ngTemplateOutletContext]="{ item: item }">
+        </ng-container>
+      <mat-icon *ngIf="removable" matChipRemove>cancel</mat-icon>
     </mat-chip>
     <input
-      placeholder="{{ placeholder }}"
-      #keywordInput
-      name="input-keyword"
+      #searchInput
+      [placeholder]="placeholder"
       [(ngModel)]="keyword"
-      [disabled]="disabled"
-      [matAutocomplete]="autocomplete"
-      [matChipInputFor]="chipList"
-      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-      [matChipInputAddOnBlur]="addOnBlur"
-      (matChipInputTokenEnd)="add($event)"
-      (ngModelChange)="keywordChange()"
-      (click)="onClick($event)"
-    />
+      (keyup)="keyword$.next($event)"
+      (blur)="blur()"
+      name="keyword"
+      [matAutocomplete]="autocompleteSearch"
+      [matChipInputFor]="searchList">
   </mat-chip-list>
-  <mat-autocomplete #autocomplete="matAutocomplete" (optionSelected)="onSelected($event)">
-    <ng-container *ngIf="groups">
-      <ng-container *ngFor="let group of autocompleteData">
-        <mat-option class="autocomplete-group-label" disabled="true">{{ group.name }}</mat-option>
-        <mat-option *ngFor="let item of group.data" [value]="item">
-          <ng-template
-            [ngTemplateOutlet]="autocompleteTemplate || chipTemplate"
-            [ngTemplateOutletContext]="{ item: item }"
-          ></ng-template>
-        </mat-option>
+  <mat-autocomplete
+    #autocompleteSearch="matAutocomplete"
+    class="fs-account-picker-autocomplete"
+    (optionSelected)="onSelect($event)"
+    autoActiveFirstOption="true">
+
+    <mat-option *ngFor="let item of searchData" [value]="item">
+      <ng-container
+        [ngTemplateOutlet]="itemTemplate"
+        [ngTemplateOutletContext]="{ item: item }">
       </ng-container>
-    </ng-container>
-    <ng-container *ngIf="!groups">
-      <mat-option *ngFor="let item of autocompleteData" [value]="item">
-        <ng-template
-          [ngTemplateOutlet]="autocompleteTemplate || chipTemplate"
-          [ngTemplateOutletContext]="{ item: item }"
-        ></ng-template>
+    </mat-option>
+
+    <ng-container *ngIf="keyword && allowText">
+
+      <mat-option *ngIf="!textData.type" disabled class="invalid-message">
+        <div>{{ keyword }}</div>
+        <div class="message">{{ invalidTextMessage || 'Invalid' }}</div>
+      </mat-option>
+
+      <mat-option *ngIf="textData.type===dataType.Text" [value]="textData">
+        <ng-container
+          [ngTemplateOutlet]="itemTemplate"
+          [ngTemplateOutletContext]="{ item: textData }">
+        </ng-container>
       </mat-option>
     </ng-container>
+
   </mat-autocomplete>
 </mat-form-field>
+
+<ng-template let-item="item" #itemTemplate>
+  <ng-container *ngIf="item.type===dataType.Object" class="item-template">
+    <fs-badge [image]="item.image" size="32"></fs-badge>
+    <span>{{item.name}}</span>
+  </ng-container>
+
+  <ng-container *ngIf="item.type===dataType.Text">
+    {{item.data}}
+  </ng-container>
+</ng-template>

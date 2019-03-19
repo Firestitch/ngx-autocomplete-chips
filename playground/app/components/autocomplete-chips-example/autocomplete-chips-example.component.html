@@ -1,25 +1,18 @@
-<form (fsForm)="save(form)" #form="ngForm">
-  <fs-autocomplete-chips
-    [(ngModel)]="model"
-    [fetch]="fetch"
-    placeholder="Select..."
-    removable="true"
-    fsFormRequired="true"
-    [disabled]="disabled"
-    (selected)="onSelected($event)"
-    (remove)="onRemove($event)"
-    name="autocomplete-chips">
-      <ng-template let-data="item" fs-autocomplete-chip>
-        {{ data.name }}
-      </ng-template>
-  </fs-autocomplete-chips>
 
-  <fieldset>
-    {{ model | json }}
-  </fieldset>
+<fs-autocomplete-chips
+  [fetch]="fetch"
+  [(ngModel)]="model"
+  [allowText]="true"
+  [validateText]="validateText"
+  invalidTextMessage="Invalid email address"
+  placeholder="Select Account or Enter Email Address"
+  removable="true"
+  imageProperty="image.small"
+  labelProperty="name"
+  (ngModelChange)="modelChange($event)"
+  name="model">
+</fs-autocomplete-chips>
 
-  <fieldset>
-    <button mat-raised-button color="primary">Save</button>
-    <button type="button" mat-raised-button (click)="disabled = !disabled">Switch Disable</button>
-  </fieldset>
-</form>
+<fieldset>
+  {{ model | json }}
+</fieldset>

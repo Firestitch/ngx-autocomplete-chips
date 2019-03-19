@@ -1,31 +1,28 @@
+import {COMMA, ENTER, TAB} from '@angular/cdk/keycodes';
 import {
   Component,
-  ContentChild,
+  ViewChild,
   ElementRef,
-  EventEmitter,
-  forwardRef,
-  Input,
-  OnChanges,
-  OnDestroy,
-  OnInit,
-  Output,
-  Provider,
   TemplateRef,
-  ViewChild
+  ContentChild,
+  Input,
+  OnInit,
+  Provider, forwardRef, OnDestroy, OnChanges, HostListener, Output
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { MatAutocompleteSelectedEvent, MatChipInputEvent } from '@angular/material';
-import { DragulaService } from 'ng2-dragula';
+import { MatAutocompleteTrigger, MatChipInputEvent, MatAutocompleteSelectedEvent } from '@angular/material'
 
-import { filter, indexOf, list } from '@firestitch/common';
+import { isObject, isEqual, remove, findIndex, map, filter } from 'lodash-es';
+import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 
-import { FsAutocompleteDirective } from '../../directives/autocomplete/autocomplete.directive';
-import { FsAutocompleteChipDirective } from '../../directives/autocomplete-chip/autocomplete-chip.directive';
-import { AutocompleteGroup } from '../../interfaces/autocomplete-group';
+import { Subject } from 'rxjs';
+import { debounceTime, takeUntil } from 'rxjs/operators';
+
+import { getObjectValue } from '../../helpers/get-object-value';
+import { DataType } from 'src/app/interfaces/data-type';
 
 
-export const FS_AUTOCOMPLETE_CHIPS_ACCESSOR: Provider = {
+export const FS_ACCOUNT_PICKER_ACCESSOR: Provider = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => FsAutocompleteChipsComponent),
   multi: true
@@ -35,131 +32,185 @@ export const FS_AUTOCOMPLETE_CHIPS_ACCESSOR: Provider = {
 @Component({
   selector: 'fs-autocomplete-chips',
   templateUrl: './autocomplete-chips.component.html',
-  styleUrls: ['./autocomplete-chips.component.scss'],
-  providers: [FS_AUTOCOMPLETE_CHIPS_ACCESSOR]
+  styleUrls: [ './autocomplete-chips.component.scss' ],
+  providers: [FS_ACCOUNT_PICKER_ACCESSOR]
 })
-export class FsAutocompleteChipsComponent implements OnInit, OnChanges, OnDestroy {
+export class FsAutocompleteChipsComponent implements OnInit, OnDestroy {
 
   @Input() public fetch = null;
-
   @Input() public placeholder = '';
-  @Input() public removable = false;
-  @Input() public addOnBlur = false;
-  @Input() public selectable = true;
-  @Input() public draggable = false;
+  @Input() public labelProperty = '';
+  @Input() public imageProperty = 'image';
+  @Input() public allowText: boolean;
+  @Input() public allowObject = true;
+  @Input() public delay = 300;
+  @Input() public validateText;
+  @Input() public invalidTextMessage = '';
   @Input() public disabled = false;
-  @Input() public indexField = 'id';
+  @Input() public removable = false;
+  @Input() public orderable = false;
 
-  @Input() public groups = false;
+  public separatorKeysCodes: number[] = [ENTER, COMMA, TAB];
+  public searchData: any[] = [];
+  public textData: object = {};
+  public dataType = DataType;
+  public keyword: string = null;
+  public keyword$ = new Subject<Event>();
 
-  @Output() selected = new EventEmitter<any>();
-  @Output() remove = new EventEmitter<any>();
-  @Output() drop = new EventEmitter<any>();
+  private _model: any[] = [];
+  private destroy$ = new Subject();
 
-  public uniqueId = null;
-  public keyword = '';
-  public autocompleteData: object[] | AutocompleteGroup[] = null;
-
-  public separatorKeysCodes = [ENTER, COMMA];
-
-  private _model = [];
-
-  private bagName = 'bag-chips';
-
-  private $drop = null;
-
-  public get model() {
+  get model() {
     return this._model;
   }
 
-  @ContentChild(FsAutocompleteChipDirective, { read: TemplateRef }) chipTemplate: FsAutocompleteChipDirective = null;
-  @ContentChild(FsAutocompleteDirective, { read: TemplateRef }) autocompleteTemplate: FsAutocompleteDirective = null;
-
-  @ViewChild('keywordInput') keywordInput: ElementRef = null;
-
-  _onTouched = () => {
-  };
-  _onChange = (value: any) => {
-  };
-  onFocused = (event: any) => {
+  @HostListener('dragstart', ['$event'])
+  dragStart(e) {
+    e.preventDefault();
   };
 
-  registerOnChange(fn: (value: any) => any): void {
-    this._onChange = fn
-  }
+  @ViewChild('searchInput') public searchInput: ElementRef = null;
+  @ViewChild('autocompleteSearch') public autocompleteSearch = null;
+  @ViewChild(MatAutocompleteTrigger) public autocompleteTrigger = null;
 
-  registerOnTouched(fn: () => any): void {
-    this._onTouched = fn
-  }
 
-  constructor(private dragula: DragulaService) {
-  }
+  private _onTouched = () => { };
+  private _onChange = (value: any) => { };
+  public onFocused = (event: any) => { };
 
-  private onDrop(el) {
+  public registerOnChange(fn: (value: any) => any): void { this._onChange = fn }
+  public registerOnTouched(fn: () => any): void { this._onTouched = fn }
 
-    const model = [];
-    const parent = el.parentElement;
+  constructor() { }
 
-    for (var i = 0; i < parent.childNodes.length; i++) {
-      if (parent.childNodes[i].tagName === 'MAT-CHIP') {
-        const item = filter(this.model, { [this.indexField]: parent.childNodes[i].getAttribute('data-id') })[0];
-        model.push(item);
-      }
+  public ngOnInit() {
+    this.keyword$
+      .pipe(
+        takeUntil(this.destroy$),
+        debounceTime(this.delay)
+      )
+      .subscribe((e) => this.onKeyUp(e));
+
+    if (this.allowText) {
+      this.keyword$
+        .pipe(
+          takeUntil(this.destroy$)
+        )
+        .subscribe(() => {
+          this.textData = {};
+
+          if (this._validateText(this.keyword)) {
+            this.textData = { type: DataType.Text, data: this.keyword };
+          }
+        });
     }
-
-    this.writeValue(model, true);
-    this.drop.emit(model);
   }
 
-  private getElementIndex(el: any) {
-    return [].slice.call(el.parentElement.children).indexOf(el);
+  drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this._model, event.previousIndex, event.currentIndex);
+    this.writeValue(this._model);
   }
 
-  ngOnInit() {
-    this.uniqueId = `mat-chip-list${this.hash()}`;
+  private _validateText(text) {
+    return String(text).trim().length && (!this.validateText || this.validateText(text));
   }
 
-  ngOnChanges(changes) {
+  public addText(text) {
 
-    if (!changes) {
+    if (this._validateText(text)) {
+
+      const textObject = { type: DataType.Text, data: text };
+
+      this.writeValue([...this._model, textObject]);
+    }
+  }
+
+  public addObject(object) {
+    this.writeValue([...this._model, object]);
+  }
+
+  public blur() {
+
+    if (this.allowText) {
+      this.addText(this.keyword);
+    }
+    this.clearInput();
+  }
+
+  public onKeyUp(e) {
+
+    if (!this.keyword) {
+      this.searchData = [];
       return;
     }
 
-    if (changes.draggable || changes.disabled) {
-      if (this.draggable && !this.disabled) {
-        this.dragInit();
-      } else {
-        this.dragRemove();
+    if (e.code === 'ArrowDown' || e.code === 'ArrowUp') {
+      return;
+    }
+
+    if (this.allowText && e.code === 'Comma') {
+      this.keyword.split(',').forEach(item => {
+        this.addText(item.trim());
+      });
+      return this.clearInput();
+    }
+
+    this.fetch(this.keyword)
+      .pipe(
+        takeUntil(this.destroy$)
+      )
+      .subscribe(response => {
+
+        this.searchData = response.map(data => {
+          return {
+            type: DataType.Object,
+            data: data,
+            name: getObjectValue(data, this.labelProperty),
+            image: getObjectValue(data, this.imageProperty)
+          }
+        });
+
+        this.searchData = filter(this.searchData, item => {
+
+          return findIndex(this._model, (model) => {
+            return isEqual(model, item);
+          }) === -1;
+
+        });
+      });
+  }
+
+  public onSelect(e: MatAutocompleteSelectedEvent) {
+    this.searchData = [];
+    const value = this.allowObject && this.allowText ? e.option.value : e.option.value.data;
+    if (e.option.value.type === DataType.Object) {
+
+      if (!filter(this._model, value).length) {
+        this.addObject(e.option.value);
       }
     }
-  }
 
-  dragInit() {
-    this.dragula.createGroup(this.bagName, {
-      isContainer: el => {
+    if (e.option.value.type === DataType.Text) {
 
-        if (!(el.parentElement && el.parentElement.classList)) {
-          return false;
-        }
-
-        return !!(el.classList.contains('mat-chip-list-wrapper') && el.parentElement.classList.contains(this.uniqueId));
-      },
-      direction: 'horizontal'
-    });
-
-    this.$drop = this.dragula.drop(this.bagName).subscribe(value => {
-      this.onDrop(value.el);
-    });
-  }
-
-  dragRemove() {
-    if (this.$drop) {
-      this.dragula.destroy(this.bagName);
-      this.$drop.unsubscribe();
+      if (!filter(this._model, value).length) {
+        this.addText(e.option.value.data);
+      }
     }
+
+    this.clearInput();
   }
 
-  writeValue(value: any, allowEmpty = false): void {
+  public clearInput() {
+    this.searchInput.nativeElement.value = '';
+    this.keyword = '';
+  }
+
+  public onRemove(data): void {
+    remove(this._model, data);
+    this.writeValue(this._model, true);
+  }
+
+  public writeValue(value: any, allowEmpty = false): void {
     value = Array.isArray(value) ? value : [];
 
     if (!allowEmpty && !value.length) {
@@ -167,69 +218,20 @@ export class FsAutocompleteChipsComponent implements OnInit, OnChanges, OnDestro
     }
 
     this._model = value;
-    this._onChange(this._model);
-  }
 
-  keywordChange() {
+    const model = map(this._model, (item) => {
+      if (!this.allowText || !this.allowObject) {
+        return item.data;
+      }
 
-    if (!this.fetch) {
-      this.autocompleteData = [];
-      return;
-    }
-
-    this.fetch(this.keyword)
-      .subscribe(response => {
-
-        const selected = list(this.model, this.indexField);
-
-        if (this.groups) {
-          for (let group of response) {
-            group['data'] = filter(group.data || [], item => selected.indexOf(item[this.indexField]) === -1);
-          }
-          this.autocompleteData = response;
-        } else {
-          this.autocompleteData = filter(response, item => selected.indexOf(item[this.indexField]) === -1);
-        }
-      });
-  }
-
-  add(event: MatChipInputEvent): void {
-    // User should select from the list
-  }
-
-  onSelected(event: MatAutocompleteSelectedEvent): void {
-    this.writeValue([...this._model, ...[event.option.value]], true);
-    this.keyword = '';
-    this.keywordInput.nativeElement.value = '';
-    this.selected.emit(event.option.value);
-  }
-
-  onRemove(item) {
-
-    const model = this.model.slice();
-
-    const index = indexOf(model, value => {
-      return value[this.indexField] === item[this.indexField];
+      return item;
     });
 
-    if (index !== -1) {
-      model.splice(index, 1);
-      this.writeValue(model, true);
-      this.remove.emit(item);
-    }
+    this._onChange(model);
   }
-
-  onClick(event) {
-    this.keywordChange();
-    this.keywordInput.nativeElement.blur();
-    this.keywordInput.nativeElement.focus();
-  }
-
-  private hash() {
-    return '_' + Math.random().toString(36).substr(2, 9);
-  };
 
   ngOnDestroy() {
-    this.dragRemove();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
