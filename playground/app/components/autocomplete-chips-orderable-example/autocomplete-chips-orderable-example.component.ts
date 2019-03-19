@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FsApi } from '@firestitch/api';
 import { ExampleService } from 'playground/app/services/example.service';
 
 

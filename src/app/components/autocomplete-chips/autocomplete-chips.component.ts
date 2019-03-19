@@ -47,7 +47,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy {
   @Input() public validateText;
   @Input() public invalidTextMessage = '';
   @Input() public disabled = false;
-  @Input() public removable = false;
+  @Input() public removable = true;
   @Input() public orderable = false;
 
   public separatorKeysCodes: number[] = [ENTER, COMMA, TAB];
