@@ -1,0 +1,13 @@
+<fs-autocomplete-chips
+  [(ngModel)]="model"
+  placeholder="Enter Email Addresses"
+  [allowText]="true"
+  [allowObject]="false"
+  [validateText]="validateText"
+  limit="3"
+  name="model">
+</fs-autocomplete-chips>
+
+<fieldset>
+  {{ model | json }}
+</fieldset>

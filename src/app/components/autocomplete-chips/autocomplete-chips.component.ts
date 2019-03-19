@@ -49,6 +49,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy {
   @Input() public disabled = false;
   @Input() public removable = true;
   @Input() public orderable = false;
+  @Input() public limit = 0;
 
   public separatorKeysCodes: number[] = [ENTER, COMMA, TAB];
   public searchData: any[] = [];
@@ -84,25 +85,21 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy {
   constructor() { }
 
   public ngOnInit() {
+    if (this.allowObject) {
     this.keyword$
       .pipe(
         takeUntil(this.destroy$),
         debounceTime(this.delay)
       )
-      .subscribe((e) => this.onKeyUp(e));
+      .subscribe((e) => this.objectKeyword(e));
+    }
 
     if (this.allowText) {
       this.keyword$
         .pipe(
           takeUntil(this.destroy$)
         )
-        .subscribe(() => {
-          this.textData = {};
-
-          if (this._validateText(this.keyword)) {
-            this.textData = { type: DataType.Text, data: this.keyword };
-          }
-        });
+        .subscribe((e) => this.textKeyword(e));
     }
   }
 
@@ -137,7 +134,23 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy {
     this.clearInput();
   }
 
-  public onKeyUp(e) {
+  public textKeyword(e) {
+
+    if (this.allowText && e.code === 'Comma') {
+      this.keyword.split(',').forEach(item => {
+        this.addText(item.trim());
+      });
+      return this.clearInput();
+    }
+
+    this.textData = {};
+
+    if (this._validateText(this.keyword)) {
+      this.textData = { type: DataType.Text, data: this.keyword };
+    }
+  }
+
+  public objectKeyword(e) {
 
     if (!this.keyword) {
       this.searchData = [];
@@ -149,35 +162,34 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy {
     }
 
     if (this.allowText && e.code === 'Comma') {
-      this.keyword.split(',').forEach(item => {
-        this.addText(item.trim());
-      });
-      return this.clearInput();
+      return;
     }
 
-    this.fetch(this.keyword)
-      .pipe(
-        takeUntil(this.destroy$)
-      )
-      .subscribe(response => {
+    if (this.fetch) {
+      this.fetch(this.keyword)
+        .pipe(
+          takeUntil(this.destroy$)
+        )
+        .subscribe(response => {
 
-        this.searchData = response.map(data => {
-          return {
-            type: DataType.Object,
-            data: data,
-            name: getObjectValue(data, this.labelProperty),
-            image: getObjectValue(data, this.imageProperty)
-          }
+          this.searchData = response.map(data => {
+            return {
+              type: DataType.Object,
+              data: data,
+              name: getObjectValue(data, this.labelProperty),
+              image: getObjectValue(data, this.imageProperty)
+            }
+          });
+
+          this.searchData = filter(this.searchData, item => {
+
+            return findIndex(this._model, (model) => {
+              return isEqual(model, item);
+            }) === -1;
+
+          });
         });
-
-        this.searchData = filter(this.searchData, item => {
-
-          return findIndex(this._model, (model) => {
-            return isEqual(model, item);
-          }) === -1;
-
-        });
-      });
+    }
   }
 
   public onSelect(e: MatAutocompleteSelectedEvent) {
@@ -191,7 +203,6 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy {
     }
 
     if (e.option.value.type === DataType.Text) {
-
       if (!filter(this._model, value).length) {
         this.addText(e.option.value.data);
       }
@@ -201,8 +212,9 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy {
   }
 
   public clearInput() {
-    this.searchInput.nativeElement.value = '';
-    this.keyword = '';
+      this.searchInput.nativeElement.value = '';
+      this.textData = {};
+      this.keyword = '';
   }
 
   public onRemove(data): void {

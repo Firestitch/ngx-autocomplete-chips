@@ -18,8 +18,10 @@ import { AppMaterialModule } from './material.module';
 import {
   AutocompleteChipsExampleComponent,
   AutocompleteChipsOrderableExampleComponent,
-  AutocompleteChipsGroupsExampleComponent
+  AutocompleteChipsGroupsExampleComponent,
+  TextExampleComponent
 } from './components';
+import { EmailExampleComponent } from './components/email-example';
 
 
 @NgModule({
@@ -43,7 +45,9 @@ import {
 
     AutocompleteChipsExampleComponent,
     AutocompleteChipsOrderableExampleComponent,
-    AutocompleteChipsGroupsExampleComponent
+    AutocompleteChipsGroupsExampleComponent,
+    TextExampleComponent,
+    EmailExampleComponent
   ],
   providers: [
     FsArray,

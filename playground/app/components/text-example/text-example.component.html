@@ -1,0 +1,12 @@
+<fs-autocomplete-chips
+  [(ngModel)]="model"
+  placeholder="Enter Text"
+  [allowText]="true"
+  [allowObject]="false"
+  [validateText]="validateText"
+  name="model">
+</fs-autocomplete-chips>
+
+<fieldset>
+  {{ model | json }}
+</fieldset>
