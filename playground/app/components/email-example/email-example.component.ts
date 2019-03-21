@@ -9,7 +9,7 @@ import { email } from '@firestitch/common';
 export class EmailExampleComponent implements OnInit {
 
 
-  public model = [];
+  public model = ['bob@email.com'];
 
   public validateText = (e) => {
     return email(e);

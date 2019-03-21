@@ -12,13 +12,14 @@ export class ExampleService {
 
   constructor(private fsApi: FsApi) {}
 
-  fetch(keyword) {
+  fetch(keyword, limit?) {
 
     if (email(keyword)) {
       return of([]);
     }
 
-    const query = { limit: random(0, 5), name: keyword };
+    limit = limit ? limit : random(0, 5);
+    const query = { limit: limit, name: keyword };
     return this.fsApi.get('https://boilerplate.firestitch.com/api/dummy', query)
     .pipe(
       map(response => response.data.objects),

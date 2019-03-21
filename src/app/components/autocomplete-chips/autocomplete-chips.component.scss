@@ -5,7 +5,7 @@
 
   .item-template {
 
-    fs-badge {
+    img {
       margin-left: -12px;
     }
   }
@@ -28,21 +28,10 @@
         height: 24px;
         font-size: 24px;
     }
-
-    fs-badge {
-      margin-right: 10px;
-      display: flex;
-    }
   }
 }
 
 ::ng-deep .fs-account-picker-autocomplete {
-
-
-  fs-badge {
-    margin-right: 10px;
-    display: flex;
-  }
 
   .mat-option-text {
     align-items: center;
@@ -62,5 +51,18 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+}
 
+::ng-deep .fs-account-picker-autocomplete,
+.fs-autocomplete-chip.mat-chip.mat-standard-chip {
+  img {
+    width: 32px;
+    height: 32px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 50% 50%;
+    margin-right: 10px;
+    display: flex;
+    border-radius: 50%;
+  }
 }

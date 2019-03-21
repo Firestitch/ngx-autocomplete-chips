@@ -64,8 +64,13 @@
 
 <ng-template let-item="item" #itemTemplate>
   <ng-container *ngIf="item.type===dataType.Object" class="item-template">
-    <fs-badge [image]="item.image" size="32"></fs-badge>
-    <span>{{item.name}}</span>
+    <img *ngIf="item.image" [src]="item.image">
+    <span>
+      <ng-template
+        [ngTemplateOutlet]="objectTemplate"
+        [ngTemplateOutletContext]="{ object: item.data }">
+      </ng-template>
+    </span>
   </ng-container>
 
   <ng-container *ngIf="item.type===dataType.Text">

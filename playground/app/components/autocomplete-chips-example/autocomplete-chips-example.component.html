@@ -7,9 +7,11 @@
   invalidTextMessage="Invalid email address"
   placeholder="Select Account or Enter Email Address"
   imageProperty="image.small"
-  labelProperty="name"
   (ngModelChange)="modelChange($event)"
   name="model">
+  <ng-template fsAutocompleteObject let-object="object">
+    {{object.name}}
+  </ng-template>
 </fs-autocomplete-chips>
 
 <fieldset>

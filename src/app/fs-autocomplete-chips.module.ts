@@ -2,8 +2,6 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-import { FsBadgeModule } from '@firestitch/badge';
-
 import {
   MatAutocompleteModule,
   MatChipsModule,
@@ -11,18 +9,15 @@ import {
   MatIconModule } from '@angular/material';
 
 import { FsAutocompleteChipsComponent } from './components/autocomplete-chips/autocomplete-chips.component';
-
-import { FsAutocompleteDirective } from './directives/autocomplete/autocomplete.directive';
-import { FsAutocompleteChipDirective } from './directives/autocomplete-chip/autocomplete-chip.directive';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { ExampleService } from 'playground/app/services/example.service';
+import { FsAutocompleteObjectDirective } from './directives/autocomplete-object/autocomplete-object.directive';
+
 
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    FsBadgeModule,
     MatAutocompleteModule,
     MatChipsModule,
     MatInputModule,
@@ -31,19 +26,12 @@ import { ExampleService } from 'playground/app/services/example.service';
   ],
   exports: [
     FsAutocompleteChipsComponent,
-    FsAutocompleteChipDirective,
-    FsAutocompleteDirective
-  ],
-  entryComponents: [
+    FsAutocompleteObjectDirective
   ],
   declarations: [
-    FsAutocompleteChipsComponent,
-    FsAutocompleteChipDirective,
-    FsAutocompleteDirective
-  ],
-  providers: [
-    ExampleService
-  ],
+    FsAutocompleteObjectDirective,
+    FsAutocompleteChipsComponent
+  ]
 })
 export class FsAutocompleteChipsModule {
   static forRoot(): ModuleWithProviders {

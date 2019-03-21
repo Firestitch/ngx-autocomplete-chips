@@ -18,10 +18,11 @@ import { AppMaterialModule } from './material.module';
 import {
   AutocompleteChipsExampleComponent,
   AutocompleteChipsOrderableExampleComponent,
-  AutocompleteChipsGroupsExampleComponent,
-  TextExampleComponent
+  TextExampleComponent,
+  LabelExampleComponent
 } from './components';
 import { EmailExampleComponent } from './components/email-example';
+import { ExampleService } from './services/example.service';
 
 
 @NgModule({
@@ -45,13 +46,14 @@ import { EmailExampleComponent } from './components/email-example';
 
     AutocompleteChipsExampleComponent,
     AutocompleteChipsOrderableExampleComponent,
-    AutocompleteChipsGroupsExampleComponent,
+    LabelExampleComponent,
     TextExampleComponent,
     EmailExampleComponent
   ],
   providers: [
     FsArray,
-    FsApi
+    FsApi,
+    ExampleService
   ],
 })
 export class PlaygroundModule {

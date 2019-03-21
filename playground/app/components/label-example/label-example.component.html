@@ -1,0 +1,13 @@
+<fs-autocomplete-chips
+  [(ngModel)]="model"
+  [fetch]="fetch"
+  placeholder="Select an account"
+  name="model">
+  <ng-template fsAutocompleteLabel let-data="data">
+    {{data.name}} <small>{{data.date}}</small>
+  </ng-template>
+</fs-autocomplete-chips>
+
+<fieldset>
+  {{ model | json }}
+</fieldset>
