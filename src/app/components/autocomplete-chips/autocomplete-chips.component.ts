@@ -181,7 +181,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy {
           this.searchData = filter(this.searchData, item => {
 
             return findIndex(this._model, (model) => {
-              return this.compareWith(model, item);
+              return this.compareWith(model.data, item.data);
             }) === -1;
 
           });
