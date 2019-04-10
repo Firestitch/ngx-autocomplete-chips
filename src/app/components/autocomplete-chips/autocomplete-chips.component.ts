@@ -47,6 +47,10 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy {
   @Input() public removable = true;
   @Input() public orderable = false;
   @Input() public limit = 0;
+  @Input()
+  public compareWith = (o1: any, o2: any) => {
+    return isEqual(o1, o2);
+  };
 
   public searchData: any[] = [];
   public textData: any = {};
@@ -177,7 +181,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy {
           this.searchData = filter(this.searchData, item => {
 
             return findIndex(this._model, (model) => {
-              return isEqual(model, item);
+              return this.compareWith(model, item);
             }) === -1;
 
           });
@@ -189,7 +193,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy {
     const item: any = {
         type: type,
         data: data
-      }
+      };
 
     if (type === DataType.Object) {
       item.image = getObjectValue(data, this.imageProperty);
