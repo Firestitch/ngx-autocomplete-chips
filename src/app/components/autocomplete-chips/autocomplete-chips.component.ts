@@ -6,7 +6,7 @@ import {
   ContentChild,
   Input,
   OnInit,
-  Provider, forwardRef, OnDestroy, HostListener
+  Provider, forwardRef, OnDestroy, HostListener, Output, EventEmitter
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatAutocompleteTrigger, MatAutocompleteSelectedEvent } from '@angular/material'
@@ -51,6 +51,10 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy {
   public compareWith = (o1: any, o2: any) => {
     return isEqual(o1, o2);
   };
+
+  @Output() public selected = new EventEmitter();
+  @Output() public removed = new EventEmitter();
+  @Output() public reordered = new EventEmitter();
 
   public searchData: any[] = [];
   public textData: any = {};
@@ -107,6 +111,12 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy {
 
   drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(this._model, event.previousIndex, event.currentIndex);
+    this.reordered.emit({
+      item: event.item.data.data,
+      from: event.previousIndex,
+      to: event.currentIndex,
+      items: this._model,
+    });
     this.updateModel(this._model);
   }
 
@@ -209,12 +219,14 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy {
 
       if (!filter(this._model, value).length) {
         this.addObject(e.option.value);
+        this.selected.emit(e.option.value);
       }
     }
 
     if (e.option.value.type === DataType.Text) {
       if (!filter(this._model, value).length) {
         this.addText(e.option.value.data);
+        this.selected.emit(e.option.value.data);
       }
     }
 
@@ -229,6 +241,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy {
 
   public onRemove(data): void {
     remove(this._model, data);
+    this.removed.emit(data);
     this.updateModel(this._model);
   }
 
