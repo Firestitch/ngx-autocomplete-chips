@@ -8,7 +8,7 @@ import {
   OnInit,
   Provider, forwardRef, OnDestroy, HostListener, Output, EventEmitter
 } from '@angular/core';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { MatAutocompleteTrigger, MatAutocompleteSelectedEvent } from '@angular/material'
 
 import { isEqual, remove, findIndex, map, filter, isObject } from 'lodash-es';
@@ -33,7 +33,7 @@ export const FS_ACCOUNT_PICKER_ACCESSOR: Provider = {
   styleUrls: [ './autocomplete-chips.component.scss' ],
   providers: [FS_ACCOUNT_PICKER_ACCESSOR]
 })
-export class FsAutocompleteChipsComponent implements OnInit, OnDestroy {
+export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlValueAccessor {
 
   @Input() public fetch = null;
   @Input() public placeholder = '';
@@ -83,10 +83,10 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy {
 
   private _onTouched = () => { };
   private _onChange = (value: any) => {};
-  public onFocused = (event: any) => { };
 
   public registerOnChange(fn: (value: any) => any): void { this._onChange = fn }
   public registerOnTouched(fn: () => any): void { this._onTouched = fn }
+
 
   constructor() { }
 
@@ -143,6 +143,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy {
     if (this.allowText) {
       this.addText(this.keyword);
     }
+
     this.clearInput();
   }
 
@@ -213,6 +214,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy {
   }
 
   public onSelect(e: MatAutocompleteSelectedEvent) {
+
     this.searchData = [];
     const value = this.allowObject && this.allowText ? e.option.value : e.option.value.data;
     if (e.option.value.type === DataType.Object) {
@@ -245,13 +247,9 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy {
     this.updateModel(this._model);
   }
 
-  public writeValue(value: any, allowEmpty = false): void {
+  public writeValue(value: any): void {
 
     value = Array.isArray(value) ? value : [];
-
-    if (!allowEmpty && !value.length) {
-      return;
-    }
 
     value = map(value, (item) => {
       const type = isObject(item) ? DataType.Object : DataType.Text;
@@ -274,6 +272,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy {
     });
 
     this._onChange(model);
+    this._onTouched();
   }
 
   ngOnDestroy() {

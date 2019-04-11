@@ -9,7 +9,6 @@ import { ExampleService } from 'playground/app/services/example.service';
 })
 export class AutocompleteChipsOrderableExampleComponent implements OnInit {
 
-
   public model = [];
 
   constructor(private exampleService: ExampleService) { }
