@@ -1,5 +1,4 @@
 <mat-form-field>
-
   <mat-chip-list
     #searchList
     cdkDropList
@@ -36,6 +35,7 @@
     #autocompleteSearch="matAutocomplete"
     class="fs-account-picker-autocomplete"
     (optionSelected)="onSelect($event)"
+    (closed)="closed()"
     autoActiveFirstOption="true">
 
     <mat-option *ngFor="let item of searchData" [value]="item">
@@ -47,7 +47,7 @@
 
     <ng-container *ngIf="keyword && allowText">
 
-      <mat-option *ngIf="!textData.type" disabled class="invalid-message">
+      <mat-option *ngIf="!textData.type" disabled class="invalid-message" (click)="searchInput.focus()">
         <div>{{ keyword }}</div>
         <div class="message">{{ invalidTextMessage || 'Invalid' }}</div>
       </mat-option>

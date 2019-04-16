@@ -6,10 +6,10 @@ import {
   ContentChild,
   Input,
   OnInit,
-  Provider, forwardRef, OnDestroy, HostListener, Output, EventEmitter
+  Provider, forwardRef, OnDestroy, HostListener, Output, EventEmitter, HostBinding
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
-import { MatAutocompleteTrigger, MatAutocompleteSelectedEvent } from '@angular/material'
+import { MatAutocompleteTrigger, MatAutocompleteSelectedEvent, MatAutocomplete } from '@angular/material'
 
 import { isEqual, remove, findIndex, map, filter, isObject } from 'lodash-es';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
@@ -56,6 +56,8 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   @Output() public removed = new EventEmitter();
   @Output() public reordered = new EventEmitter();
 
+  @HostBinding('class.fs-form-wrapper') formWrapper = true;
+
   public searchData: any[] = [];
   public textData: any = {};
   public dataType = DataType;
@@ -78,7 +80,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   objectTemplate: FsAutocompleteObjectDirective = null;
 
   @ViewChild('searchInput') public searchInput: ElementRef = null;
-  @ViewChild('autocompleteSearch') public autocompleteSearch = null;
+  @ViewChild('autocompleteSearch') public autocompleteSearch: MatAutocomplete = null;
   @ViewChild(MatAutocompleteTrigger) public autocompleteTrigger = null;
 
   private _onTouched = () => { };
@@ -140,6 +142,14 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
 
   public blur() {
 
+    if (this.autocompleteSearch.isOpen) {
+      return;
+    }
+
+    this.closed();
+  }
+
+  public closed() {
     if (this.allowText) {
       this.addText(this.keyword);
     }
