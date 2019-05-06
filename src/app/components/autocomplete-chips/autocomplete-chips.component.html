@@ -25,6 +25,7 @@
       #searchInput
       [placeholder]="placeholder"
       [(ngModel)]="keyword"
+      [disabled]="disabled"
       (keyup)="keyword$.next($event)"
       (blur)="blur()"
       name="keyword"
