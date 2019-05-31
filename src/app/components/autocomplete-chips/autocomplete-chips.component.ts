@@ -47,6 +47,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   @Input() public removable = true;
   @Input() public orderable = false;
   @Input() public limit = 0;
+  @Input() public fetchOnFocus = true;
   @Input()
   public compareWith = (o1: any, o2: any) => {
     return isEqual(o1, o2);
@@ -63,6 +64,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   public dataType = DataType;
   public keyword: string = null;
   public keyword$ = new Subject<Event>();
+  public noResults = false;
 
   private _model: any[] = [];
   private destroy$ = new Subject();
@@ -109,6 +111,12 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
         )
         .subscribe((e) => this.textKeyword(e));
     }
+
+    this.keyword$
+    .pipe(
+      takeUntil(this.destroy$)
+    )
+    .subscribe((e) => this.keyword = this.searchInput.nativeElement.value);
   }
 
   drop(event: CdkDragDrop<string[]>) {
@@ -150,6 +158,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   }
 
   public closed() {
+
     if (this.allowText) {
       this.addText(this.keyword);
     }
@@ -173,23 +182,32 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
     }
   }
 
+  public focus(e) {
+
+    if (!this.fetchOnFocus) {
+      this.searchData = [];
+    }
+
+    if (this.fetchOnFocus) {
+      this.objectKeyword(e);
+      this.autocompleteTrigger.openPanel();
+    }
+  }
+
   public objectKeyword(e) {
 
-    if (!this.keyword) {
+    if (e && (['Enter', 'ArrowDown', 'ArrowUp'].includes(e.code) || (this.allowText && e.code === 'Comma'))) {
+      return;
+    }
+
+    if (!this.fetchOnFocus && !this.keyword) {
       this.searchData = [];
       return;
     }
 
-    if (e.code === 'ArrowDown' || e.code === 'ArrowUp') {
-      return;
-    }
-
-    if (this.allowText && e.code === 'Comma') {
-      return;
-    }
-
     if (this.fetch) {
-      this.fetch(this.keyword)
+      this.noResults = false;
+      this.fetch(this.keyword, this.model)
         .pipe(
           takeUntil(this.destroy$)
         )
@@ -200,12 +218,14 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
           });
 
           this.searchData = filter(this.searchData, item => {
-
             return findIndex(this._model, (model) => {
               return this.compareWith(model.data, item.data);
             }) === -1;
-
           });
+
+          if (!this.searchData.length) {
+            this.noResults = true;
+          }
         });
     }
   }
@@ -226,6 +246,8 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   public onSelect(e: MatAutocompleteSelectedEvent) {
 
     this.searchData = [];
+    this.clearInput();
+
     const value = this.allowObject && this.allowText ? e.option.value : e.option.value.data;
     if (e.option.value.type === DataType.Object) {
 
@@ -242,16 +264,19 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
       }
     }
 
-    this.clearInput();
+    setTimeout(() => {
+      this.focus(null);
+    });
   }
 
   public clearInput() {
-      this.searchInput.nativeElement.value = '';
-      this.textData = {};
-      this.keyword = '';
+    this.searchInput.nativeElement.value = '';
+    this.textData = {};
+    this.keyword = '';
   }
 
   public onRemove(data): void {
+    this.autocompleteTrigger.closePanel();
     remove(this._model, data);
     this.removed.emit(data);
     this.updateModel(this._model);

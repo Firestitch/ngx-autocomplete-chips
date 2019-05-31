@@ -6,11 +6,11 @@
   [validateText]="validateText"
   invalidTextMessage="Invalid email address"
   placeholder="Select Account or Enter Email Address"
-  imageProperty="image.small"
+  imageProperty="image"
   (ngModelChange)="modelChange($event)"
   name="model">
   <ng-template fsAutocompleteObject let-object="object">
-    {{object.name}}
+    {{object.first_name}} {{object.last_name}}
   </ng-template>
 </fs-autocomplete-chips>
 

@@ -14,14 +14,13 @@ export class AutocompleteChipsOrderableExampleComponent implements OnInit {
   constructor(private exampleService: ExampleService) { }
 
   ngOnInit() {
-
-    this.exampleService.fetch('', 3)
+    this.exampleService.fetch('', [], 3)
     .subscribe(response => {
       this.model = response;
     });
   }
 
-  public fetch = keyword => {
-    return this.exampleService.fetch(keyword);
+  public fetch = (keyword, existing) => {
+    return this.exampleService.fetch(keyword, existing);
   }
 }

@@ -3,10 +3,10 @@
   [(ngModel)]="model"
   placeholder="Select &amp; Order Accounts"
   [orderable]="true"
-  imageProperty="image.small"
+  imageProperty="image"
   name="model">
   <ng-template fsAutocompleteObject let-object="object">
-    {{object.name}}
+    {{object.first_name}} {{object.last_name}}
   </ng-template>
 </fs-autocomplete-chips>
 <fieldset>

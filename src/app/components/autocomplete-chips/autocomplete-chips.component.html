@@ -23,10 +23,11 @@
     </mat-chip>
     <input
       #searchInput
+      #autocompleteInput
       [placeholder]="placeholder"
-      [(ngModel)]="keyword"
       [disabled]="disabled"
       (keyup)="keyword$.next($event)"
+      (focus)="focus($event)"
       (blur)="blur()"
       name="keyword"
       [matAutocomplete]="autocompleteSearch"
@@ -44,6 +45,11 @@
         [ngTemplateOutlet]="itemTemplate"
         [ngTemplateOutletContext]="{ item: item }">
       </ng-container>
+    </mat-option>
+
+
+    <mat-option *ngIf="noResults" disabled class="no-results">
+      No results found
     </mat-option>
 
     <ng-container *ngIf="keyword && allowText">

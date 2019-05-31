@@ -21,8 +21,8 @@ export class AutocompleteChipsExampleComponent implements OnInit {
     return email(keyword);
  }
 
-  public fetch = keyword => {
-    return this.exampleService.fetch(keyword);
+  public fetch = (keyword, existing) => {
+    return this.exampleService.fetch(keyword, existing);
   }
 
   modelChange(e) {
