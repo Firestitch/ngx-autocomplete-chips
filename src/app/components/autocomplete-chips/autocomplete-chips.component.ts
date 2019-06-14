@@ -196,7 +196,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
 
   public objectKeyword(e) {
 
-    if (e && (['Enter', 'ArrowDown', 'ArrowUp'].includes(e.code) || (this.allowText && e.code === 'Comma'))) {
+    if (e && (['Enter', 'ArrowDown', 'ArrowUp'].indexOf(e.code) > -1 || (this.allowText && e.code === 'Comma'))) {
       return;
     }
 
