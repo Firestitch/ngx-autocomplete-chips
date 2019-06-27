@@ -95,28 +95,23 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   constructor() { }
 
   public ngOnInit() {
-    if (this.allowObject) {
+
     this.keyword$
       .pipe(
         takeUntil(this.destroy$),
         debounceTime(this.delay)
       )
-      .subscribe((e) => this.objectKeyword(e));
-    }
+      .subscribe((e) => {
+        this.keyword = this.searchInput.nativeElement.value;
 
-    if (this.allowText) {
-      this.keyword$
-        .pipe(
-          takeUntil(this.destroy$)
-        )
-        .subscribe((e) => this.textKeyword(e));
-    }
+        if (this.allowObject) {
+          this.objectKeyword(e);
+        }
 
-    this.keyword$
-    .pipe(
-      takeUntil(this.destroy$)
-    )
-    .subscribe((e) => this.keyword = this.searchInput.nativeElement.value);
+        if (this.allowText) {
+          this.textKeyword(e);
+        }
+      });
   }
 
   drop(event: CdkDragDrop<string[]>) {
