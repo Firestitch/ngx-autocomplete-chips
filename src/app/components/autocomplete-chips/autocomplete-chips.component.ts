@@ -16,6 +16,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
+import { trim } from 'lodash-es';
 
 import { getObjectValue } from '../../helpers/get-object-value';
 import { DataType } from '../../interfaces/data-type';
@@ -102,7 +103,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
         debounceTime(this.delay)
       )
       .subscribe((e) => {
-        this.keyword = this.searchInput.nativeElement.value;
+        this.keyword = trim(this.searchInput.nativeElement.value);
 
         if (this.allowObject) {
           this.objectKeyword(e);
