@@ -274,8 +274,8 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   public onRemove(data): void {
     this.autocompleteTrigger.closePanel();
     remove(this._model, data);
-    this.removed.emit(data);
     this.updateModel(this._model);
+    this.removed.emit(data);
   }
 
   public writeValue(value: any): void {
