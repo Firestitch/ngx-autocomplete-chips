@@ -5,7 +5,7 @@
     cdkDropListOrientation="horizontal"
     (cdkDropListDropped)="drop($event)">
     <mat-chip
-      *ngFor="let item of model"
+      *ngFor="let item of _model"
       [selectable]="true"
       [removable]="true"
       (removed)="onRemove(item)"

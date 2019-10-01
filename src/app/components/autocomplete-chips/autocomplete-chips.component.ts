@@ -1,22 +1,32 @@
 import {
+  ChangeDetectionStrategy, ChangeDetectorRef,
   Component,
-  ViewChild,
-  ElementRef,
-  TemplateRef,
   ContentChild,
+  ElementRef,
+  EventEmitter,
+  forwardRef,
+  HostBinding,
+  HostListener,
   Input,
+  OnDestroy,
   OnInit,
-  Provider, forwardRef, OnDestroy, HostListener, Output, EventEmitter, HostBinding
+  Output,
+  Provider,
+  TemplateRef,
+  ViewChild
 } from '@angular/core';
-import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
-import { MatAutocompleteTrigger, MatAutocompleteSelectedEvent, MatAutocomplete } from '@angular/material'
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import {
+  MatAutocomplete,
+  MatAutocompleteSelectedEvent,
+  MatAutocompleteTrigger
+} from '@angular/material'
 
-import { isEqual, remove, findIndex, map, filter, isObject } from 'lodash-es';
+import { filter, findIndex, isEqual, isObject, map, remove, trim } from 'lodash-es';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
-import { trim } from 'lodash-es';
 
 import { getObjectValue } from '../../helpers/get-object-value';
 import { DataType } from '../../interfaces/data-type';
@@ -32,7 +42,8 @@ export const FS_ACCOUNT_PICKER_ACCESSOR: Provider = {
   selector: 'fs-autocomplete-chips',
   templateUrl: './autocomplete-chips.component.html',
   styleUrls: [ './autocomplete-chips.component.scss' ],
-  providers: [FS_ACCOUNT_PICKER_ACCESSOR]
+  providers: [FS_ACCOUNT_PICKER_ACCESSOR],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlValueAccessor {
 
@@ -67,7 +78,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   public keyword$ = new Subject<Event>();
   public noResults = false;
 
-  private _model: any[] = [];
+  public _model: any[] = [];
   private destroy$ = new Subject();
 
   get model() {
@@ -93,7 +104,9 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   public registerOnTouched(fn: () => any): void { this._onTouched = fn }
 
 
-  constructor() { }
+  constructor(
+    private _cdRef: ChangeDetectorRef,
+  ) { }
 
   public ngOnInit() {
 
@@ -279,7 +292,6 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   }
 
   public writeValue(value: any): void {
-
     value = Array.isArray(value) ? value : [];
 
     value = map(value, (item) => {
@@ -288,6 +300,8 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
     });
 
     this._model = value;
+
+    this._cdRef.markForCheck();
   }
 
   public updateModel(value) {
