@@ -189,6 +189,8 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
     if (this._validateText(this.keyword)) {
       this.textData = this.createItem(this.keyword, DataType.Text);
     }
+
+    this._cdRef.detectChanges();
   }
 
   public focus(e) {
@@ -235,6 +237,8 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
           if (!this.searchData.length) {
             this.noResults = true;
           }
+
+          this._cdRef.detectChanges();
         });
     }
   }
