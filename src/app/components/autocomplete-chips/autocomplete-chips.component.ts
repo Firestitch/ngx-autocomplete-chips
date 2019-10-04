@@ -90,12 +90,12 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
     e.preventDefault();
   };
 
-  @ContentChild(FsAutocompleteObjectDirective, { read: TemplateRef })
+  @ContentChild(FsAutocompleteObjectDirective, { read: TemplateRef, static: true })
   objectTemplate: FsAutocompleteObjectDirective = null;
 
-  @ViewChild('searchInput') public searchInput: ElementRef = null;
-  @ViewChild('autocompleteSearch') public autocompleteSearch: MatAutocomplete = null;
-  @ViewChild(MatAutocompleteTrigger) public autocompleteTrigger = null;
+  @ViewChild('searchInput', { static: true }) public searchInput: ElementRef = null;
+  @ViewChild('autocompleteSearch', { static: true }) public autocompleteSearch: MatAutocomplete = null;
+  @ViewChild(MatAutocompleteTrigger, { static: true }) public autocompleteTrigger = null;
 
   private _onTouched = () => { };
   private _onChange = (value: any) => {};
