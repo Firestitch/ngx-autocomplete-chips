@@ -29,6 +29,7 @@
       (keyup)="keyword$.next($event)"
       (focus)="focus($event)"
       (blur)="blur()"
+      [ngClass]="{'hidden': !inputVisible}"
       name="keyword"
       [matAutocomplete]="autocompleteSearch"
       [matChipInputFor]="searchList">

@@ -11,6 +11,13 @@
   }
 }
 
+.hidden {
+  display: none !important;
+}
+
+.mat-chip-list {
+  cursor: pointer;
+}
 
 ::ng-deep {
   .fs-autocomplete-chip.mat-chip.mat-standard-chip {

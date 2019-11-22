@@ -77,6 +77,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   public keyword: string = null;
   public keyword$ = new Subject<Event>();
   public noResults = false;
+  public inputVisible = true;
 
   public _model: any[] = [];
   private destroy$ = new Subject();
@@ -89,6 +90,16 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   dragStart(e) {
     e.preventDefault();
   };
+
+  @HostListener('click', [])
+  showSearchInput() {
+    if (this.model.length > 0) {
+      this.inputVisible = true;
+      setTimeout(() => {
+        this.searchInput.nativeElement.focus();
+      })
+    }
+  }
 
   @ContentChild(FsAutocompleteObjectDirective, { read: TemplateRef, static: true })
   objectTemplate: FsAutocompleteObjectDirective = null;
@@ -158,6 +169,10 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   }
 
   public blur() {
+
+    if (this.model.length > 0) {
+      this.inputVisible = false;
+    }
 
     if (this.autocompleteSearch.isOpen) {
       return;
@@ -305,6 +320,8 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
 
     this._model = value;
 
+    this.checkSearchInputVisibility();
+
     this._cdRef.markForCheck();
   }
 
@@ -320,6 +337,8 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
       return item;
     });
 
+    this.checkSearchInputVisibility();
+
     this._onChange(model);
     this._onTouched();
   }
@@ -327,5 +346,9 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  public checkSearchInputVisibility() {
+    this.inputVisible = this.model.length === 0;
   }
 }
