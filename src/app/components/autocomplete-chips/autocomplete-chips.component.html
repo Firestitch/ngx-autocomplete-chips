@@ -24,6 +24,7 @@
     <input
       #searchInput
       #autocompleteInput
+      autocomplete="none"
       [placeholder]="placeholder"
       [disabled]="disabled"
       (keyup)="keyword$.next($event)"
