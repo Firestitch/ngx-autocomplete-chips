@@ -31,7 +31,7 @@
       (focus)="focus($event)"
       (blur)="blur()"
       [ngClass]="{'hidden': !inputVisible}"
-      name="keyword"
+      [name]="name"
       [matAutocomplete]="autocompleteSearch"
       [matChipInputFor]="searchList">
   </mat-chip-list>

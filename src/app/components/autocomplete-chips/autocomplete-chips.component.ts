@@ -22,7 +22,7 @@ import {
   MatAutocompleteTrigger
 } from '@angular/material'
 
-import { filter, findIndex, isEqual, isObject, map, remove, trim } from 'lodash-es';
+import { filter, findIndex, isEqual, isObject, map, remove, trim, random } from 'lodash-es';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 import { Subject } from 'rxjs';
@@ -78,6 +78,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   public keyword$ = new Subject<Event>();
   public noResults = false;
   public inputVisible = true;
+  public name;
 
   public _model: any[] = [];
   private destroy$ = new Subject();
@@ -117,7 +118,9 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
 
   constructor(
     private _cdRef: ChangeDetectorRef,
-  ) { }
+  ) {
+    this.name = 'autocomplete_'.concat(random(1, 9999999));
+  }
 
   public ngOnInit() {
 
