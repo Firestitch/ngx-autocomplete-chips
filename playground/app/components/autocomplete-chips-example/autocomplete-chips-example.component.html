@@ -7,6 +7,7 @@
   invalidTextMessage="Invalid email address"
   placeholder="Select Account or Enter Email Address"
   imageProperty="image"
+  [disabled]="disabled"
   (ngModelChange)="modelChange($event)"
   name="model">
   <ng-template fsAutocompleteObject let-object="object">

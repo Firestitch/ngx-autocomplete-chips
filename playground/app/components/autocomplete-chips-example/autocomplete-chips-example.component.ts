@@ -14,8 +14,7 @@ export class AutocompleteChipsExampleComponent implements OnInit {
 
   constructor(private exampleService: ExampleService) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   public validateText = keyword => {
     return email(keyword);

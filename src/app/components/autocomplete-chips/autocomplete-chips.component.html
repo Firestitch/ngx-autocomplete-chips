@@ -1,4 +1,4 @@
-<mat-form-field>
+<mat-form-field #formField>
   <mat-chip-list
     #searchList
     cdkDropList
@@ -6,12 +6,13 @@
     (cdkDropListDropped)="drop($event)">
     <mat-chip
       *ngFor="let item of _model"
-      [selectable]="true"
-      [removable]="true"
+      [selectable]="!disabled"
+      [removable]="!disabled"
+      [disabled]="disabled"
       (removed)="onRemove(item)"
       class="fs-autocomplete-chip"
       [ngClass]="{ imaged: item.image }"
-      [cdkDragDisabled]="!orderable"
+      [cdkDragDisabled]="!orderable || disabled"
       [cdkDragData]="item"
       cdkDrag
       cdkDragHandle>
@@ -19,11 +20,10 @@
           [ngTemplateOutlet]="itemTemplate"
           [ngTemplateOutletContext]="{ item: item }">
         </ng-container>
-      <mat-icon *ngIf="removable" matChipRemove>cancel</mat-icon>
+      <mat-icon *ngIf="removable && !disabled" matChipRemove>cancel</mat-icon>
     </mat-chip>
     <input
       #searchInput
-      #autocompleteInput
       autocomplete="none"
       [placeholder]="placeholder"
       [disabled]="disabled"

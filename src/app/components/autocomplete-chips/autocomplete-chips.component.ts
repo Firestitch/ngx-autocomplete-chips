@@ -11,15 +11,15 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  Provider,
   TemplateRef,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import {
   MatAutocomplete,
   MatAutocompleteSelectedEvent,
-  MatAutocompleteTrigger
+  MatAutocompleteTrigger,
+  MatFormField
 } from '@angular/material'
 
 import { filter, findIndex, isEqual, isObject, map, remove, trim, random } from 'lodash-es';
@@ -32,17 +32,16 @@ import { getObjectValue } from '../../helpers/get-object-value';
 import { DataType } from '../../interfaces/data-type';
 import { FsAutocompleteObjectDirective } from '../../directives/autocomplete-object/autocomplete-object.directive';
 
-export const FS_ACCOUNT_PICKER_ACCESSOR: Provider = {
-  provide: NG_VALUE_ACCESSOR,
-  useExisting: forwardRef(() => FsAutocompleteChipsComponent),
-  multi: true
-};
 
 @Component({
   selector: 'fs-autocomplete-chips',
   templateUrl: './autocomplete-chips.component.html',
   styleUrls: [ './autocomplete-chips.component.scss' ],
-  providers: [FS_ACCOUNT_PICKER_ACCESSOR],
+  providers: [{
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: forwardRef(() => FsAutocompleteChipsComponent),
+    multi: true
+  }],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlValueAccessor {
@@ -55,7 +54,6 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   @Input() public delay = 300;
   @Input() public validateText;
   @Input() public invalidTextMessage = '';
-  @Input() public disabled = false;
   @Input() public removable = true;
   @Input() public orderable = false;
   @Input() public limit = 0;
@@ -65,6 +63,17 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
     return isEqual(o1, o2);
   };
 
+  @Input('disabled') set setDisabled(value) {
+    this.disabled = value;
+    setTimeout(() => {
+      if (value) {
+        this.formField.nativeElement.classList.add('mat-form-field-disabled');
+      } else {
+        this.formField.nativeElement.classList.remove('mat-form-field-disabled');
+      }
+    });
+  }
+
   @Output() public selected = new EventEmitter();
   @Output() public removed = new EventEmitter();
   @Output() public reordered = new EventEmitter();
@@ -73,6 +82,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
 
   public searchData: any[] = [];
   public textData: any = {};
+  public disabled = false;
   public dataType = DataType;
   public keyword: string = null;
   public keyword$ = new Subject<Event>();
@@ -108,6 +118,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   @ViewChild('searchInput', { static: true }) public searchInput: ElementRef = null;
   @ViewChild('autocompleteSearch', { static: true }) public autocompleteSearch: MatAutocomplete = null;
   @ViewChild(MatAutocompleteTrigger, { static: true }) public autocompleteTrigger = null;
+  @ViewChild('formField', { read: ElementRef, static: true }) public formField: ElementRef = null
 
   private _onTouched = () => { };
   private _onChange = (value: any) => {};

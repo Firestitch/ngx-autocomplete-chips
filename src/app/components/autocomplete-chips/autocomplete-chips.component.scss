@@ -1,13 +1,12 @@
-:host {
-  mat-form-field {
-    width: 100%;
-  }
 
-  .item-template {
+mat-form-field {
+  width: 100%;
+}
 
-    img {
-      margin-left: -12px;
-    }
+.item-template {
+
+  img {
+    margin-left: -12px;
   }
 }
 
@@ -17,12 +16,16 @@
 
 .mat-chip-list {
   cursor: pointer;
+  outline: transparent;
 }
 
 ::ng-deep {
   .fs-autocomplete-chip.mat-chip.mat-standard-chip {
-
     padding-right: 3px;
+
+    &:not(.mat-chip-with-trailing-icon) {
+      padding-right: 11px;
+    }
 
     &.imaged {
       padding-left: 0;
