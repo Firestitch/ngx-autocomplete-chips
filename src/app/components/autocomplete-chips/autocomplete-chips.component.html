@@ -23,7 +23,7 @@
       <mat-icon *ngIf="removable && !disabled" matChipRemove>cancel</mat-icon>
     </mat-chip>
     <input
-      #searchInput
+      #autocompleteSearch
       autocomplete="none"
       [placeholder]="placeholder"
       [disabled]="disabled"
@@ -55,8 +55,7 @@
     </mat-option>
 
     <ng-container *ngIf="keyword && allowText">
-
-      <mat-option *ngIf="!textData.type" disabled class="invalid-message" (click)="searchInput.focus()">
+      <mat-option *ngIf="!textData.type" disabled class="invalid-message" (click)="searchInput.nativeElement.focus()">
         <div>{{ keyword }}</div>
         <div class="message">{{ invalidTextMessage || 'Invalid' }}</div>
       </mat-option>

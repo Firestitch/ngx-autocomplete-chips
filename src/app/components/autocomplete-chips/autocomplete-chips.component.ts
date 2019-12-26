@@ -15,12 +15,8 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import {
-  MatAutocomplete,
-  MatAutocompleteSelectedEvent,
-  MatAutocompleteTrigger,
-  MatFormField
-} from '@angular/material'
+import { MatAutocomplete, MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { MatFormField } from '@angular/material/form-field';
 
 import { filter, findIndex, isEqual, isObject, map, remove, trim, random } from 'lodash-es';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
@@ -115,7 +111,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   @ContentChild(FsAutocompleteObjectDirective, { read: TemplateRef, static: true })
   objectTemplate: FsAutocompleteObjectDirective = null;
 
-  @ViewChild('searchInput', { static: true }) public searchInput: ElementRef = null;
+  @ViewChild('searchInput', { static: false }) public searchInput: ElementRef = null;
   @ViewChild('autocompleteSearch', { static: true }) public autocompleteSearch: MatAutocomplete = null;
   @ViewChild(MatAutocompleteTrigger, { static: true }) public autocompleteTrigger = null;
   @ViewChild('formField', { read: ElementRef, static: true }) public formField: ElementRef = null
