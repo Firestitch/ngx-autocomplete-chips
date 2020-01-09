@@ -18,11 +18,11 @@ export class AutocompleteChipsExampleComponent implements OnInit {
 
   public validateText = keyword => {
     return email(keyword);
- }
+  };
 
   public fetch = (keyword, existing) => {
     return this.exampleService.fetch(keyword, existing);
-  }
+  };
 
   modelChange(e) {
     console.log(e);
