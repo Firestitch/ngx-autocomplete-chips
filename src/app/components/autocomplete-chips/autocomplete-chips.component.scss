@@ -10,10 +10,6 @@ mat-form-field {
   }
 }
 
-.hidden {
-  display: none !important;
-}
-
 .mat-chip-list {
   cursor: pointer;
   outline: transparent;
@@ -41,7 +37,8 @@ mat-form-field {
   }
 }
 
-::ng-deep .fs-account-picker-autocomplete {
+
+::ng-deep .fs-autocomplete-chips-panel {
 
   .mat-option-text {
     align-items: center;
@@ -54,16 +51,22 @@ mat-form-field {
     align-items: start;
     font-size: 80%;
   }
+
+  .mat-option.static-option {
+    &.static-option-first {
+      border-top: 1px solid #e0e0e0;
+    }
+  }
 }
 
-::ng-deep .fs-account-picker-autocomplete .item-template,
+::ng-deep .fs-autocomplete-chips-panel .item-template,
 :host .item-template {
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 
-::ng-deep .fs-account-picker-autocomplete,
+::ng-deep .fs-autocomplete-chips-panel,
 .fs-autocomplete-chip.mat-chip.mat-standard-chip {
   img {
     width: 32px;
@@ -79,5 +82,5 @@ mat-form-field {
 }
 
 .no-results {
-  font-size: 80%;
+  background-color: inherit;
 }

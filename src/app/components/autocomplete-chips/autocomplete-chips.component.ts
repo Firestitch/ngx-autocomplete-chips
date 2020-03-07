@@ -1,3 +1,4 @@
+import { FsAutocompleteChipsStaticDirective } from './../../directives/static-template/static-template.directive';
 import {
   ChangeDetectionStrategy, ChangeDetectorRef,
   Component,
@@ -13,10 +14,11 @@ import {
   Output,
   TemplateRef,
   ViewChild,
+  ContentChildren,
+  QueryList,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
-import { MatFormField } from '@angular/material/form-field';
 
 import { filter, findIndex, isEqual, isObject, map, remove, trim, random } from 'lodash-es';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
@@ -41,6 +43,12 @@ import { FsAutocompleteObjectDirective } from '../../directives/autocomplete-obj
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlValueAccessor {
+
+  @ContentChildren(FsAutocompleteChipsStaticDirective, { read: TemplateRef })
+  public staticTemplates: TemplateRef<FsAutocompleteChipsStaticDirective>[] = null;
+
+  @ContentChildren(FsAutocompleteChipsStaticDirective)
+  public staticDirectives: QueryList<FsAutocompleteChipsStaticDirective>;
 
   @Input() public fetch = null;
   @Input() public placeholder = '';
@@ -83,7 +91,6 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   public keyword: string = null;
   public keyword$ = new Subject<Event>();
   public noResults = false;
-  public inputVisible = true;
   public name;
 
   public _model: any[] = [];
@@ -101,10 +108,9 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   @HostListener('click', [])
   showSearchInput() {
     if (this.model.length > 0) {
-      this.inputVisible = true;
       setTimeout(() => {
-        this.searchInput.nativeElement.focus();
-      })
+        this.focus();
+      });
     }
   }
 
@@ -169,20 +175,20 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
     if (this._validateText(text)) {
 
       const textObject = this.createItem(text, DataType.Text);
-
       this.updateModel([...this._model, textObject]);
+      this.focus();
     }
+  }
+
+  public focus() {
+    this.searchInput.nativeElement.focus();
   }
 
   public addObject(object) {
     this.updateModel([...this._model, object]);
   }
 
-  public blur() {
-
-    if (this.model.length > 0) {
-      this.inputVisible = false;
-    }
+  public blured() {
 
     if (this.autocompleteSearch.isOpen) {
       return;
@@ -218,7 +224,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
     this._cdRef.detectChanges();
   }
 
-  public focus(e) {
+  public focused(e) {
 
     if (!this.fetchOnFocus) {
       this.searchData = [];
@@ -283,6 +289,10 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
 
   public onSelect(e: MatAutocompleteSelectedEvent) {
 
+    if (!e.option.value) {
+      return;
+    }
+
     this.searchData = [];
     this.clearInput();
 
@@ -303,7 +313,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
     }
 
     setTimeout(() => {
-      this.focus(null);
+      this.focused(null);
     });
   }
 
@@ -329,9 +339,6 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
     });
 
     this._model = value;
-
-    this.checkSearchInputVisibility();
-
     this._cdRef.markForCheck();
   }
 
@@ -347,18 +354,19 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
       return item;
     });
 
-    this.checkSearchInputVisibility();
-
     this._onChange(model);
     this._onTouched();
   }
 
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
+  public staticClick(event: KeyboardEvent, index) {
+    const staticDirective: FsAutocompleteChipsStaticDirective = this.staticDirectives.toArray()[index];
+    staticDirective.click.emit(event);
+    this.autocompleteTrigger.closePanel();
+    this.searchInput.nativeElement.blur();
   }
 
-  public checkSearchInputVisibility() {
-    this.inputVisible = this.model.length === 0;
+  public ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

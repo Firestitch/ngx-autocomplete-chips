@@ -13,6 +13,10 @@
   <ng-template fsAutocompleteObject let-object="object">
     {{object.first_name}} {{object.last_name}}
   </ng-template>
+
+  <ng-template fsAutocompleteChipsStatic (click)="staticClick($event)">
+    Add New Account
+  </ng-template>
 </fs-autocomplete-chips>
 
 <fieldset>

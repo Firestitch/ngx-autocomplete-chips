@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { email } from '@firestitch/common';
 import { ExampleService } from 'playground/app/services/example.service';
+import { FsMessage } from '@firestitch/message';
 
 
 @Component({
@@ -12,7 +13,8 @@ export class AutocompleteChipsExampleComponent implements OnInit {
   public model = [];
   public disabled = false;
 
-  constructor(private exampleService: ExampleService) { }
+  constructor(private exampleService: ExampleService,
+              private _message: FsMessage) { }
 
   ngOnInit() {}
 
@@ -24,7 +26,11 @@ export class AutocompleteChipsExampleComponent implements OnInit {
     return this.exampleService.fetch(keyword, existing);
   };
 
-  modelChange(e) {
+  public modelChange(e) {
     console.log(e);
+  }
+
+  public staticClick(event) {
+    this._message.success('Add New Account Clicked');
   }
 }

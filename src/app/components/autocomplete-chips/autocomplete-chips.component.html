@@ -28,16 +28,15 @@
       [placeholder]="placeholder"
       [disabled]="disabled"
       (keyup)="keyword$.next($event)"
-      (focus)="focus($event)"
-      (blur)="blur()"
-      [ngClass]="{'hidden': !inputVisible}"
+      (focus)="focused($event)"
+      (blur)="blured()"
       [name]="name"
       [matAutocomplete]="autocompleteSearch"
       [matChipInputFor]="searchList">
   </mat-chip-list>
   <mat-autocomplete
     #autocompleteSearch="matAutocomplete"
-    class="fs-account-picker-autocomplete"
+    class="fs-account-picker-autocomplete fs-autocomplete-chips-panel"
     (optionSelected)="onSelect($event)"
     (closed)="closed()"
     autoActiveFirstOption="true">
@@ -50,16 +49,11 @@
     </mat-option>
 
 
-    <mat-option *ngIf="noResults" disabled class="no-results">
+    <mat-option *ngIf="noResults && !textData.data" disabled class="no-results">
       No results found
     </mat-option>
 
     <ng-container *ngIf="keyword && allowText">
-      <mat-option *ngIf="!textData.type" disabled class="invalid-message" (click)="searchInput.nativeElement.focus()">
-        <div>{{ keyword }}</div>
-        <div class="message">{{ invalidTextMessage || 'Invalid' }}</div>
-      </mat-option>
-
       <mat-option *ngIf="textData.type===dataType.Text" [value]="textData">
         <ng-container
           [ngTemplateOutlet]="itemTemplate"
@@ -68,6 +62,15 @@
       </mat-option>
     </ng-container>
 
+    <ng-container>
+      <mat-option
+        *ngFor="let staticTemplate of staticTemplates; let i = index"
+        class="static-option"
+        (click)="staticClick($event, i)"
+        [ngClass]="{ 'static-option-first': !i }">
+        <ng-template *ngTemplateOutlet="staticTemplate;context: { test: true }"></ng-template>
+      </mat-option>
+    </ng-container>
   </mat-autocomplete>
 </mat-form-field>
 
