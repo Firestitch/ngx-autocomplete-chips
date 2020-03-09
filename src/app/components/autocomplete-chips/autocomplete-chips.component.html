@@ -12,6 +12,8 @@
       (removed)="onRemove(item)"
       class="fs-autocomplete-chip"
       [ngClass]="{ imaged: item.image }"
+      [style.backgroundColor]="item.background || background"
+      [style.color]="item.color || color"
       [cdkDragDisabled]="!orderable || disabled"
       [cdkDragData]="item"
       cdkDrag
@@ -20,7 +22,11 @@
           [ngTemplateOutlet]="itemTemplate"
           [ngTemplateOutletContext]="{ item: item }">
         </ng-container>
-      <mat-icon *ngIf="removable && !disabled" matChipRemove>cancel</mat-icon>
+
+        <mat-icon
+          [style.color]="item.color"
+          *ngIf="removable && !disabled"
+          matChipRemove>cancel</mat-icon>
     </mat-chip>
     <input
       #searchInput

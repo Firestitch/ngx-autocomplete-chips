@@ -1,3 +1,4 @@
+import { map } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { email } from '@firestitch/common';
 import { ExampleService } from 'playground/app/services/example.service';
@@ -23,7 +24,14 @@ export class AutocompleteChipsExampleComponent implements OnInit {
   };
 
   public fetch = (keyword, existing) => {
-    return this.exampleService.fetch(keyword, existing);
+    return this.exampleService.fetch(keyword, existing)
+    .pipe(
+      map(items => {
+        return items.map(item => {
+          return Object.assign(item, { background: '#569CD6', color: '#fff' });
+        });
+      })
+    )
   };
 
   public modelChange(e) {
@@ -32,5 +40,14 @@ export class AutocompleteChipsExampleComponent implements OnInit {
 
   public staticClick(event) {
     this._message.success('Add New Account Clicked');
+  }
+
+  getRandomColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
   }
 }

@@ -25,6 +25,10 @@ mat-form-field {
 
     &.imaged {
       padding-left: 0;
+
+      img {
+        margin-left: -1px;
+      }
     }
 
     .mat-chip-remove {

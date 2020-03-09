@@ -7,10 +7,12 @@
   invalidTextMessage="Invalid email address"
   placeholder="Select Account or Enter Email Address"
   imageProperty="image"
+  colorProperty="color"
+  backgroundProperty="background"
   [disabled]="disabled"
   (ngModelChange)="modelChange($event)"
   name="model">
-  <ng-template fsAutocompleteObject let-object="object">
+  <ng-template fsAutocompleteChipsTemplate let-object="object">
     {{object.first_name}} {{object.last_name}}
   </ng-template>
 

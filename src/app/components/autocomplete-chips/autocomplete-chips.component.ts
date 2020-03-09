@@ -53,12 +53,16 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   @Input() public fetch = null;
   @Input() public placeholder = '';
   @Input() public imageProperty = '';
+  @Input() public backgroundProperty = '';
+  @Input() public colorProperty = '';
   @Input() public allowText: boolean;
   @Input() public allowObject = true;
   @Input() public delay = 300;
   @Input() public validateText;
   @Input() public invalidTextMessage = '';
   @Input() public removable = true;
+  @Input() public color = '#000000de';
+  @Input() public background = '#e0e0e0';
   @Input() public orderable = false;
   @Input() public limit = 0;
   @Input() public fetchOnFocus = true;
@@ -282,6 +286,8 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
 
     if (type === DataType.Object) {
       item.image = getObjectValue(data, this.imageProperty);
+      item.background = getObjectValue(data, this.backgroundProperty);
+      item.color = getObjectValue(data, this.colorProperty);
     }
 
     return item;
