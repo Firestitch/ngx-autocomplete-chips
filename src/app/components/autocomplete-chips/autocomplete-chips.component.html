@@ -24,7 +24,7 @@
         </ng-container>
 
         <mat-icon
-          [style.color]="item.color"
+          [style.color]="item.color || color"
           *ngIf="removable && !disabled"
           matChipRemove>cancel</mat-icon>
     </mat-chip>
