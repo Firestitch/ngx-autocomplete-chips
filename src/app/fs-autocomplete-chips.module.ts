@@ -1,3 +1,4 @@
+import { FsAutocompleteChipsNoResultsDirective } from './directives/autocomplete-no-results/autocomplete-no-results.directive';
 import { FsAutocompleteChipsStaticDirective } from './directives/static-template/static-template.directive';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -27,12 +28,14 @@ import { FsAutocompleteObjectDirective } from './directives/autocomplete-object/
   exports: [
     FsAutocompleteChipsComponent,
     FsAutocompleteObjectDirective,
-    FsAutocompleteChipsStaticDirective
+    FsAutocompleteChipsStaticDirective,
+    FsAutocompleteChipsNoResultsDirective
   ],
   declarations: [
     FsAutocompleteObjectDirective,
     FsAutocompleteChipsComponent,
-    FsAutocompleteChipsStaticDirective
+    FsAutocompleteChipsStaticDirective,
+    FsAutocompleteChipsNoResultsDirective
   ]
 })
 export class FsAutocompleteChipsModule {

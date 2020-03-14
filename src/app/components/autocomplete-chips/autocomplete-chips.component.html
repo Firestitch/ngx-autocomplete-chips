@@ -55,9 +55,18 @@
     </mat-option>
 
 
-    <mat-option *ngIf="noResults && !textData.data" disabled class="no-results">
-      No results found
-    </mat-option>
+    <ng-container *ngIf="noResults && !textData.data">
+      <ng-template
+        *ngIf="noResultsTemplate; else noResultsOption"
+        [ngTemplateOutlet]="noResultsTemplate"
+        [ngTemplateOutletContext]="{ keyword: keyword }">
+      </ng-template>
+      <ng-template #noResultsOption>
+        <mat-option disabled class="no-results">
+          No results <ng-container *ngIf="keyword">for "{{keyword}}"</ng-container>
+        </mat-option>
+      </ng-template>
+    </ng-container>
 
     <ng-container *ngIf="keyword && allowText">
       <mat-option *ngIf="textData.type===dataType.Text" [value]="textData">

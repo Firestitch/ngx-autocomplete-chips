@@ -1,3 +1,4 @@
+import { FsAutocompleteChipsNoResultsDirective } from '../../directives/autocomplete-no-results/autocomplete-no-results.directive';
 import { FsAutocompleteChipsStaticDirective } from './../../directives/static-template/static-template.directive';
 import {
   ChangeDetectionStrategy, ChangeDetectorRef,
@@ -43,6 +44,9 @@ import { FsAutocompleteObjectDirective } from '../../directives/autocomplete-obj
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlValueAccessor {
+
+  @ContentChild(FsAutocompleteChipsNoResultsDirective, { read: TemplateRef, static: true })
+  public noResultsTemplate: TemplateRef<FsAutocompleteChipsNoResultsDirective>[] = null;
 
   @ContentChildren(FsAutocompleteChipsStaticDirective, { read: TemplateRef })
   public staticTemplates: TemplateRef<FsAutocompleteChipsStaticDirective>[] = null;
