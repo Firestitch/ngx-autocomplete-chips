@@ -65,8 +65,8 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   @Input() public validateText;
   @Input() public invalidTextMessage = '';
   @Input() public removable = true;
-  @Input() public color = '#000000de';
-  @Input() public background = '#e0e0e0';
+  @Input() public color = '';
+  @Input() public background = '';
   @Input() public orderable = false;
   @Input() public limit = 0;
   @Input() public fetchOnFocus = true;
