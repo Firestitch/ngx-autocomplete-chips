@@ -273,9 +273,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
             }) === -1;
           });
 
-          if (!this.searchData.length) {
-            this.noResults = true;
-          }
+          this.noResults = !this.searchData.length;
 
           this._cdRef.detectChanges();
         });
