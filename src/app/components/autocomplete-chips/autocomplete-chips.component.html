@@ -33,58 +33,70 @@
       autocomplete="none"
       [placeholder]="placeholder"
       [disabled]="disabled"
-      (keyup)="keyword$.next($event)"
+      [readonly]="readonly"
+      (input)="input($event)"
+      (keydown)="keyDown($event)"
       (focus)="focused($event)"
       (blur)="blured()"
       [name]="name"
       [matAutocomplete]="autocompleteSearch"
       [matChipInputFor]="searchList">
   </mat-chip-list>
+
+  <div *ngIf="!disabled" matSuffix>
+    <mat-icon
+      *ngIf="model.length > 1"
+      class="clear"
+      (click)="clearClick($event)">clear</mat-icon>
+  </div>
+
+
   <mat-autocomplete
     #autocompleteSearch="matAutocomplete"
     class="fs-account-picker-autocomplete fs-autocomplete-chips-panel"
-    (optionSelected)="onSelect($event)"
+    (optionSelected)="optionSelected($event)"
     (closed)="closed()"
     autoActiveFirstOption="true">
 
-    <mat-option *ngFor="let item of searchData" [value]="item">
+    <mat-option *ngFor="let item of data" [value]="item">
       <ng-container
         [ngTemplateOutlet]="itemTemplate"
         [ngTemplateOutletContext]="{ item: item }">
       </ng-container>
     </mat-option>
 
+    <ng-container *ngIf="!searching">
+      <ng-container *ngIf="noResults && !textData.data">
+        <ng-template
+          *ngIf="noResultsTemplate; else noResultsOption"
+          [ngTemplateOutlet]="noResultsTemplate"
+          [ngTemplateOutletContext]="{ keyword: keyword }">
+        </ng-template>
+        <ng-template #noResultsOption>
+          <mat-option disabled class="no-results">
+            No results <ng-container *ngIf="keyword">for "{{keyword}}"</ng-container>
+          </mat-option>
+        </ng-template>
+      </ng-container>
 
-    <ng-container *ngIf="noResults && !textData.data">
-      <ng-template
-        *ngIf="noResultsTemplate; else noResultsOption"
-        [ngTemplateOutlet]="noResultsTemplate"
-        [ngTemplateOutletContext]="{ keyword: keyword }">
-      </ng-template>
-      <ng-template #noResultsOption>
-        <mat-option disabled class="no-results">
-          No results <ng-container *ngIf="keyword">for "{{keyword}}"</ng-container>
+      <ng-container *ngIf="keyword && allowText">
+        <mat-option *ngIf="textData.type===dataType.Text" [value]="textData">
+          <ng-container
+            [ngTemplateOutlet]="itemTemplate"
+            [ngTemplateOutletContext]="{ item: textData }">
+          </ng-container>
         </mat-option>
-      </ng-template>
-    </ng-container>
+      </ng-container>
 
-    <ng-container *ngIf="keyword && allowText">
-      <mat-option *ngIf="textData.type===dataType.Text" [value]="textData">
-        <ng-container
-          [ngTemplateOutlet]="itemTemplate"
-          [ngTemplateOutletContext]="{ item: textData }">
-        </ng-container>
-      </mat-option>
-    </ng-container>
-
-    <ng-container>
-      <mat-option
-        *ngFor="let staticTemplate of staticTemplates; let i = index"
-        class="static-option"
-        (click)="staticClick($event, i)"
-        [ngClass]="{ 'static-option-first': !i }">
-        <ng-template *ngTemplateOutlet="staticTemplate;context: { test: true }"></ng-template>
-      </mat-option>
+      <ng-container>
+        <mat-option
+          *ngFor="let staticTemplate of staticTemplates; let i = index"
+          class="static-option"
+          (click)="staticClick($event, i)"
+          [ngClass]="{ 'static-option-first': !i }">
+          <ng-template *ngTemplateOutlet="staticTemplate;context: { test: true }"></ng-template>
+        </mat-option>
+      </ng-container>
     </ng-container>
   </mat-autocomplete>
 </mat-form-field>

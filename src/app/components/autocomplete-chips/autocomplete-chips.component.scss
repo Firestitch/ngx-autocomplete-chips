@@ -15,28 +15,47 @@ mat-form-field {
   outline: transparent;
 }
 
-::ng-deep {
-  .fs-autocomplete-chip.mat-chip.mat-standard-chip {
-    padding-right: 3px;
 
-    &:not(.mat-chip-with-trailing-icon) {
-      padding-right: 11px;
+:host ::ng-deep {
+  .mat-form-field-prefix,
+  .mat-form-field-suffix {
+    align-self: flex-end;
+
+    .clear {
+      cursor: pointer;
     }
+  }
 
-    &.imaged {
-      padding-left: 0;
+  .mat-chip-list-wrapper {
+    margin: -4px 0 0 0;
 
-      img {
-        margin-left: -1px;
+    .mat-chip.mat-standard-chip {
+      padding-right: 3px;
+      margin: 4px 4px 0 0;
+
+      &:not(.cdk-drag-disabled) {
+        cursor: move;
       }
-    }
 
-    .mat-chip-remove {
-        color: rgb(71, 71, 71);
-        opacity: 1;
-        width: 24px;
-        height: 24px;
-        font-size: 24px;
+      &:not(.mat-chip-with-trailing-icon) {
+        padding-right: 11px;
+      }
+
+      &.imaged {
+        padding-left: 0;
+
+        img {
+          margin-left: -1px;
+        }
+      }
+
+      .mat-chip-remove {
+          color: rgb(71, 71, 71);
+          opacity: 1;
+          width: 24px;
+          height: 24px;
+          font-size: 24px;
+      }
     }
   }
 }
