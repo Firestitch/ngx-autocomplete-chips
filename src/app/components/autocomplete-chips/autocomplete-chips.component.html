@@ -118,23 +118,24 @@
   <fs-label-field>
     <fs-label>{{placeholder}}</fs-label>
     <mat-chip-list *ngIf="model.length; else none">
-      <mat-chip
-        *ngFor="let item of model"
-        (click)="init($event)"
-        [class]="'fs-autocomplete-chip ' + item.class"
-        [ngClass]="{ imaged: item.image, 'size-small': size === 'small', 'size-large': size === 'large' }"
-        [style.backgroundColor]="item.background || background"
-        [style.color]="item.color || color">
-        <ng-container
-          [ngTemplateOutlet]="itemTemplate"
-          [ngTemplateOutletContext]="{ item: item }">
-        </ng-container>
-      </mat-chip>
+      <span (click)="init()" class="chip-container">
+        <mat-chip
+          *ngFor="let item of model"
+          [class]="'fs-autocomplete-chip ' + item.class"
+          [ngClass]="{ imaged: item.image, 'size-small': size === 'small', 'size-large': size === 'large' }"
+          [style.backgroundColor]="item.background || background"
+          [style.color]="item.color || color">
+          <ng-container
+            [ngTemplateOutlet]="itemTemplate"
+            [ngTemplateOutletContext]="{ item: item }">
+          </ng-container>
+        </mat-chip>
+      </span>
     </mat-chip-list>
   </fs-label-field>
 
   <ng-template #none>
-    <span class="none-placeholder" (click)="init($event)">None</span>
+    <span class="none-placeholder" (click)="init()">None</span>
   </ng-template>
 </ng-template>
 

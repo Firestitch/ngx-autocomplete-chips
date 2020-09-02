@@ -227,8 +227,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
       });
   }
 
-  public init(event: UIEvent): void {
-    event.stopPropagation();
+  public init(): void {
     if (!this.disabled) {
       this.inited = true;
       setTimeout(() => {
