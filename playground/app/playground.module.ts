@@ -7,6 +7,7 @@ import { FsExampleModule } from '@firestitch/example';
 import { FsArray } from '@firestitch/common';
 import { FsApiModule, FsApi } from '@firestitch/api';
 import { FsFormModule } from '@firestitch/form';
+import { FsLabelModule } from '@firestitch/label';
 import { FsMessageModule } from '@firestitch/message';
 
 import { ToastrModule } from 'ngx-toastr';
@@ -34,6 +35,7 @@ import { ExampleService } from './services/example.service';
     FsFormModule,
     FsApiModule,
     FsExampleModule.forRoot(),
+    FsLabelModule,
     FsMessageModule.forRoot(),
     ToastrModule.forRoot(),
     FsAutocompleteChipsModule.forRoot(),

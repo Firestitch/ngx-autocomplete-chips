@@ -14,7 +14,7 @@ export class AutocompleteChipsOrderableExampleComponent implements OnInit {
   constructor(private exampleService: ExampleService) { }
 
   ngOnInit() {
-    this.exampleService.fetch('', [], 3)
+    this.exampleService.fetch('', 3)
     .subscribe(response => {
       this.model = response;
     });

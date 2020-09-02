@@ -6,10 +6,19 @@
   [validateText]="validateText"
   invalidTextMessage="Invalid email address"
   placeholder="Select Account or Enter Email Address"
-  imageProperty="image"
-  colorProperty="color"
-  backgroundProperty="background"
-  [disabled]="disabled"
+  [initOnClick]="true"
+  [imageProperty]="config.image ? 'image' : ''"
+  [colorProperty]="config.color ? 'color' : ''"
+  [backgroundProperty]="config.color ? 'background' : ''"
+  [iconProperty]="config.icon ? 'icon' : ''"
+  classProperty="gender"
+  [orderable]="config.orderable"
+  [removable]="config.removable"
+  [size]="config.size"
+  [disabled]="config.disabled"
+  [fetchOnFocus]="config.fetchOnFocus"
+  [compareWith]="compareWith"
+  [multiple]="config.multiple"
   (ngModelChange)="modelChange($event)"
   name="model">
   <ng-template fsAutocompleteChipsTemplate let-object="object">
@@ -21,6 +30,28 @@
   </ng-template>
 </fs-autocomplete-chips>
 
-<fieldset>
-  {{ model | json }}
-</fieldset>
+<mat-tab-group mat-align-tabs="start">
+  <mat-tab label="First">
+    <div fxLayout="column" fxLayoutGap="5px">
+      <mat-checkbox [(ngModel)]="config.multiple">Multiple</mat-checkbox>
+      <mat-checkbox [(ngModel)]="config.fetchOnFocus">Fetch On Focus</mat-checkbox>
+      <mat-checkbox [(ngModel)]="config.disabled">Disabled</mat-checkbox>
+      <mat-checkbox [(ngModel)]="config.removable">Removable</mat-checkbox>
+      <mat-checkbox [(ngModel)]="config.orderable">Orderable</mat-checkbox>
+      <mat-checkbox [(ngModel)]="config.image">Image</mat-checkbox>
+      <mat-checkbox [(ngModel)]="config.color">Color</mat-checkbox>
+      <mat-checkbox [(ngModel)]="config.icon">Icon</mat-checkbox>
+
+      <mat-radio-group [(ngModel)]="config.size">
+        Size:&nbsp;
+        <mat-radio-button value="large">Large</mat-radio-button>
+        &nbsp;&nbsp;
+        <mat-radio-button value="small">Small</mat-radio-button>
+      </mat-radio-group>
+    </div>
+  </mat-tab>
+  <mat-tab label="Data">
+    <pre>{{ model | json }}</pre>
+  </mat-tab>
+</mat-tab-group>
+

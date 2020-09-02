@@ -3,59 +3,75 @@ mat-form-field {
   width: 100%;
 }
 
-.item-template {
-
-  img {
-    margin-left: -12px;
-  }
-}
-
 .mat-chip-list {
-  cursor: pointer;
   outline: transparent;
 }
 
+.option-content {
+  text-overflow: ellipsis;
+  overflow: inherit;
+  cursor: pointer;
+  padding: 0 16px;
+  align-items: center;
+  display: inline-flex;
+  height: inherit;
+  width: 100%;
+}
+
+.none-placeholder {
+  cursor: pointer;
+  color: rgba(0, 0, 0, 0.54);
+  border-bottom: 1px solid transparent;
+
+  &:hover {
+    border-bottom-style: dashed;
+  }
+}
+
+.no-results {
+  background-color: inherit;
+}
 
 :host ::ng-deep {
-  .mat-form-field-prefix,
-  .mat-form-field-suffix {
-    align-self: flex-end;
+  .mat-form-field {
+    .mat-form-field-prefix,
+    .mat-form-field-suffix {
+      align-self: flex-end;
 
-    .clear {
-      cursor: pointer;
+      .clear {
+        cursor: pointer;
+      }
+    }
+
+    .mat-chip-list-wrapper {
+      .mat-chip {
+        &:not(.cdk-drag-disabled) {
+          cursor: move;
+        }
+      }
+
+      input.mat-chip-input {
+        width: 40px;
+        flex: 1 0 40px;
+        margin-right: 0;
+        margin-top: 8px;
+      }
     }
   }
 
   .mat-chip-list-wrapper {
-    margin: -4px 0 0 0;
+    margin: -6px 0 0 0;
+  }
 
-    .mat-chip.mat-standard-chip {
-      padding-right: 3px;
-      margin: 4px 4px 0 0;
 
-      &:not(.cdk-drag-disabled) {
-        cursor: move;
-      }
+  .mat-chip-list-wrapper .mat-chip {
+    margin: 4px 4px 0 0;
+  }
 
-      &:not(.mat-chip-with-trailing-icon) {
-        padding-right: 11px;
-      }
-
-      &.imaged {
-        padding-left: 0;
-
-        img {
-          margin-left: -1px;
-        }
-      }
-
-      .mat-chip-remove {
-          color: rgb(71, 71, 71);
-          opacity: 1;
-          width: 24px;
-          height: 24px;
-          font-size: 24px;
-      }
+  fs-label-field {
+    .mat-chip {
+      cursor: pointer;
+      user-select: none;
     }
   }
 }
@@ -66,6 +82,7 @@ mat-form-field {
   .mat-option-text {
     align-items: center;
     display: inline-flex;
+    height: inherit;
   }
 
   .invalid-message .mat-option-text {
@@ -75,35 +92,105 @@ mat-form-field {
     font-size: 80%;
   }
 
-  .mat-option.static-option {
+  .mat-option {
+    line-height: 45px;
+    height: 45px;
+
+    &.option {
+      padding: 0;
+    }
+
+    &.static-option,
     &.static-option-first {
       border-top: 1px solid #e0e0e0;
+    }
+
+    .mat-icon {
+      margin-right: 5px;
+    }
+
+    .mat-chip {
+      cursor: pointer;
+      pointer-events: all;
     }
   }
 }
 
-::ng-deep .fs-autocomplete-chips-panel .item-template,
-:host .item-template {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
+::ng-deep {
+  .fs-autocomplete-chip.mat-chip {
+    background-color: #f3f3f3;
+    white-space: nowrap;
+    min-height: 30px;
 
-::ng-deep .fs-autocomplete-chips-panel,
-.fs-autocomplete-chip.mat-chip.mat-standard-chip {
-  img {
-    width: 32px;
-    height: 32px;
-    object-fit: cover;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: 50% 50%;
-    margin-right: 10px;
-    display: flex;
-    border-radius: 50%;
+    &:hover::after {
+      opacity: 0;
+    }
+
+    .item-image {
+      width: 30px;
+      height: 30px;
+      object-fit: cover;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: 50% 50%;
+      margin-right: 5px;
+      display: flex;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .item-content {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .item-template {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+
+    .item-icon {
+      margin: 0 5px 0 -5px;
+    }
+
+    .remove {
+      color: #8f8f8f;
+      opacity: 1;
+      margin-left: 5px;
+      margin-right: 0;
+      margin-right: -5px;
+      cursor: pointer;
+      transform: scale(.77);
+      &:hover {
+        color: #202020;
+      }
+    }
+
+    &.size-small {
+      padding-left: 8px;
+      padding-right: 8px;
+      min-height: 25px;
+      font-size: 85%;
+
+      .item-image {
+        width: 25px;
+        height: 25px;
+      }
+
+      .item-icon {
+        transform: scale(0.8);
+        margin-right: 0;
+      }
+    }
+
+    &.imaged {
+      padding-left: 0;
+
+      .item-image {
+        margin-left: -1px;
+      }
+    }
   }
-}
-
-.no-results {
-  background-color: inherit;
 }

@@ -1,3 +1,4 @@
+import { isEqual } from 'lodash-es';
 import { map } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { email } from '@firestitch/common';
@@ -7,31 +8,48 @@ import { FsMessage } from '@firestitch/message';
 
 @Component({
   selector: 'autocomplete-chips-example',
+  styleUrls: ['autocomplete-chips-example.component.scss'],
   templateUrl: './autocomplete-chips-example.component.html'
 })
 export class AutocompleteChipsExampleComponent implements OnInit {
 
-  public model = [];
-  public disabled = false;
+  public model = null;
+
+  public config: any = {
+    disabled: false,
+    multiple: true,
+    fetchOnFocus: true,
+    removable: true,
+    image: true,
+    color: true,
+    orderable: true,
+    size: 'large',
+  }
 
   constructor(private exampleService: ExampleService,
               private _message: FsMessage) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+
+  }
+
+  public compareWith = (o1, o2) => {
+    return isEqual(o1, o2);
+  };
 
   public validateText = keyword => {
     return email(keyword);
   };
 
-  public fetch = (keyword, existing) => {
-    return this.exampleService.fetch(keyword, existing)
-    .pipe(
-      map(items => {
-        return items.map(item => {
-          return Object.assign(item, { background: '#569CD6', color: '#fff' });
-        });
-      })
-    )
+  public fetch = (keyword) => {
+    return this.exampleService.fetch(keyword, 10, this.config.multiple)
+      .pipe(
+        map(items => {
+          return items.map(item => {
+            return Object.assign(item, { background: '#569CD6', color: '#fff' });
+          });
+        })
+      );
   };
 
   public modelChange(e) {

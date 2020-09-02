@@ -1,0 +1,8 @@
+@mixin fs-autocomplete-chips($theme) {
+
+  $primary: mat-palette($theme);
+
+   fs-autocomplete-chips .none-placeholder:hover {
+    border-color: mat-color($primary, 500, .3) !important;
+  }
+}
