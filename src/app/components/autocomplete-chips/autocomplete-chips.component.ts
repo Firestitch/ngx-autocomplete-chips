@@ -58,11 +58,11 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   @Input() public readonly = false;
   @Input() public size: 'large' | 'small' = 'large';
   @Input() public placeholder = '';
-  @Input() public imageProperty;
-  @Input() public backgroundProperty;
-  @Input() public colorProperty;
-  @Input() public iconProperty;
-  @Input() public classProperty;
+  @Input() public chipImage;
+  @Input() public chipBackground;
+  @Input() public chipColor;
+  @Input() public chipIcon;
+  @Input() public chipClass;
   @Input() public allowText: boolean;
   @Input() public allowObject = true;
   @Input() public delay = 300;
@@ -431,11 +431,11 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
       };
 
     if (type === DataType.Object) {
-      item.image = getObjectValue(data, this.imageProperty);
-      item.background = getObjectValue(data, this.backgroundProperty);
-      item.color = getObjectValue(data, this.colorProperty);
-      item.icon = getObjectValue(data, this.iconProperty);
-      item.class = getObjectValue(data, this.classProperty);
+      item.image = getObjectValue(data, this.chipImage);
+      item.icon = getObjectValue(data, this.chipIcon);
+      item.class = getObjectValue(data, this.chipClass) || this.chipClass;
+      item.background = getObjectValue(data, this.chipBackground) || this.chipBackground;
+      item.color = getObjectValue(data, this.chipColor) || this.chipColor;
     }
 
     return item;
