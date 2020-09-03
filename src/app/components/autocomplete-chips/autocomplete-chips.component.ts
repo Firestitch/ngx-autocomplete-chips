@@ -62,6 +62,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   @Input() public chipBackground;
   @Input() public chipColor;
   @Input() public chipIcon;
+  @Input() public chipIconColor;
   @Input() public chipClass;
   @Input() public allowText: boolean;
   @Input() public allowObject = true;
@@ -433,6 +434,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
     if (type === DataType.Object) {
       item.image = getObjectValue(data, this.chipImage);
       item.icon = getObjectValue(data, this.chipIcon);
+      item.iconColor = getObjectValue(data, this.chipIconColor) || this.chipIconColor;
       item.class = getObjectValue(data, this.chipClass) || this.chipClass;
       item.background = getObjectValue(data, this.chipBackground) || this.chipBackground;
       item.color = getObjectValue(data, this.chipColor) || this.chipColor;

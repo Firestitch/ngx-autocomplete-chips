@@ -71,7 +71,7 @@
             [style.color]="item.color || color">
             <ng-container
               [ngTemplateOutlet]="itemTemplate"
-              [ngTemplateOutletContext]="{ item: item, iconColor: item.color }">
+              [ngTemplateOutletContext]="{ item: item }">
             </ng-container>
           </mat-chip>
         </div>
@@ -139,10 +139,10 @@
   </ng-template>
 </ng-template>
 
-<ng-template #itemTemplate let-item="item" let-iconColor="iconColor">
+<ng-template #itemTemplate let-item="item">
   <ng-container *ngIf="item.type===dataType.Object" class="item">
     <div class="item-image" *ngIf="item.image" [style.backgroundImage]="'url(' + item.image + ')'"></div>
-    <mat-icon class="item-icon" *ngIf="item.icon" [style.color]="iconColor">{{item.icon}}</mat-icon>
+    <mat-icon class="item-icon" *ngIf="item.icon" [style.color]="item.iconColor || item.color">{{item.icon}}</mat-icon>
     <span class="item-content">
       <ng-template
         [ngTemplateOutlet]="objectTemplate"
