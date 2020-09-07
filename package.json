@@ -2,7 +2,7 @@
   "name": "@firestitch/autocomplete-chips",
   "title": "Autocomplete Chips",
   "description": "@firestitch/autocomplete-chips",
-  "version": "8.4.15",
+  "version": "8.4.16",
   "repository": {
     "type": "git",
     "url": "https://github.com/Firestitch/ngx-autocomplete-chips"

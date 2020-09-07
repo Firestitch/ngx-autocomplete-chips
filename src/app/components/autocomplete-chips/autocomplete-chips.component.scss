@@ -43,6 +43,10 @@ mat-form-field {
       }
     }
 
+    .mat-form-field-infix {
+      width: 225px;
+    }
+
     .mat-chip-list-wrapper {
       .mat-chip {
         &:not(.cdk-drag-disabled) {
