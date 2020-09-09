@@ -98,6 +98,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   @Output() public selected = new EventEmitter();
   @Output() public removed = new EventEmitter();
   @Output() public reordered = new EventEmitter();
+  @Output('clear') public clearEvent = new EventEmitter();
 
   @HostBinding('class.fs-form-wrapper')
   public formWrapper = true;
@@ -283,6 +284,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   public clearClick(event: KeyboardEvent) {
     event.stopPropagation();
     this.clear(false);
+    this.clearEvent.emit();
     this.focus();
   }
 
