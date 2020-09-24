@@ -49,7 +49,7 @@
         [matChipInputFor]="searchList">
     </mat-chip-list>
 
-    <div *ngIf="!disabled" matSuffix>
+    <div *ngIf="!disabled && allowClear" matSuffix>
       <mat-icon
         *ngIf="model.length > 1"
         class="clear"
