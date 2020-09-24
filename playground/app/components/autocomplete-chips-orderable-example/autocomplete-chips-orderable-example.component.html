@@ -8,6 +8,9 @@
   <ng-template fsAutocompleteObject let-object="object">
     {{object.first_name}} {{object.last_name}}
   </ng-template>
+  <ng-template fsAutocompleteChipSuffix let-object="object">
+    <a (click)="click(object)"><mat-icon>launch</mat-icon></a>
+  </ng-template>
 </fs-autocomplete-chips>
 <fieldset>
   {{ model | json }}

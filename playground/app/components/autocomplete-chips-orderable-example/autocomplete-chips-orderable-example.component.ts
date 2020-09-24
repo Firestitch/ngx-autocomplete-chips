@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ExampleService } from 'playground/app/services/example.service';
 
 
-
 @Component({
   selector: 'autocomplete-chips-orderable-example',
   templateUrl: './autocomplete-chips-orderable-example.component.html'
@@ -13,7 +12,7 @@ export class AutocompleteChipsOrderableExampleComponent implements OnInit {
 
   constructor(private exampleService: ExampleService) { }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.exampleService.fetch('', 3)
     .subscribe(response => {
       this.model = response;
@@ -22,5 +21,10 @@ export class AutocompleteChipsOrderableExampleComponent implements OnInit {
 
   public fetch = (keyword, existing) => {
     return this.exampleService.fetch(keyword, existing);
+  }
+
+
+  public click(data) {
+    console.log(data);
   }
 }

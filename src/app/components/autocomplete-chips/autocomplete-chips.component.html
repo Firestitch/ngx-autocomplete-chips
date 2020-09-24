@@ -23,11 +23,17 @@
             [ngTemplateOutlet]="itemTemplate"
             [ngTemplateOutletContext]="{ item: item }">
           </ng-container>
-          <mat-icon
-            class="remove"
-            [style.color]="item.color || color"
-            *ngIf="removable && !disabled"
-            (click)="chipRemoved($event, item)">clear</mat-icon>
+          <div class="icons">
+            <ng-container
+              [ngTemplateOutlet]="suffixTemplate"
+              [ngTemplateOutletContext]="{ object: item.data }">
+            </ng-container>
+            <mat-icon
+              class="remove"
+              [style.color]="item.color || color"
+              *ngIf="removable && !disabled"
+              (click)="chipRemoved($event, item)">clear</mat-icon>
+          </div>
       </mat-chip>
       <input
         #input

@@ -31,6 +31,8 @@ import { DataType } from '../../interfaces/data-type';
 import { FsAutocompleteObjectDirective } from '../../directives/autocomplete-object/autocomplete-object.directive';
 import { FsAutocompleteChipsNoResultsDirective } from '../../directives/autocomplete-no-results/autocomplete-no-results.directive';
 import { FsAutocompleteChipsStaticDirective } from './../../directives/static-template/static-template.directive';
+import { FsAutocompleteChipSuffixDirective } from './../../directives/chip-suffix/chip-suffix.directive';
+
 
 @Component({
   selector: 'fs-autocomplete-chips',
@@ -110,6 +112,9 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
 
   @ContentChild(FsAutocompleteObjectDirective, { read: TemplateRef, static: false })
   public objectTemplate: FsAutocompleteObjectDirective = null;
+
+  @ContentChild(FsAutocompleteChipSuffixDirective, { read: TemplateRef, static: false })
+  public suffixTemplate: FsAutocompleteChipSuffixDirective = null;
 
   @ViewChild('input', { static: false })
   public input: ElementRef = null;
