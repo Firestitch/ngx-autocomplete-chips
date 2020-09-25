@@ -130,18 +130,19 @@
   <fs-label-field>
     <fs-label>{{placeholder}}</fs-label>
     <mat-chip-list *ngIf="model.length; else none">
-      <span (click)="init()" class="chip-container">
+      <span class="chip-container">
         <mat-chip
           *ngFor="let item of model"
           [class]="'fs-autocomplete-chip ' + item.class"
           [ngClass]="{ imaged: item.image, 'size-small': size === 'small', 'size-large': size === 'large' }"
           [style.backgroundColor]="item.background || background"
-          [style.color]="item.color || color">
+          [style.color]="item.color || color"
+          (click)="init()">
           <ng-container
             [ngTemplateOutlet]="itemTemplate"
             [ngTemplateOutletContext]="{ item: item }">
           </ng-container>
-          <div class="icons">
+          <div class="icons" (click)="iconsClick($event)">
             <ng-container
               [ngTemplateOutlet]="suffixTemplate"
               [ngTemplateOutletContext]="{ object: item.data }">

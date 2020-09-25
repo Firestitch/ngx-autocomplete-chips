@@ -244,6 +244,11 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
     }
   }
 
+  public iconsClick(event: UIEvent) {
+    event.stopPropagation();
+    event.preventDefault();
+  }
+
   public drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(this._model, event.previousIndex, event.currentIndex);
     this.reordered.emit({

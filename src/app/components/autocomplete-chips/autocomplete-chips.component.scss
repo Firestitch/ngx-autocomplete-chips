@@ -71,8 +71,8 @@ mat-form-field {
     .chip-container {
       cursor: pointer;
       .mat-chip {
-        user-select: none;
-        pointer-events: none;
+        // user-select: none;
+        // pointer-events: none;
       }
     }
   }
