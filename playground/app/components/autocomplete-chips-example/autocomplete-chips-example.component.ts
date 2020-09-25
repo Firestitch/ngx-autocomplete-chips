@@ -60,6 +60,10 @@ export class AutocompleteChipsExampleComponent implements OnInit {
     this._message.success('Add New Account Clicked');
   }
 
+  public click(data) {
+    console.log(data);
+  }
+
   getRandomColor() {
     const letters = '0123456789ABCDEF';
     let color = '#';

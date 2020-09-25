@@ -26,6 +26,10 @@
     {{object.first_name}} {{object.last_name}}
   </ng-template>
 
+  <ng-template fsAutocompleteChipSuffix let-object="object">
+    <a (click)="click(object)"><mat-icon [ngStyle]="{ color: '#fff' }">launch</mat-icon></a>
+  </ng-template>
+
   <ng-template fsAutocompleteChipsStatic (click)="staticClick($event)">
     Add New Account
   </ng-template>

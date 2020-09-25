@@ -79,6 +79,12 @@
               [ngTemplateOutlet]="itemTemplate"
               [ngTemplateOutletContext]="{ item: item }">
             </ng-container>
+            <div class="icons">
+              <ng-container
+                [ngTemplateOutlet]="suffixTemplate"
+                [ngTemplateOutletContext]="{ object: item.data }">
+              </ng-container>
+            </div>
           </mat-chip>
         </div>
       </mat-option>
@@ -135,6 +141,12 @@
             [ngTemplateOutlet]="itemTemplate"
             [ngTemplateOutletContext]="{ item: item }">
           </ng-container>
+          <div class="icons">
+            <ng-container
+              [ngTemplateOutlet]="suffixTemplate"
+              [ngTemplateOutletContext]="{ object: item.data }">
+            </ng-container>
+          </div>
         </mat-chip>
       </span>
     </mat-chip-list>
