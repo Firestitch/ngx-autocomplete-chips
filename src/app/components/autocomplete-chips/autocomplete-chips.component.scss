@@ -76,6 +76,10 @@ mat-form-field {
       }
     }
   }
+
+  .mat-chip-list-wrapper {
+    margin: -4px 0 -4px;
+  }
 }
 
 
@@ -158,10 +162,17 @@ mat-form-field {
     }
 
     .icons {
+      display: flex;
+      align-items: center;
+
+      a {
+        display: flex;
+      }
+
       .mat-icon {
         color: #8f8f8f;
         opacity: 1;
-        margin-left: 5px;
+        margin-left: 3px;
         margin-right: -5px;
         cursor: pointer;
         transform: scale(.77);

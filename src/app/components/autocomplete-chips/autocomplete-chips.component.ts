@@ -60,7 +60,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   @Input() public readonly = false;
   @Input() public size: 'large' | 'small' = 'large';
   @Input() public placeholder = '';
-  @Input() public chipImage;
+  @Input() public chipImage = 'image';
   @Input() public chipBackground;
   @Input() public chipColor;
   @Input() public chipIcon;
