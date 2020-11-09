@@ -153,8 +153,8 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   private _onTouched = () => { };
   private _onChange = (value: any) => { };
 
-  public registerOnChange(fn: (value: any) => any): void { this._onChange = fn }
-  public registerOnTouched(fn: () => any): void { this._onTouched = fn }
+  public registerOnChange(fn: (value: any) => any): void { this._onChange = fn; }
+  public registerOnTouched(fn: () => any): void { this._onTouched = fn; }
 
   constructor(
     private _cdRef: ChangeDetectorRef,
@@ -244,11 +244,6 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
     }
   }
 
-  public iconsClick(event: UIEvent) {
-    event.stopPropagation();
-    event.preventDefault();
-  }
-
   public drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(this._model, event.previousIndex, event.currentIndex);
     this.reordered.emit({
@@ -300,13 +295,19 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   }
 
   public clear(closePanel = true) {
-    if (closePanel && this.autocompleteTrigger) {
-      this.autocompleteTrigger.closePanel();
+    if (closePanel) {
+      this.closePanel();
     }
 
     this._clearInput();
     this.noResults = false;
     this._updateModel([]);
+  }
+
+  public closePanel() {
+    if (this.autocompleteTrigger) {
+      this.autocompleteTrigger.closePanel();
+    }
   }
 
   public closed() {
@@ -339,7 +340,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
     } else {
       this._select(value, { fetch: false});
       this._close();
-      this.autocompleteTrigger.closePanel();
+      this.closePanel();
     }
   }
 
@@ -387,6 +388,8 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
 
   public chipRemoved(event: UIEvent, item): void {
     event.stopPropagation();
+    event.stopImmediatePropagation();
+    event.preventDefault();
     remove(this.model, item);
     this._updateModel(this._model);
     this.removed.emit(item);

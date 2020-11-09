@@ -1,19 +1,25 @@
 import { isEqual } from 'lodash-es';
 import { map } from 'rxjs/operators';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { email } from '@firestitch/common';
 import { ExampleService } from 'playground/app/services/example.service';
 import { FsMessage } from '@firestitch/message';
+import { FsAutocompleteChipsComponent } from './../../../../src/app/components/autocomplete-chips/autocomplete-chips.component';
+
 
 
 @Component({
   selector: 'autocomplete-chips-example',
   styleUrls: ['autocomplete-chips-example.component.scss'],
-  templateUrl: './autocomplete-chips-example.component.html'
+  templateUrl: './autocomplete-chips-example.component.html',
 })
 export class AutocompleteChipsExampleComponent implements OnInit {
 
+  @ViewChild(FsAutocompleteChipsComponent, { static: false })
+  public autocomplete: FsAutocompleteChipsComponent;
+
   public model = null;
+  public activeFirstName;
 
   public config: any = {
     disabled: false,
@@ -26,11 +32,16 @@ export class AutocompleteChipsExampleComponent implements OnInit {
     size: 'large',
   }
 
-  constructor(private exampleService: ExampleService,
-              private _message: FsMessage) { }
+  constructor(
+    private exampleService: ExampleService,
+    private _message: FsMessage,
+  ) { }
 
   ngOnInit() {
 
+    setTimeout(() => {
+      this.model = [{ firstName: 'Jessey', lastName: 'Wing', gender: 'men', icon: 'settings' }];
+    },1000)
   }
 
   public compareWith = (o1, o2) => {
@@ -60,8 +71,14 @@ export class AutocompleteChipsExampleComponent implements OnInit {
     this._message.success('Add New Account Clicked');
   }
 
-  public click(data) {
-    console.log(data);
+  public suffixClick(event: UIEvent, data: any) {
+    event.stopPropagation();
+    event.stopImmediatePropagation();
+    event.preventDefault();
+    console.log('Suffix Click', data);
+    this.autocomplete.closePanel();
+
+    this.activeFirstName = data.firstName;
   }
 
   getRandomColor() {
@@ -72,4 +89,5 @@ export class AutocompleteChipsExampleComponent implements OnInit {
     }
     return color;
   }
+
 }

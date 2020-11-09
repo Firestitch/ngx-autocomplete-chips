@@ -7,7 +7,7 @@
       (cdkDropListDropped)="drop($event)">
       <mat-chip
         *ngFor="let item of model"
-        [disableRipple]="!orderable && !disabled"
+        [disableRipple]="true"
         [selectable]="!disabled"
         [removable]="!disabled"
         [disabled]="disabled"
@@ -23,17 +23,10 @@
             [ngTemplateOutlet]="itemTemplate"
             [ngTemplateOutletContext]="{ item: item }">
           </ng-container>
-          <div class="icons">
-            <ng-container
-              [ngTemplateOutlet]="suffixTemplate"
-              [ngTemplateOutletContext]="{ object: item.data }">
-            </ng-container>
-            <mat-icon
-              class="remove"
-              [style.color]="item.color || color"
-              *ngIf="removable && !disabled"
-              (click)="chipRemoved($event, item)">clear</mat-icon>
-          </div>
+          <ng-container
+            [ngTemplateOutlet]="itemSuffixTemplate"
+            [ngTemplateOutletContext]="{ item: item, selecting: false, disabled: disabled }">
+          </ng-container>
       </mat-chip>
       <input
         #input
@@ -79,12 +72,10 @@
               [ngTemplateOutlet]="itemTemplate"
               [ngTemplateOutletContext]="{ item: item }">
             </ng-container>
-            <div class="icons">
-              <ng-container
-                [ngTemplateOutlet]="suffixTemplate"
-                [ngTemplateOutletContext]="{ object: item.data }">
-              </ng-container>
-            </div>
+            <ng-container
+              [ngTemplateOutlet]="itemSuffixTemplate"
+              [ngTemplateOutletContext]="{ item: item, selecting: true, disabled: disabled }">
+            </ng-container>
           </mat-chip>
         </div>
       </mat-option>
@@ -103,7 +94,7 @@
           </ng-template>
         </ng-container>
 
-        <ng-container *ngIf="keyword && allowText">
+        <ng-container *ngIf="allowText">
           <mat-option *ngIf="textData.type===dataType.Text" [value]="textData">
             <ng-container
               [ngTemplateOutlet]="itemTemplate"
@@ -133,6 +124,7 @@
       <span class="chip-container">
         <mat-chip
           *ngFor="let item of model"
+          [disableRipple]="true"
           [class]="'fs-autocomplete-chip ' + item.class"
           [ngClass]="{ imaged: item.image, 'size-small': size === 'small', 'size-large': size === 'large' }"
           [style.backgroundColor]="item.background || background"
@@ -142,12 +134,10 @@
             [ngTemplateOutlet]="itemTemplate"
             [ngTemplateOutletContext]="{ item: item }">
           </ng-container>
-          <div class="icons" (click)="iconsClick($event)">
-            <ng-container
-              [ngTemplateOutlet]="suffixTemplate"
-              [ngTemplateOutletContext]="{ object: item.data }">
-            </ng-container>
-          </div>
+          <ng-container
+            [ngTemplateOutlet]="itemSuffixTemplate"
+            [ngTemplateOutletContext]="{ item: item, selecting: false, disabled: disabled }">
+          </ng-container>
         </mat-chip>
       </span>
     </mat-chip-list>
@@ -173,4 +163,21 @@
   <ng-container *ngIf="item.type===dataType.Text">
     {{item.data}}
   </ng-container>
+</ng-template>
+
+<ng-template #itemSuffixTemplate let-item="item" let-selecting="selecting">
+  <div class="item-suffix">
+    <ng-container
+      *ngIf="suffixTemplate"
+      [ngTemplateOutlet]="suffixTemplate"
+      [ngTemplateOutletContext]="{ object: item.data, selecting: selecting, disabled: disabled }">
+    </ng-container>
+    <a
+        class="remove"
+        *ngIf="!selecting && removable && !disabled"
+        (click)="chipRemoved($event, item)">
+      <mat-icon
+      [style.color]="item.color || color">clear</mat-icon>
+    </a>
+  </div>
 </ng-template>

@@ -127,6 +127,11 @@ mat-form-field {
     background-color: #f3f3f3;
     white-space: nowrap;
     min-height: 30px;
+    box-shadow: none !important;
+
+    &.mat-standard-chip::after {
+      background: none;
+    }
 
     &:hover::after {
       opacity: 0;
@@ -161,7 +166,7 @@ mat-form-field {
       margin: 0 5px 0 -5px;
     }
 
-    .icons {
+    .item-suffix {
       display: flex;
       align-items: center;
 
@@ -187,12 +192,6 @@ mat-form-field {
       padding-right: 8px;
       min-height: 25px;
       font-size: 85%;
-
-      .icons {
-        .mat-icon {
-          transform: scale(.67);
-        }
-      }
 
       .item-image {
         width: 25px;
