@@ -123,9 +123,11 @@
     <mat-chip-list *ngIf="model.length; else none">
       <span class="chip-container">
         <mat-chip
+          class="fs-autocomplete-chips-trigger"
           *ngFor="let item of model"
           [disableRipple]="true"
           [class]="'fs-autocomplete-chip ' + item.class"
+          [disabled]="true"
           [ngClass]="{ imaged: item.image, 'size-small': size === 'small', 'size-large': size === 'large' }"
           [style.backgroundColor]="item.background || background"
           [style.color]="item.color || color"

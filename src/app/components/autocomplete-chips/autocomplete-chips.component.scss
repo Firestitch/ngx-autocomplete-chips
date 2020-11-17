@@ -33,6 +33,10 @@ mat-form-field {
 }
 
 :host ::ng-deep {
+  .fs-autocomplete-chips-trigger {
+    opacity: 1 !important;
+  }
+
   .mat-form-field {
     .mat-form-field-prefix,
     .mat-form-field-suffix {
