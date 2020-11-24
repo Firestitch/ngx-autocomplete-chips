@@ -48,7 +48,7 @@ import { FsAutocompleteChipSuffixDirective } from './directives/chip-suffix/chip
   ],
 })
 export class FsAutocompleteChipsModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<FsAutocompleteChipsModule> {
     return {
       ngModule: FsAutocompleteChipsModule,
     };

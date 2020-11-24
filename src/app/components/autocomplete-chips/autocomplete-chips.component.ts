@@ -111,22 +111,22 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
     e.preventDefault();
   };
 
-  @ContentChild(FsAutocompleteObjectDirective, { read: TemplateRef, static: false })
+  @ContentChild(FsAutocompleteObjectDirective, { read: TemplateRef })
   public objectTemplate: FsAutocompleteObjectDirective = null;
 
-  @ContentChild(FsAutocompleteChipSuffixDirective, { read: TemplateRef, static: false })
+  @ContentChild(FsAutocompleteChipSuffixDirective, { read: TemplateRef })
   public suffixTemplate: FsAutocompleteChipSuffixDirective = null;
 
-  @ViewChild('input', { static: false })
+  @ViewChild('input')
   public input: ElementRef = null;
 
-  @ViewChild('autocompleteSearch', { static: false })
+  @ViewChild('autocompleteSearch')
   public autocompleteSearch: MatAutocomplete = null;
 
-  @ViewChild(MatAutocompleteTrigger, { static: false })
+  @ViewChild(MatAutocompleteTrigger)
   public autocompleteTrigger = null;
 
-  @ViewChild(MatFormField, { read: ElementRef, static: false })
+  @ViewChild(MatFormField, { read: ElementRef })
   public formField: ElementRef = null
 
   public data: any[] = [];

@@ -15,7 +15,7 @@ import { FsAutocompleteChipsComponent } from './../../../../src/app/components/a
 })
 export class AutocompleteChipsExampleComponent implements OnInit {
 
-  @ViewChild(FsAutocompleteChipsComponent, { static: false })
+  @ViewChild(FsAutocompleteChipsComponent)
   public autocomplete: FsAutocompleteChipsComponent;
 
   public model = null;
