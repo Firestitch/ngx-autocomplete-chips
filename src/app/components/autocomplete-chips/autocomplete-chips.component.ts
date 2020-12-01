@@ -393,7 +393,8 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
     remove(this.model, item);
     this._updateModel(this._model);
     this.removed.emit(item);
-    this._fetch();
+    // this._fetch();
+    this.init();
   }
 
   public writeValue(value: any): void {
