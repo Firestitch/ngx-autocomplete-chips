@@ -41,8 +41,6 @@ import { ExampleService } from './services/example.service';
     FsAutocompleteChipsModule.forRoot(),
     AppMaterialModule,
   ],
-  entryComponents: [
-  ],
   declarations: [
     AppComponent,
 

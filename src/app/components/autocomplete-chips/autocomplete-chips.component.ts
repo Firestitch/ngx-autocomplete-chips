@@ -68,7 +68,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   @Input() public chipClass;
   @Input() public allowText: boolean;
   @Input() public allowObject = true;
-  @Input() public delay = 300;
+  @Input() public delay = 200;
   @Input() public validateText;
   @Input() public invalidTextMessage = '';
   @Input() public removable = true;
@@ -177,22 +177,28 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
         takeUntil(this._destroy$),
         takeWhile(() => this.inited),
         switchMap(() => {
-          const keyword = this.inputEl ? trim(this.inputEl.value) : '';
-          return timer(keyword.length ? this.delay : 0).pipe(
+          this.keyword = this.inputEl ? trim(this.inputEl.value) : '';
+
+          let delay = 0;
+          if (this.keyword.length && this.allowObject) {
+            delay = this.delay;
+          }
+
+          return timer(delay).pipe(
             switchMap(() => {
               let observable = of([]);
               this._clearData();
 
               if (this.allowText) {
                 this.textData = {};
-                if (this._validateText(keyword)) {
-                  this.textData = this._createItem(keyword, DataType.Text);
+                if (this._validateText(this.keyword)) {
+                  this.textData = this._createItem(this.keyword, DataType.Text);
                 }
               }
 
               if (this.allowObject) {
                 this.noResults = false;
-                observable = this.fetch(keyword)
+                observable = this.fetch(this.keyword)
                   .pipe(
                     tap((response: any) => {
 

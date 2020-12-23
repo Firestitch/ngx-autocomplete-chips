@@ -18,6 +18,10 @@ mat-form-field {
   width: 100%;
 }
 
+.blank-placeholder {
+  display: none;
+}
+
 .none-placeholder {
   cursor: pointer;
   color: rgba(0, 0, 0, 0.54);
@@ -38,6 +42,7 @@ mat-form-field {
   }
 
   .mat-form-field {
+
     .mat-form-field-prefix,
     .mat-form-field-suffix {
       align-self: flex-end;
@@ -72,6 +77,14 @@ mat-form-field {
   }
 
   fs-label-field {
+
+    &.init-on-click:not(.inited) {
+      .mat-chip,
+      .mat-chip-list {
+        cursor: pointer;
+      }
+    }
+
     .chip-container {
       cursor: pointer;
       .mat-chip {

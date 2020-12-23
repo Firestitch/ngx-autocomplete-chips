@@ -30,7 +30,7 @@
       </mat-chip>
       <input
         #input
-        autocomplete="none"
+        autocomplete="off"
         [placeholder]="placeholder"
         [disabled]="disabled"
         [readonly]="readonly"
@@ -81,7 +81,7 @@
       </mat-option>
 
       <ng-container *ngIf="!fetching">
-        <ng-container *ngIf="noResults && !textData.data">
+        <ng-container *ngIf="noResults && !textData.data && keyword.length">
           <ng-template
             *ngIf="noResultsTemplate; else noResultsOption"
             [ngTemplateOutlet]="noResultsTemplate"
@@ -113,14 +113,18 @@
           </mat-option>
         </ng-container>
       </ng-container>
+
+      <mat-option disabled class="blank-placeholder"></mat-option>
     </mat-autocomplete>
   </mat-form-field>
 </ng-container>
 
 <ng-template #elseInited>
-  <fs-label-field>
+  <fs-label-field [ngClass]="{ 'init-on-click': initOnClick, inited: inited }">
     <fs-label>{{placeholder}}</fs-label>
-    <mat-chip-list *ngIf="model.length; else none">
+    <mat-chip-list
+      *ngIf="model.length; else none"
+      (click)="init()">
       <span class="chip-container">
         <mat-chip
           class="fs-autocomplete-chips-trigger"
@@ -130,8 +134,7 @@
           [disabled]="true"
           [ngClass]="{ imaged: item.image, 'size-small': size === 'small', 'size-large': size === 'large' }"
           [style.backgroundColor]="item.background || background"
-          [style.color]="item.color || color"
-          (click)="init()">
+          [style.color]="item.color || color">
           <ng-container
             [ngTemplateOutlet]="itemTemplate"
             [ngTemplateOutletContext]="{ item: item }">
