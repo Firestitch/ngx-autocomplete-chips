@@ -80,6 +80,12 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   @Input() public initOnClick = false;
   @Input() public fetchOnFocus = true;
   @Input() public multiple = true;
+  @Input() public set panelClass(value) {
+    this.panelClasses = [
+      ...['fs-account-picker-autocomplete', 'fs-autocomplete-chips-panel'],
+      value,
+    ].join(' ');
+  };
 
   @Input() public compareWith = (o1: any, o2: any) => {
     return isEqual(o1, o2);
@@ -139,6 +145,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   public fetching = false;
   public _model: any[] = [];
   public inited = false;
+  public panelClasses;
 
   public get model() {
     return this._model;
@@ -160,6 +167,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
     private _cdRef: ChangeDetectorRef,
   ) {
     this.name = 'autocomplete_'.concat(random(1, 9999999));
+    this.panelClass = '';
   }
 
   public ngOnInit() {

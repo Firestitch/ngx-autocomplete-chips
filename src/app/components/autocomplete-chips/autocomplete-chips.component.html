@@ -51,7 +51,7 @@
 
     <mat-autocomplete
       #autocompleteSearch="matAutocomplete"
-      class="fs-account-picker-autocomplete fs-autocomplete-chips-panel"
+      [class]="panelClasses"
       (optionSelected)="optionSelected($event)"
       (closed)="closed()"
       autoActiveFirstOption="true">
