@@ -252,9 +252,10 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   public init(): void {
     if (!this.disabled) {
       this.inited = true;
+      this._cdRef.markForCheck();
       setTimeout(() => {
         this.focus();
-      });
+      }, 200); // Hack: Delay to wait for animation to finish
     }
   }
 
