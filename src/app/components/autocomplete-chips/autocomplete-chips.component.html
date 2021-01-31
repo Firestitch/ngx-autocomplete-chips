@@ -107,8 +107,7 @@
           <mat-option
             *ngFor="let staticTemplate of staticTemplates; let i = index"
             class="static-option"
-            (click)="staticClick($event, i)"
-            [ngClass]="{ 'static-option-first': !i }">
+            (click)="staticClick($event, i)">
             <ng-template *ngTemplateOutlet="staticTemplate;context: { test: true }"></ng-template>
           </mat-option>
         </ng-container>
