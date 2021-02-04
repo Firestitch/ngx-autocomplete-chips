@@ -345,13 +345,18 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
     }
   }
 
-  public optionClick(event: UIEvent, value: any): void {
+  public optionClick(event: UIEvent, value: any, refocus = false): void {
     event.stopPropagation();
     event.preventDefault();
 
     if (this.multiple) {
       this._select(value);
-      this.focus();
+
+      if (refocus) {
+        this.focus();
+      } else {
+        this.closePanel();
+      }
     } else {
       this._select(value, { fetch: false});
       this._close();

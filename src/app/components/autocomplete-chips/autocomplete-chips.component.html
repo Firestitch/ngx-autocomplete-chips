@@ -59,24 +59,29 @@
       <mat-option
         class="option"
         *ngFor="let item of data" [value]="item">
-        <div class="option-content" (click)="optionClick($event, item)">
-          <mat-radio-button *ngIf="!multiple" [checked]="item.selected"></mat-radio-button>
-          <mat-chip
-            (click)="optionClick($event, item)"
-            [disableRipple]="true"
-            [class]="'fs-autocomplete-chip ' + item.class"
-            [ngClass]="{ imaged: item.image, 'size-small': size === 'small', 'size-large': size === 'large' }"
-            [style.backgroundColor]="item.background || background"
-            [style.color]="item.color || color">
-            <ng-container
-              [ngTemplateOutlet]="itemTemplate"
-              [ngTemplateOutletContext]="{ item: item }">
-            </ng-container>
-            <ng-container
-              [ngTemplateOutlet]="itemSuffixTemplate"
-              [ngTemplateOutletContext]="{ item: item, selecting: true, disabled: disabled }">
-            </ng-container>
-          </mat-chip>
+        <div class="option-content">
+          <div class="option-chip" (click)="optionClick($event, item)">
+            <mat-radio-button *ngIf="!multiple" [checked]="item.selected"></mat-radio-button>
+            <mat-chip
+              (click)="optionClick($event, item)"
+              [disableRipple]="true"
+              [class]="'fs-autocomplete-chip ' + item.class"
+              [ngClass]="{ imaged: item.image, 'size-small': size === 'small', 'size-large': size === 'large' }"
+              [style.backgroundColor]="item.background || background"
+              [style.color]="item.color || color">
+              <ng-container
+                [ngTemplateOutlet]="itemTemplate"
+                [ngTemplateOutletContext]="{ item: item }">
+              </ng-container>
+              <ng-container
+                [ngTemplateOutlet]="itemSuffixTemplate"
+                [ngTemplateOutletContext]="{ item: item, selecting: true, disabled: disabled }">
+              </ng-container>
+            </mat-chip>
+          </div>
+          <div class="plus-icon" (click)="optionClick($event, item, true)">
+            +
+          </div>
         </div>
       </mat-option>
 
@@ -124,26 +129,24 @@
     <mat-chip-list
       *ngIf="model.length; else none"
       (click)="init()">
-      <span class="chip-container">
-        <mat-chip
-          class="fs-autocomplete-chips-trigger"
-          *ngFor="let item of model"
-          [disableRipple]="true"
-          [class]="'fs-autocomplete-chip ' + item.class"
-          [disabled]="true"
-          [ngClass]="{ imaged: item.image, 'size-small': size === 'small', 'size-large': size === 'large' }"
-          [style.backgroundColor]="item.background || background"
-          [style.color]="item.color || color">
-          <ng-container
-            [ngTemplateOutlet]="itemTemplate"
-            [ngTemplateOutletContext]="{ item: item }">
-          </ng-container>
-          <ng-container
-            [ngTemplateOutlet]="itemSuffixTemplate"
-            [ngTemplateOutletContext]="{ item: item, selecting: false, disabled: disabled }">
-          </ng-container>
-        </mat-chip>
-      </span>
+      <mat-chip
+        class="fs-autocomplete-chips-trigger"
+        *ngFor="let item of model"
+        [disableRipple]="true"
+        [class]="'fs-autocomplete-chip ' + item.class"
+        [disabled]="true"
+        [ngClass]="{ imaged: item.image, 'size-small': size === 'small', 'size-large': size === 'large' }"
+        [style.backgroundColor]="item.background || background"
+        [style.color]="item.color || color">
+        <ng-container
+          [ngTemplateOutlet]="itemTemplate"
+          [ngTemplateOutletContext]="{ item: item }">
+        </ng-container>
+        <ng-container
+          [ngTemplateOutlet]="itemSuffixTemplate"
+          [ngTemplateOutletContext]="{ item: item, selecting: false, disabled: disabled }">
+        </ng-container>
+      </mat-chip>
     </mat-chip-list>
   </fs-label-field>
 

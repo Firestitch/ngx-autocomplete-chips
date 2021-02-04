@@ -8,14 +8,19 @@ mat-form-field {
 }
 
 .option-content {
+  display: flex;
+  justify-content: space-between;
   text-overflow: ellipsis;
   overflow: inherit;
   cursor: pointer;
   padding: 0 16px;
   align-items: center;
-  display: inline-flex;
   height: inherit;
   width: 100%;
+
+  .option-chip {
+    display: flex;
+  }
 }
 
 .blank-placeholder {
@@ -57,6 +62,8 @@ mat-form-field {
     }
 
     .mat-chip-list-wrapper {
+      cursor: pointer;
+
       .mat-chip {
         &:not(.cdk-drag-disabled) {
           cursor: move;
@@ -82,14 +89,6 @@ mat-form-field {
       .mat-chip,
       .mat-chip-list {
         cursor: pointer;
-      }
-    }
-
-    .chip-container {
-      cursor: pointer;
-      .mat-chip {
-        // user-select: none;
-        // pointer-events: none;
       }
     }
   }
@@ -232,4 +231,8 @@ mat-form-field {
       }
     }
   }
+}
+
+.plus-icon {
+  font-size: 24px;
 }
