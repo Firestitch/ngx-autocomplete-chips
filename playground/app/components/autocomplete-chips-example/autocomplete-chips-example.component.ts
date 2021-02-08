@@ -1,5 +1,5 @@
 import { isEqual } from 'lodash-es';
-import { map } from 'rxjs/operators';
+import { delay, map } from 'rxjs/operators';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { email } from '@firestitch/common';
 import { ExampleService } from 'playground/app/services/example.service';
@@ -41,7 +41,7 @@ export class AutocompleteChipsExampleComponent implements OnInit {
 
     setTimeout(() => {
       this.model = [{ firstName: 'Jessey', lastName: 'Wing', gender: 'men', icon: 'settings' }];
-    },1000)
+    }, 1000)
   }
 
   public compareWith = (o1, o2) => {
@@ -55,6 +55,7 @@ export class AutocompleteChipsExampleComponent implements OnInit {
   public fetch = (keyword) => {
     return this.exampleService.fetch(keyword, 10, this.config.multiple)
       .pipe(
+        //delay(400),
         map(items => {
           return items.map(item => {
             return Object.assign(item, { background: '#569CD6', color: '#fff' });
@@ -64,7 +65,7 @@ export class AutocompleteChipsExampleComponent implements OnInit {
   };
 
   public modelChange(e) {
-    console.log(e);
+    console.log('Model Change', e);
   }
 
   public staticClick(event) {
