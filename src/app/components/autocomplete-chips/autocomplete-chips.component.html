@@ -60,12 +60,13 @@
         class="option"
         *ngFor="let item of data" [value]="item">
         <div class="option-content">
-          <a
-              class="plus-icon"
-              (click)="optionClick($event, item, true)">
-            <mat-icon>add</mat-icon>
-          </a>
           <div class="option-chip" (click)="optionClick($event, item)">
+            <a
+                *ngIf="multiple"
+                class="plus-icon"
+                (click)="optionClick($event, item, true)">
+              <mat-icon>add</mat-icon>
+            </a>
             <mat-radio-button *ngIf="!multiple" [checked]="item.selected"></mat-radio-button>
             <mat-chip
               (click)="optionClick($event, item)"

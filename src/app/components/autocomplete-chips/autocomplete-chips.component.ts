@@ -246,7 +246,6 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
         }),
       )
       .subscribe((e) => {
-        //this.fetching = false;
         this._cdRef.markForCheck();
       });
   }
@@ -418,8 +417,8 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
     remove(this.model, item);
     this._updateModel(this._model);
     this.removed.emit(item);
-    this._fetch();
     this.init();
+    this._fetch();
   }
 
   public writeValue(value: any): void {
@@ -455,7 +454,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   }
 
   private _clearData(): void {
-    this.data = [];
+    this.data = null;
   }
 
   private _clearInput() {
