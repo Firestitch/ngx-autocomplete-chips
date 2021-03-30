@@ -55,7 +55,7 @@ export class AutocompleteChipsExampleComponent implements OnInit {
   public fetch = (keyword) => {
     return this.exampleService.fetch(keyword, 10, this.config.multiple)
       .pipe(
-        //delay(400),
+        delay(100),
         map(items => {
           return items.map(item => {
             return Object.assign(item, { background: '#569CD6', color: '#fff' });

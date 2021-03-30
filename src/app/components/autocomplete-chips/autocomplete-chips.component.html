@@ -44,7 +44,7 @@
 
     <div *ngIf="!disabled && allowClear" matSuffix>
       <mat-icon
-        *ngIf="model.length > 1"
+        *ngIf="model.length"
         class="clear"
         (click)="clearClick($event)">clear</mat-icon>
     </div>
@@ -60,6 +60,11 @@
         class="option"
         *ngFor="let item of data" [value]="item">
         <div class="option-content">
+          <a
+              class="plus-icon"
+              (click)="optionClick($event, item, true)">
+            <mat-icon>add</mat-icon>
+          </a>
           <div class="option-chip" (click)="optionClick($event, item)">
             <mat-radio-button *ngIf="!multiple" [checked]="item.selected"></mat-radio-button>
             <mat-chip
@@ -79,14 +84,11 @@
               </ng-container>
             </mat-chip>
           </div>
-          <div class="plus-icon" (click)="optionClick($event, item, true)">
-            +
-          </div>
         </div>
       </mat-option>
 
-      <ng-container *ngIf="!fetching">
-        <ng-container *ngIf="noResults && !textData.data && keyword.length">
+      <ng-container *ngIf="data !== null">
+        <ng-container *ngIf="noResults && ((!textData.data && keyword.length) || fetchOnFocus)">
           <ng-template
             *ngIf="noResultsTemplate; else noResultsOption"
             [ngTemplateOutlet]="noResultsTemplate"
