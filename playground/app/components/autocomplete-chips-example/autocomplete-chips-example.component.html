@@ -23,7 +23,7 @@
   [multiple]="config.multiple"
   (ngModelChange)="modelChange($event)"
   name="model">
-  <ng-template fsAutocompleteChipsTemplate let-object="object">
+  <ng-template fsAutocompleteChipsTemplate let-object="object" let-selecting="selecting">
     {{object.firstName}} {{object.lastName}}
   </ng-template>
 
