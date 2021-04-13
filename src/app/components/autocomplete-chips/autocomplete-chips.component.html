@@ -88,37 +88,35 @@
         </div>
       </mat-option>
 
-      <ng-container *ngIf="data !== null">
-        <ng-container *ngIf="noResults && ((!textData.data && keyword.length) || fetchOnFocus)">
-          <ng-template
-            *ngIf="noResultsTemplate; else noResultsOption"
-            [ngTemplateOutlet]="noResultsTemplate"
-            [ngTemplateOutletContext]="{ keyword: keyword }">
-          </ng-template>
-          <ng-template #noResultsOption>
-            <mat-option disabled class="no-results">
-              No results <ng-container *ngIf="keyword">for "{{keyword}}"</ng-container>
-            </mat-option>
-          </ng-template>
-        </ng-container>
-
-        <ng-container *ngIf="allowText">
-          <mat-option *ngIf="textData.type===dataType.Text" [value]="textData">
-            <ng-container
-              [ngTemplateOutlet]="itemTemplate"
-              [ngTemplateOutletContext]="{ item: textData }">
-            </ng-container>
+      <ng-container *ngIf="noResults && (!textData.data && keyword.length)">
+        <ng-template
+          *ngIf="noResultsTemplate; else noResultsOption"
+          [ngTemplateOutlet]="noResultsTemplate"
+          [ngTemplateOutletContext]="{ keyword: keyword }">
+        </ng-template>
+        <ng-template #noResultsOption>
+          <mat-option disabled class="no-results">
+            No results <ng-container *ngIf="keyword">for "{{keyword}}"</ng-container>
           </mat-option>
-        </ng-container>
+        </ng-template>
+      </ng-container>
 
-        <ng-container>
-          <mat-option
-            *ngFor="let staticTemplate of staticTemplates; let i = index"
-            class="static-option"
-            (click)="staticClick($event, i)">
-            <ng-template *ngTemplateOutlet="staticTemplate;context: { test: true }"></ng-template>
-          </mat-option>
-        </ng-container>
+      <ng-container *ngIf="keyword && allowText">
+        <mat-option *ngIf="textData.type===dataType.Text" [value]="textData">
+          <ng-container
+            [ngTemplateOutlet]="itemTemplate"
+            [ngTemplateOutletContext]="{ item: textData }">
+          </ng-container>
+        </mat-option>
+      </ng-container>
+
+      <ng-container>
+        <mat-option
+          *ngFor="let staticTemplate of staticTemplates; let i = index"
+          class="static-option"
+          (click)="staticClick($event, i)">
+          <ng-template *ngTemplateOutlet="staticTemplate;context: { test: true }"></ng-template>
+        </mat-option>
       </ng-container>
 
       <mat-option disabled class="blank-placeholder"></mat-option>
