@@ -1,5 +1,7 @@
 <ng-container *ngIf="inited; else elseInited">
-  <mat-form-field [ngClass]="{ 'mat-form-field-disabled': disabled }">
+  <mat-form-field
+      [ngClass]="{ 'mat-form-field-disabled': disabled }"
+      floatLabel="always">
     <mat-chip-list
       #searchList
       cdkDropList
@@ -127,28 +129,29 @@
 <ng-template #elseInited>
   <fs-label-field [ngClass]="{ 'init-on-click': initOnClick, inited: inited }">
     <fs-label>{{placeholder}}</fs-label>
-    <mat-chip-list
-      *ngIf="model.length; else none"
-      (click)="init()">
-      <mat-chip
-        class="fs-autocomplete-chips-trigger"
-        *ngFor="let item of model"
-        [disableRipple]="true"
-        [class]="'fs-autocomplete-chip ' + item.class"
-        [disabled]="true"
-        [ngClass]="{ imaged: item.image, 'size-small': size === 'small', 'size-large': size === 'large' }"
-        [style.backgroundColor]="item.background || background"
-        [style.color]="item.color || color">
-        <ng-container
-          [ngTemplateOutlet]="itemTemplate"
-          [ngTemplateOutletContext]="{ item: item, selecting: false }">
-        </ng-container>
-        <ng-container
-          [ngTemplateOutlet]="itemSuffixTemplate"
-          [ngTemplateOutletContext]="{ item: item, selecting: false, disabled: disabled }">
-        </ng-container>
-      </mat-chip>
-    </mat-chip-list>
+    <div (click)="init()">
+      <mat-chip-list
+        *ngIf="model.length; else none">
+        <mat-chip
+          class="fs-autocomplete-chips-trigger"
+          *ngFor="let item of model"
+          [disableRipple]="true"
+          [class]="'fs-autocomplete-chip ' + item.class"
+          [disabled]="true"
+          [ngClass]="{ imaged: item.image, 'size-small': size === 'small', 'size-large': size === 'large' }"
+          [style.backgroundColor]="item.background || background"
+          [style.color]="item.color || color">
+          <ng-container
+            [ngTemplateOutlet]="itemTemplate"
+            [ngTemplateOutletContext]="{ item: item, selecting: false }">
+          </ng-container>
+          <ng-container
+            [ngTemplateOutlet]="itemSuffixTemplate"
+            [ngTemplateOutletContext]="{ item: item, selecting: false, disabled: disabled }">
+          </ng-container>
+        </mat-chip>
+      </mat-chip-list>
+    </div>
   </fs-label-field>
 
   <ng-template #none>

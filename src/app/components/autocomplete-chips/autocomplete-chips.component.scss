@@ -63,6 +63,10 @@ mat-form-field {
       width: 225px;
     }
 
+    .mat-form-field-label-wrapper .mat-form-field-label {
+      transform: translateY(-1.34375em) scale(0.75);
+    }
+
     .mat-chip-list-wrapper {
       cursor: pointer;
 
@@ -86,6 +90,10 @@ mat-form-field {
   }
 
   fs-label-field {
+
+    .field-content {
+      min-height: 31px;
+    }
 
     &.init-on-click:not(.inited) {
       .mat-chip,
@@ -143,7 +151,8 @@ mat-form-field {
   }
 }
 
-::ng-deep {
+:host ::ng-deep,
+::ng-deep .fs-autocomplete-chips-panel {
   .fs-autocomplete-chip.mat-chip {
     background-color: #f3f3f3;
     white-space: nowrap;
@@ -209,10 +218,10 @@ mat-form-field {
     }
 
     &.size-small {
-      padding-left: 8px;
-      padding-right: 8px;
-      min-height: 25px;
+      height: 25px;
       font-size: 85%;
+      padding: 0 8px;
+      min-height: auto;
 
       .item-image {
         width: 25px;

@@ -171,13 +171,13 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
     this._listenKeywordChange();
   }
 
-  public init(): void {
+  public init(options = { focus: true }): void {
     if (!this.disabled) {
       this.inited = true;
       this._cdRef.markForCheck();
-      setTimeout(() => {
-        this.focus();
-      }, 200); // Hack: Delay to wait for animation to finish
+      if (options.focus) {
+        this.focus({ delay: 200 });
+      }
     }
   }
 
@@ -219,8 +219,10 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
     this._clearData();
   }
 
-  public focus(): void {
-    this.inputEl.focus();
+  public focus(options = { delay: 0}): void {
+    setTimeout(() => {
+      this.inputEl.focus();
+    }, options.delay); // Hack: Delay to wait for animation to finish
   }
 
   public clearClick(event: KeyboardEvent): void {
@@ -293,49 +295,8 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
     this._clearInput();
   }
 
-  private _select(selected, options: { fetch?: boolean } = {}): void {
-    if (!this.multiple) {
-      this._model = [];
-    }
-
-    if (this.data) {
-      const index = this.data.indexOf(selected);
-
-      if (index !== -1) {
-        this.data.splice(index, 1)
-      }
-    }
-
-    const value = this.allowObject && this.allowText ? selected : selected.data;
-    if (selected.type === DataType.Object) {
-      if (!this._model.includes(value)) {
-        this._addObject(selected);
-        this.selected.emit(selected);
-      }
-    }
-
-    if (selected.type === DataType.Text) {
-      if (!this._model.includes(value)) {
-        this._addText(selected.data);
-        this.selected.emit(selected.data);
-      }
-    }
-
-    if (options.fetch !== false) {
-      this._fetch();
-
-      setTimeout(() => {
-        if (this.autocompleteTrigger) {
-          this.autocompleteTrigger.updatePosition();
-        }
-      });
-    }
-  }
-
   public chipRemoved(event: UIEvent, item): void {
     event.stopPropagation();
-    event.stopImmediatePropagation();
-    event.preventDefault();
 
     this._model = this.model
       .filter((modelItem) => modelItem !== item);
@@ -343,11 +304,13 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
     this._updateModel(this._model);
     this.removed.emit(item);
     this.init();
-    this._fetch();
+
+    if (!this.fetchOnFocus) {
+      this._fetch();
+    }
   }
 
   public writeValue(value: any): void {
-
     if (value) {
       value = Array.isArray(value) ? value : [value];
 
@@ -390,6 +353,45 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
 
     this.textData = {};
     this.keyword = '';
+  }
+
+  private _select(selected, options: { fetch?: boolean } = {}): void {
+    if (!this.multiple) {
+      this._model = [];
+    }
+
+    if (this.data) {
+      const index = this.data.indexOf(selected);
+
+      if (index !== -1) {
+        this.data.splice(index, 1)
+      }
+    }
+
+    const value = this.allowObject && this.allowText ? selected : selected.data;
+    if (selected.type === DataType.Object) {
+      if (!this._model.includes(value)) {
+        this._addObject(selected);
+        this.selected.emit(selected);
+      }
+    }
+
+    if (selected.type === DataType.Text) {
+      if (!this._model.includes(value)) {
+        this._addText(selected.data);
+        this.selected.emit(selected.data);
+      }
+    }
+
+    if (options.fetch !== false) {
+      this._fetch();
+
+      setTimeout(() => {
+        if (this.autocompleteTrigger) {
+          this.autocompleteTrigger.updatePosition();
+        }
+      });
+    }
   }
 
   private _createItem(data, type): IAutocompleteItem {
