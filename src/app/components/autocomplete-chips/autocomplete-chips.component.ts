@@ -34,7 +34,6 @@ import { FsAutocompleteChipsNoResultsDirective } from '../../directives/autocomp
 import { FsAutocompleteChipsStaticDirective } from './../../directives/static-template/static-template.directive';
 import { FsAutocompleteChipSuffixDirective } from './../../directives/chip-suffix/chip-suffix.directive';
 import { IAutocompleteItem } from '../../interfaces/autocomplete-item.interface';
-import { COMMA } from '@angular/cdk/keycodes';
 
 
 @Component({
@@ -159,13 +158,13 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   public registerOnChange(fn: (value: any) => any): void { this._onChange = fn; }
   public registerOnTouched(fn: () => any): void { this._onTouched = fn; }
 
-  constructor(
+  public constructor(
     private _cdRef: ChangeDetectorRef,
   ) {
     this.panelClass = '';
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.inited = !this.initOnClick;
 
     this._listenFetch();
@@ -182,7 +181,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
     }
   }
 
-  public drop(event: CdkDragDrop<string[]>) {
+  public drop(event: CdkDragDrop<string[]>): void {
     moveItemInArray(this._model, event.previousIndex, event.currentIndex);
     this.reordered.emit({
       item: event.item.data.data,
@@ -193,7 +192,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
     this._updateModel(this._model);
   }
 
-  public inputed(event) {
+  public inputed(event): void {
 
     if (this.readonly || this.disabled) {
       return;
@@ -202,7 +201,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
     this._keyword$.next(event);
   }
 
-  public keyDown(event: KeyboardEvent) {
+  public keyDown(event: KeyboardEvent): void {
     if (this.readonly || this.disabled) {
       return;
     }
@@ -220,17 +219,17 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
     this._clearData();
   }
 
-  public focus() {
+  public focus(): void {
     this.inputEl.focus();
   }
 
-  public clearClick(event: KeyboardEvent) {
+  public clearClick(event: KeyboardEvent): void {
     event.stopPropagation();
     this.clear(true);
     this.clearEvent.emit();
   }
 
-  public clear(closePanel = true) {
+  public clear(closePanel = true): void {
     if (closePanel) {
       this.closePanel();
     }
@@ -240,13 +239,13 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
     this._updateModel([]);
   }
 
-  public closePanel() {
+  public closePanel(): void {
     if (this.autocompleteTrigger) {
       this.autocompleteTrigger.closePanel();
     }
   }
 
-  public closed() {
+  public closed(): void {
     this._close();
     if (this.initOnClick) {
        // Wait for keyDown() to fire to process
@@ -258,7 +257,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
     this._clearData();
   }
 
-  public focused(e) {
+  public focused(e): void {
     this._clearInput();
     if (this.fetchOnFocus) {
       this._fetch();
@@ -271,21 +270,20 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
     event.preventDefault();
 
     if (this.multiple) {
-      this._select(value);
-
+      this._select(value, { fetch: !this.fetchOnFocus });
       if (refocus) {
         this.focus();
       } else {
         this.closePanel();
       }
     } else {
-      this._select(value, { fetch: false});
+      this._select(value, { fetch: false });
       this._close();
       this.closePanel();
     }
   }
 
-  public optionSelected(event: MatAutocompleteSelectedEvent) {
+  public optionSelected(event: MatAutocompleteSelectedEvent): void {
     if (!event.option.value) {
       return;
     }
@@ -365,7 +363,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
     this._cdRef.markForCheck();
   }
 
-  public staticClick(event: KeyboardEvent, index) {
+  public staticClick(event: KeyboardEvent, index): void {
     event.stopPropagation();
     event.preventDefault();
 
@@ -376,7 +374,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
     }
   }
 
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
     this._destroy$.next();
     this._destroy$.complete();
   }
@@ -385,7 +383,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
     this.data = null;
   }
 
-  private _clearInput() {
+  private _clearInput(): void {
     if (this.inputEl) {
       this.inputEl.value = '';
     }
@@ -412,11 +410,11 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
     return item;
   }
 
-  private _validateText(text) {
+  private _validateText(text): boolean {
     return String(text).trim().length && (!this.validateText || this.validateText(text));
   }
 
-  private _updateModel(value) {
+  private _updateModel(value): void {
     this._model = value;
 
     const model = this._model.map((item) => {
@@ -431,11 +429,11 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
     this._onTouched();
   }
 
-  private _addObject(object) {
+  private _addObject(object): void {
     this._updateModel([...this._model, object]);
   }
 
-  private _addText(text) {
+  private _addText(text): void {
     if (this._validateText(text)) {
       const textObject = this._createItem(text, DataType.Text);
       this._updateModel([...this._model, textObject]);

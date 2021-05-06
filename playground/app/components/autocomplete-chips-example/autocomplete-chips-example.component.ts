@@ -53,6 +53,7 @@ export class AutocompleteChipsExampleComponent implements OnInit {
   };
 
   public fetch = (keyword) => {
+    console.log('Fetch', keyword);
     return this.exampleService.fetch(keyword, 10, this.config.multiple)
       .pipe(
         delay(100),

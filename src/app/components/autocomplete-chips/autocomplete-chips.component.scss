@@ -21,6 +21,7 @@ mat-form-field {
   .option-chip {
     display: flex;
     align-items: center;
+    height: 100%;
   }
 }
 
@@ -234,11 +235,15 @@ mat-form-field {
   }
 }
 
-.plus-icon {
+.add-icon {
   margin-left: -16px;
-  padding: 0 8px;
   display: flex;
   font-size: 24px;
+  height: 100%;
+  align-items: center;
+  width: 45px;
+  justify-content: center;
+
 
   mat-icon {
     margin: 0;
