@@ -1,7 +1,7 @@
 <ng-container *ngIf="inited; else elseInited">
   <mat-form-field
       [ngClass]="{ 'mat-form-field-disabled': disabled }"
-      floatLabel="always">
+      [floatLabel]="initOnClick ? 'always' : 'auto'">
     <mat-chip-list
       #searchList
       cdkDropList
