@@ -46,6 +46,7 @@
   .mat-form-field {
     min-width: 225px;
     width: 100%;
+    letter-spacing: inherit;
 
     .mat-form-field-prefix,
     .mat-form-field-suffix {
@@ -58,10 +59,6 @@
 
     &.mat-form-field-appearance-legacy.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
       transform: translateY(-1.34375em) scale(0.75);
-    }
-
-    .mat-form-field-label-wrapper .mat-form-field-label {
-      //transform: translateY(-1.34375em) scale(0.75);
     }
 
     .mat-chip-list-wrapper {
@@ -106,55 +103,59 @@
 }
 
 
-::ng-deep .fs-autocomplete-chips-panel {
+::ng-deep {
 
-  .mat-option-text {
-    align-items: center;
-    display: inline-flex;
-    height: inherit;
-  }
-
-  .invalid-message .mat-option-text {
-    line-height: normal;
-    flex-direction: column;
-    align-items: start;
-    font-size: 80%;
-  }
-
-  .mat-option {
-    line-height: 45px;
-    height: 45px;
-
-    &.option {
-      padding: 0;
+  .fs-autocomplete-chips-panel {
+    .mat-option-text {
+      align-items: center;
+      display: inline-flex;
+      height: inherit;
     }
 
-    &.static-option {
-      border-top: 1px solid #e0e0e0;
+    .invalid-message .mat-option-text {
+      line-height: normal;
+      flex-direction: column;
+      align-items: start;
+      font-size: 80%;
+    }
 
-      + .static-option {
-        border-top: none;
+    .mat-option {
+      line-height: 45px;
+      height: 45px;
+
+      &.option {
+        padding: 0;
+      }
+
+      &.static-option {
+        border-top: 1px solid #e0e0e0;
+
+        + .static-option {
+          border-top: none;
+        }
+      }
+
+      .mat-icon {
+        margin-right: 5px;
+      }
+
+      .mat-chip {
+        cursor: pointer;
+        pointer-events: all;
       }
     }
-
-    .mat-icon {
-      margin-right: 5px;
-    }
-
-    .mat-chip {
-      cursor: pointer;
-      pointer-events: all;
-    }
   }
-}
 
-:host ::ng-deep,
-::ng-deep .fs-autocomplete-chips-panel {
   .fs-autocomplete-chip.mat-chip {
     background-color: #f3f3f3;
     white-space: nowrap;
     min-height: 30px;
     box-shadow: none !important;
+    user-select: none;
+
+    &.cdk-drag-placeholder {
+      opacity: .5;
+    }
 
     &.mat-standard-chip::after {
       background: none;
