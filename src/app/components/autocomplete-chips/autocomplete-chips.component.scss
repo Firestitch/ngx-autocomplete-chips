@@ -152,6 +152,7 @@
     min-height: 30px;
     box-shadow: none !important;
     user-select: none;
+    max-width: 100%;
 
     &.cdk-drag-placeholder {
       opacity: .5;
