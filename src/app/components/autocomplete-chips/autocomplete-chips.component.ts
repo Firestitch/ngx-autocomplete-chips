@@ -270,6 +270,8 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   public optionClick(event: UIEvent, value: any, refocus = false): void {
     event.stopPropagation();
     event.preventDefault();
+    // Clear input before close to prevent adding text item which was not selected
+    this._clearInput();
 
     if (this.multiple) {
       this._select(value, { fetch: !this.fetchOnFocus });
