@@ -125,6 +125,7 @@
 
       <mat-option disabled class="blank-placeholder"></mat-option>
     </mat-autocomplete>
+    <mat-hint *ngIf="hint">{{ hint }}</mat-hint>
   </mat-form-field>
 </ng-container>
 
@@ -154,6 +155,9 @@
         </mat-chip>
       </mat-chip-list>
     </div>
+    <fs-label-message *ngIf="hint">
+      {{ hint }}
+    </fs-label-message>
   </fs-label-field>
 
   <ng-template #none>

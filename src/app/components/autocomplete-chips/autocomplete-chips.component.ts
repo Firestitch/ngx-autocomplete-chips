@@ -59,6 +59,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   @Input() public chipIcon: string;
   @Input() public chipIconColor: string;
   @Input() public chipClass: string;
+  @Input() public hint: string;
   @Input() public allowText: boolean;
   @Input() public allowObject = true;
   @Input() public delay = 200;
