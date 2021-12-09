@@ -3,24 +3,26 @@
       [ngClass]="{ 'mat-form-field-disabled': disabled }"
       [floatLabel]="initOnClick ? 'always' : 'auto'">
     <mat-chip-list
-      #searchList
-      cdkDropList
-      cdkDropListOrientation="horizontal"
-      (cdkDropListDropped)="drop($event)">
-      <mat-chip
+      cdkDropListGroup
+      #searchList>
+      <div
         *ngFor="let item of model"
-        [disableRipple]="true"
-        [selectable]="!disabled"
-        [removable]="!disabled"
-        [disabled]="disabled"
-        [class]="'fs-autocomplete-chip ' + item.class"
-        [ngClass]="{ imaged: item.image, 'size-small': size === 'small', 'size-large': size === 'large' }"
-        [style.backgroundColor]="item.background || background"
-        [style.color]="item.color || color"
-        [cdkDragDisabled]="!orderable || disabled"
-        [cdkDragData]="item"
-        cdkDrag
-        cdkDragHandle>
+        cdkDropList
+        cdkDropListOrientation="horizontal"
+        (cdkDropListDropped)="drop($event)">
+        <mat-chip
+          [disableRipple]="true"
+          [selectable]="!disabled"
+          [removable]="!disabled"
+          [disabled]="disabled"
+          [class]="'fs-autocomplete-chip ' + item.class"
+          [ngClass]="{ imaged: item.image, 'size-small': size === 'small', 'size-large': size === 'large' }"
+          [style.backgroundColor]="item.background || background"
+          [style.color]="item.color || color"
+          [cdkDragDisabled]="!orderable || disabled"
+          [cdkDragData]="item"
+          cdkDrag
+          cdkDragHandle>
           <ng-container
             [ngTemplateOutlet]="itemTemplate"
             [ngTemplateOutletContext]="{ item: item, selecting: false }">
@@ -29,7 +31,9 @@
             [ngTemplateOutlet]="itemSuffixTemplate"
             [ngTemplateOutletContext]="{ item: item, selecting: false, disabled: disabled }">
           </ng-container>
-      </mat-chip>
+        </mat-chip>
+      </div>
+
       <input
         #input
         autocomplete="off"
