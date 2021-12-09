@@ -6,8 +6,9 @@
       cdkDropListGroup
       #searchList>
       <div
-        *ngFor="let item of model"
+        *ngFor="let item of model; let index = index"
         cdkDropList
+        [cdkDropListData]="{ index: index }"
         cdkDropListOrientation="horizontal"
         (cdkDropListDropped)="drop($event)">
         <mat-chip
