@@ -59,6 +59,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   @Input() public chipIcon: string;
   @Input() public chipIconColor: string;
   @Input() public chipClass: string;
+  @Input() public hint: string;
   @Input() public allowText: boolean;
   @Input() public allowObject = true;
   @Input() public delay = 200;
@@ -181,12 +182,16 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
     }
   }
 
-  public drop(event: CdkDragDrop<string[]>): void {
-    moveItemInArray(this._model, event.previousIndex, event.currentIndex);
+  public drop(event: CdkDragDrop<{ index: number }>): void {
+    const previousIndex = event.previousContainer.data.index;
+    const index = event.container.data.index;
+
+    moveItemInArray(this._model, previousIndex, index);
+
     this.reordered.emit({
-      item: event.item.data.data,
-      from: event.previousIndex,
-      to: event.currentIndex,
+      item: this._model[index],
+      from: previousIndex,
+      to: index,
       items: this._model,
     });
     this._updateModel(this._model);

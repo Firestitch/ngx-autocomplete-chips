@@ -95,6 +95,12 @@
         cursor: pointer;
       }
     }
+
+    ::ng-deep {
+      .field-message {
+        padding-top: 7px;
+      }
+    }
   }
 
   .mat-chip-list-wrapper {

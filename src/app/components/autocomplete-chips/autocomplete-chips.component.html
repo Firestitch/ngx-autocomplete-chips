@@ -3,24 +3,27 @@
       [ngClass]="{ 'mat-form-field-disabled': disabled }"
       [floatLabel]="initOnClick ? 'always' : 'auto'">
     <mat-chip-list
-      #searchList
-      cdkDropList
-      cdkDropListOrientation="horizontal"
-      (cdkDropListDropped)="drop($event)">
-      <mat-chip
-        *ngFor="let item of model"
-        [disableRipple]="true"
-        [selectable]="!disabled"
-        [removable]="!disabled"
-        [disabled]="disabled"
-        [class]="'fs-autocomplete-chip ' + item.class"
-        [ngClass]="{ imaged: item.image, 'size-small': size === 'small', 'size-large': size === 'large' }"
-        [style.backgroundColor]="item.background || background"
-        [style.color]="item.color || color"
-        [cdkDragDisabled]="!orderable || disabled"
-        [cdkDragData]="item"
-        cdkDrag
-        cdkDragHandle>
+      cdkDropListGroup
+      #searchList>
+      <div
+        *ngFor="let item of model; let index = index"
+        cdkDropList
+        [cdkDropListData]="{ index: index }"
+        cdkDropListOrientation="horizontal"
+        (cdkDropListDropped)="drop($event)">
+        <mat-chip
+          [disableRipple]="true"
+          [selectable]="!disabled"
+          [removable]="!disabled"
+          [disabled]="disabled"
+          [class]="'fs-autocomplete-chip ' + item.class"
+          [ngClass]="{ imaged: item.image, 'size-small': size === 'small', 'size-large': size === 'large' }"
+          [style.backgroundColor]="item.background || background"
+          [style.color]="item.color || color"
+          [cdkDragDisabled]="!orderable || disabled"
+          [cdkDragData]="item"
+          cdkDrag
+          cdkDragHandle>
           <ng-container
             [ngTemplateOutlet]="itemTemplate"
             [ngTemplateOutletContext]="{ item: item, selecting: false }">
@@ -29,7 +32,9 @@
             [ngTemplateOutlet]="itemSuffixTemplate"
             [ngTemplateOutletContext]="{ item: item, selecting: false, disabled: disabled }">
           </ng-container>
-      </mat-chip>
+        </mat-chip>
+      </div>
+
       <input
         #input
         autocomplete="off"
@@ -125,6 +130,7 @@
 
       <mat-option disabled class="blank-placeholder"></mat-option>
     </mat-autocomplete>
+    <mat-hint *ngIf="hint">{{ hint }}</mat-hint>
   </mat-form-field>
 </ng-container>
 
@@ -154,6 +160,9 @@
         </mat-chip>
       </mat-chip-list>
     </div>
+    <fs-label-message *ngIf="hint">
+      {{ hint }}
+    </fs-label-message>
   </fs-label-field>
 
   <ng-template #none>
