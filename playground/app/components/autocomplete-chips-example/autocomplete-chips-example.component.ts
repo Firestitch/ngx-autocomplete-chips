@@ -38,7 +38,6 @@ export class AutocompleteChipsExampleComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
     setTimeout(() => {
       this.model = [{ firstName: 'Jessey', lastName: 'Wing', gender: 'men', icon: 'settings' }];
     }, 1000)
@@ -51,6 +50,10 @@ export class AutocompleteChipsExampleComponent implements OnInit {
   public validateText = keyword => {
     return email(keyword);
   };
+
+  public selectAllClick(event) {
+    this.autocomplete.selectAll();
+  }
 
   public fetch = (keyword) => {
     console.log('Fetch', keyword);

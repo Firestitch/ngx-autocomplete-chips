@@ -2,24 +2,6 @@
   outline: transparent;
 }
 
-.option-content {
-  user-select: none;
-  display: flex;
-  text-overflow: ellipsis;
-  overflow: inherit;
-  cursor: pointer;
-  padding: 0 16px;
-  align-items: center;
-  height: inherit;
-  width: 100%;
-
-  .option-chip {
-    display: flex;
-    align-items: center;
-    height: 100%;
-  }
-}
-
 .blank-placeholder {
   display: none;
 }
@@ -36,6 +18,14 @@
 
 .no-results {
   background-color: inherit;
+}
+
+.dummy-input {
+  width: 0;
+  height: 0;
+  padding: 0;
+  border: 0;
+  display: table;
 }
 
 :host ::ng-deep {
@@ -63,8 +53,11 @@
 
     .mat-chip-list-wrapper {
       cursor: pointer;
+      line-height: 0;
 
       .mat-chip {
+        line-height: normal;
+
         &:not(.cdk-drag-disabled) {
           cursor: move;
         }
@@ -84,7 +77,6 @@
   }
 
   fs-label-field {
-
     .field-content {
       min-height: 31px;
     }
@@ -110,8 +102,13 @@
 
 
 ::ng-deep {
-
   .fs-autocomplete-chips-panel {
+    &:not(:hover) {
+      .mat-active .option-chip {
+        background-color: rgb(42 42 42 / 10%);
+      }
+    }
+
     .mat-option-text {
       align-items: center;
       display: inline-flex;
@@ -143,35 +140,73 @@
         padding: 0;
       }
 
-      .mat-icon {
-        margin-right: 5px;
+      &.multiple .option-chip {
+        padding-left: 8px;
+      }
+        
+      .option-chip {
+        user-select: none;
+        display: flex;
+        text-overflow: ellipsis;
+        overflow: inherit;
+        cursor: pointer;
+        padding: 0 16px;
+        align-items: center;
+        height: inherit;
+        width: 100%;
+
+        .mat-chip {
+          cursor: pointer;
+          pointer-events: all;
+  
+          .mat-icon {
+            margin-right: 5px;
+          }
+        }
       }
 
-      .mat-chip {
-        cursor: pointer;
-        pointer-events: all;
+      .option-chip:hover,
+      .add-icon:hover {
+        background-color: rgb(0 0 0 / 10%);
+      }
+
+      &.mat-active,
+      &:hover:not(.mat-option-disabled), 
+      &:focus:not(.mat-option-disabled) {
+        background: none;
+      }
+
+      .add-icon {
+        display: flex;
+        font-size: 24px;
+        height: 100%;
+        align-items: center;
+        width: 45px;
+        display: block;
+        text-align: center;
+        user-select: none;
+
+        mat-icon {
+          margin: 0;
+        }
       }
     }
   }
 
-  .fs-autocomplete-chip.mat-chip {
+  .mat-chip.fs-autocomplete-chip {
     background-color: #f3f3f3;
     white-space: nowrap;
     min-height: 30px;
     box-shadow: none !important;
     user-select: none;
     max-width: 100%;
+  
+    &:hover::after {
+      opacity: 0;
+    }
 
     &.cdk-drag-placeholder {
       opacity: .5;
-    }
-
-    &.mat-standard-chip::after {
-      background: none;
-    }
-
-    &:hover::after {
-      opacity: 0;
     }
 
     .item-image {
@@ -248,20 +283,5 @@
         margin-left: -1px;
       }
     }
-  }
-}
-
-.add-icon {
-  margin-left: -16px;
-  display: flex;
-  font-size: 24px;
-  height: 100%;
-  align-items: center;
-  width: 45px;
-  justify-content: center;
-
-
-  mat-icon {
-    margin: 0;
   }
 }

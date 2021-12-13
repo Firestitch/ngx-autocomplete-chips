@@ -20,6 +20,7 @@ import {
 import { MatFormField } from '@angular/material/form-field';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { BACKSPACE, DELETE } from '@angular/cdk/keycodes';
 
 import { isEqual, random } from 'lodash-es';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
@@ -28,12 +29,12 @@ import { Subject, of, timer, Observable } from 'rxjs';
 import { takeUntil, switchMap, tap, debounce, filter } from 'rxjs/operators';
 
 import { getObjectValue } from '../../helpers/get-object-value';
+import { IAutocompleteItem } from '../../interfaces/autocomplete-item.interface';
 import { DataType } from '../../interfaces/data-type';
 import { FsAutocompleteObjectDirective } from '../../directives/autocomplete-object/autocomplete-object.directive';
 import { FsAutocompleteChipsNoResultsDirective } from '../../directives/autocomplete-no-results/autocomplete-no-results.directive';
 import { FsAutocompleteChipsStaticDirective } from './../../directives/static-template/static-template.directive';
 import { FsAutocompleteChipSuffixDirective } from './../../directives/chip-suffix/chip-suffix.directive';
-import { IAutocompleteItem } from '../../interfaces/autocomplete-item.interface';
 
 
 @Component({
@@ -106,6 +107,9 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
 
   @ViewChild('input')
   public input: ElementRef = null;
+
+  @ViewChild('dummyInput')
+  public dummyInput: ElementRef = null;
 
   @ViewChildren(MatAutocompleteTrigger)
   public autocompleteTriggers: QueryList<MatAutocompleteTrigger>;
@@ -197,8 +201,19 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
     this._updateModel(this._model);
   }
 
-  public inputed(event): void {
+  public selectAll(): void {
+    this.data.forEach((selected) => {
+      if (selected.type === DataType.Object) {
+        this._addObject(selected);
+      }
 
+      if (selected.type === DataType.Text) {
+        this._addText(selected.data);
+      }
+    });
+  }
+
+  public inputed(event): void {
     if (this.readonly || this.disabled) {
       return;
     }
@@ -220,14 +235,46 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
         this.selected.emit(activeOption.value);
       }
     }
-
     this._clearData();
+  }
+
+  public chipClick(event: MouseEvent): void {
+    this.focus();
+  }
+
+  public chipKeyDown(event: KeyboardEvent, index): void {
+    if (event.keyCode === BACKSPACE || event.keyCode === DELETE) {
+      if(this.multiple) {
+        this.model.splice(index, 1);
+        this._updateModel(this.model);
+      } else {        
+        this._updateModel([]);
+      }
+    }
+  }
+
+  public chipRemoved(event: UIEvent, item): void {
+    event.stopPropagation();
+    event.stopImmediatePropagation();
+
+    this._model = this.model
+      .filter((modelItem) => modelItem !== item);
+
+    this._updateModel(this._model);
+    this.removed.emit(item);
+    this.unfocus();
   }
 
   public focus(options = { delay: 0}): void {
     setTimeout(() => {
       this.inputEl.focus();
     }, options.delay); // Hack: Delay to wait for animation to finish
+  }
+
+  public unfocus() {
+    setTimeout(() => {
+      this.dummyInput.nativeElement.focus();
+    });
   }
 
   public clearClick(event: KeyboardEvent): void {
@@ -253,15 +300,15 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   }
 
   public closed(): void {
-    this._close();
-    if (this.initOnClick) {
-       // Wait for keyDown() to fire to process
-      setTimeout(() => {
-        this.inited = false;
-        this._cdRef.markForCheck();
-      });
-    }
-    this._clearData();
+    setTimeout(() => {
+      this._close();
+      if (this.initOnClick) {
+        // Wait for keyDown() to fire to process
+          this.inited = false;
+          this._cdRef.markForCheck();
+      }
+      this._clearData();
+    });
   }
 
   public focused(e): void {
@@ -275,14 +322,15 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   public optionClick(event: UIEvent, value: any, refocus = false): void {
     event.stopPropagation();
     event.preventDefault();
+    
     // Clear input before close to prevent adding text item which was not selected
-    this._clearInput();
+    if(!refocus) {
+      this._clearInput();
+    }
 
     if (this.multiple) {
       this._select(value, { fetch: !this.fetchOnFocus });
-      if (refocus) {
-        this.focus();
-      } else {
+      if (!refocus) {
         this.closePanel();
       }
     } else {
@@ -300,21 +348,6 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
     this._select(event.option.value);
     this._clearData();
     this._clearInput();
-  }
-
-  public chipRemoved(event: UIEvent, item): void {
-    event.stopPropagation();
-
-    this._model = this.model
-      .filter((modelItem) => modelItem !== item);
-
-    this._updateModel(this._model);
-    this.removed.emit(item);
-    this.init();
-
-    if (!this.fetchOnFocus) {
-      this._fetch();
-    }
   }
 
   public writeValue(value: any): void {
