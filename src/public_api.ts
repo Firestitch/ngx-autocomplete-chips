@@ -10,3 +10,4 @@ export { FsAutocompleteObjectDirective } from './app/directives/autocomplete-obj
 export { FsAutocompleteChipsStaticDirective } from './app/directives/static-template/static-template.directive';
 export { FsAutocompleteChipsNoResultsDirective } from './app/directives/autocomplete-no-results/autocomplete-no-results.directive';
 export { FsAutocompleteChipSuffixDirective } from './app/directives/chip-suffix/chip-suffix.directive';
+export { FsAutocompleteChipsSuffixDirective } from './app/directives/chips-suffix/chips-suffix.directive';

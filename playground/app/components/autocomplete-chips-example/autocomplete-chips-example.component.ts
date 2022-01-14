@@ -55,6 +55,11 @@ export class AutocompleteChipsExampleComponent implements OnInit {
     this.autocomplete.selectAll();
   }
 
+  public chipsSuffixClick(event: UIEvent) {
+    event.stopImmediatePropagation();
+    console.log('chipsSuffixClick clicked');
+  }
+
   public fetch = (keyword) => {
     console.log('Fetch', keyword);
     keyword = null;

@@ -1,31 +1,37 @@
 
 <fs-autocomplete-chips
-  [fetch]="fetch"
-  [(ngModel)]="model"
-  [allowText]="true"
-  [validateText]="validateText"
-  invalidTextMessage="Invalid email address"
-  placeholder="Select Account or Enter Email Address"
-  [initOnClick]="true"
-  [chipImage]="config.image ? 'image' : ''"
-  [chipColor]="config.color ? '#fff' : ''"
-  [chipBackground]="config.color ? 'background' : ''"
-  [chipIcon]="config.icon ? 'icon' : ''"
-  chipIconColor="#444"
-  chipClass="gender"
-  panelClass="custom-panel"
-  [orderable]="config.orderable"
-  [removable]="config.removable"
-  [size]="config.size"
-  [disabled]="config.disabled"
-  [fetchOnFocus]="config.fetchOnFocus"
-  [compareWith]="compareWith"
-  [multiple]="config.multiple"
-  [hint]="'Hint hint hint!!!'"
-  (ngModelChange)="modelChange($event)"
-  name="model">
+    [fetch]="fetch"
+    [(ngModel)]="model"
+    [allowText]="true"
+    [validateText]="validateText"
+    invalidTextMessage="Invalid email address"
+    placeholder="Select Account or Enter Email Address"
+    [initOnClick]="true"
+    [chipImage]="config.image ? 'image' : ''"
+    [chipColor]="config.color ? '#fff' : ''"
+    [chipBackground]="config.color ? 'background' : ''"
+    [chipIcon]="config.icon ? 'icon' : ''"
+    chipIconColor="#444"
+    chipClass="gender"
+    panelClass="custom-panel"
+    [orderable]="config.orderable"
+    [removable]="config.removable"
+    [size]="config.size"
+    [disabled]="config.disabled"
+    [fetchOnFocus]="config.fetchOnFocus"
+    [compareWith]="compareWith"
+    [multiple]="config.multiple"
+    hint="Hint hint hint"
+    (ngModelChange)="modelChange($event)"
+    name="model">
   <ng-template fsAutocompleteChipsTemplate let-object="object" let-selecting="selecting">
     {{object.firstName}} {{object.lastName}}
+  </ng-template>
+
+  <ng-template fsAutocompleteChipsSuffix>
+    <a (click)="chipsSuffixClick($event)" class="chips-suffix">
+      <mat-icon>tune</mat-icon>
+    </a>
   </ng-template>
 
   <ng-template fsAutocompleteChipSuffix let-object="object" let-selecting="selecting">

@@ -59,12 +59,18 @@
         [matChipInputFor]="searchList">
     </mat-chip-list>
 
-    <div *ngIf="!disabled && allowClear" matSuffix>
+    <span *ngIf="chipsSuffixTemplate" matSuffix>
+      <ng-container [ngTemplateOutlet]="chipsSuffixTemplate"></ng-container>
+    </span>
+
+    <span *ngIf="!disabled && allowClear" matSuffix>
       <mat-icon
-        *ngIf="model.length"
-        class="clear"
-        (click)="clearClick($event)">clear</mat-icon>
-    </div>
+          *ngIf="model.length"
+          class="clear"
+          (click)="clearClick($event)">
+        clear
+      </mat-icon>
+    </span>
 
     <mat-autocomplete
         #autocompleteSearch="matAutocomplete"
@@ -199,8 +205,8 @@
 <ng-template #itemSuffixTemplate let-item="item" let-selecting="selecting">
   <div class="item-suffix">
     <ng-container
-      *ngIf="suffixTemplate"
-      [ngTemplateOutlet]="suffixTemplate"
+      *ngIf="chipSuffixTemplate"
+      [ngTemplateOutlet]="chipSuffixTemplate"
       [ngTemplateOutletContext]="{ object: item.data, selecting: selecting, disabled: disabled }">
     </ng-container>
     <a

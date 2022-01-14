@@ -35,6 +35,7 @@ import { FsAutocompleteObjectDirective } from '../../directives/autocomplete-obj
 import { FsAutocompleteChipsNoResultsDirective } from '../../directives/autocomplete-no-results/autocomplete-no-results.directive';
 import { FsAutocompleteChipsStaticDirective } from './../../directives/static-template/static-template.directive';
 import { FsAutocompleteChipSuffixDirective } from './../../directives/chip-suffix/chip-suffix.directive';
+import { FsAutocompleteChipsSuffixDirective } from './../../directives/chips-suffix/chips-suffix.directive';
 
 
 @Component({
@@ -124,7 +125,10 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   public objectTemplate: TemplateRef<FsAutocompleteObjectDirective> = null;
 
   @ContentChild(FsAutocompleteChipSuffixDirective, { read: TemplateRef })
-  public suffixTemplate: TemplateRef<FsAutocompleteChipSuffixDirective> = null;
+  public chipSuffixTemplate: TemplateRef<FsAutocompleteChipSuffixDirective> = null;
+
+  @ContentChild(FsAutocompleteChipsSuffixDirective, { read: TemplateRef })
+  public chipsSuffixTemplate: TemplateRef<FsAutocompleteChipsSuffixDirective> = null;
 
   @ContentChild(FsAutocompleteChipsNoResultsDirective, { read: TemplateRef, static: true })
   public noResultsTemplate: TemplateRef<FsAutocompleteChipsNoResultsDirective> = null;
@@ -273,7 +277,9 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
 
   public unfocus() {
     setTimeout(() => {
-      this.dummyInput.nativeElement.focus();
+      if(this.dummyInput) {
+        this.dummyInput.nativeElement.focus();
+      }
     });
   }
 

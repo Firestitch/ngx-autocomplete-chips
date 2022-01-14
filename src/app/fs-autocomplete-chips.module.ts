@@ -16,6 +16,7 @@ import { FsAutocompleteObjectDirective } from './directives/autocomplete-object/
 import { FsAutocompleteChipsNoResultsDirective } from './directives/autocomplete-no-results/autocomplete-no-results.directive';
 import { FsAutocompleteChipsStaticDirective } from './directives/static-template/static-template.directive';
 import { FsAutocompleteChipSuffixDirective } from './directives/chip-suffix/chip-suffix.directive';
+import { FsAutocompleteChipsSuffixDirective } from './directives/chips-suffix/chips-suffix.directive';
 
 
 @NgModule({
@@ -38,6 +39,7 @@ import { FsAutocompleteChipSuffixDirective } from './directives/chip-suffix/chip
     FsAutocompleteChipsStaticDirective,
     FsAutocompleteChipsNoResultsDirective,
     FsAutocompleteChipSuffixDirective,
+    FsAutocompleteChipsSuffixDirective,
   ],
   declarations: [
     FsAutocompleteObjectDirective,
@@ -45,6 +47,7 @@ import { FsAutocompleteChipSuffixDirective } from './directives/chip-suffix/chip
     FsAutocompleteChipsStaticDirective,
     FsAutocompleteChipsNoResultsDirective,
     FsAutocompleteChipSuffixDirective,
+    FsAutocompleteChipsSuffixDirective,
   ],
 })
 export class FsAutocompleteChipsModule {
