@@ -10,4 +10,5 @@ export interface IAutocompleteItem {
   class?: string;
   background?: string;
   color?: string;
+  valid?: boolean;
 }

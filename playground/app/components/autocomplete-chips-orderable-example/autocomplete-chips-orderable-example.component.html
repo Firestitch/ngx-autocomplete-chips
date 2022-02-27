@@ -1,10 +1,10 @@
 <fs-autocomplete-chips
-  [fetch]="fetch"
-  [(ngModel)]="model"
-  placeholder="Select &amp; Order Accounts"
-  [orderable]="true"
-  chipImage="image"
-  name="model">
+    [fetch]="fetch"
+    [(ngModel)]="model"
+    placeholder="Select &amp; Order Accounts"
+    [orderable]="true"
+    chipImage="image"
+    name="model">
   <ng-template fsAutocompleteObject let-object="object">
     {{object.firstName}} {{object.lastName}}
   </ng-template>

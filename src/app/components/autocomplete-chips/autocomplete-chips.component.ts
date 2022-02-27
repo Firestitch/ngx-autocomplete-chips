@@ -236,9 +236,14 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
       return;
     } else if (event.code === 'Tab') {
       const activeOption = this.autocompleteTrigger.activeOption;
-      if (activeOption && activeOption.value.type === DataType.Object) {
-        this._addObject(activeOption.value);
-        this.selected.emit(activeOption.value);
+      if (activeOption) {
+        if(activeOption.value.type === DataType.Object) {
+          this._addObject(activeOption.value);
+          this.selected.emit(activeOption.value);
+        } else if(activeOption.value.type === DataType.Text) {
+          this._addText(this.keyword);
+          this.selected.emit(this.keyword);
+        }
       }
     }
     this._clearData();
@@ -363,9 +368,11 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
       value = Array.isArray(value) ? value : [value];
 
       value = value.map((item) => {
-        const type = typeof item === 'object' ? DataType.Object : DataType.Text;
-        return this._createItem(item, type);
+        return typeof item === 'object' ?
+        this._createObjectItem(item) :
+        this._createTextItem(item, true);
       });
+
     } else {
       value = [];
     }
@@ -441,23 +448,26 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
       });
     }
   }
+  
+  private _createTextItem(data, valid: boolean): IAutocompleteItem {
+    return {
+      data,
+      type: DataType.Text,
+      valid,
+    }; 
+  }
 
-  private _createItem(data, type): IAutocompleteItem {
-    const item: any = {
-        type: type,
-        data: data
-      };
-
-    if (type === DataType.Object) {
-      item.image = getObjectValue(data, this.chipImage);
-      item.icon = getObjectValue(data, this.chipIcon);
-      item.iconColor = getObjectValue(data, this.chipIconColor) || this.chipIconColor;
-      item.class = getObjectValue(data, this.chipClass) || this.chipClass;
-      item.background = getObjectValue(data, this.chipBackground) || this.chipBackground;
-      item.color = getObjectValue(data, this.chipColor) || this.chipColor;
-    }
-
-    return item;
+  private _createObjectItem(data): IAutocompleteItem {
+    return {
+      data,
+      type: DataType.Object,
+      image: getObjectValue(data, this.chipImage),
+      icon: getObjectValue(data, this.chipIcon),
+      iconColor: getObjectValue(data, this.chipIconColor) || this.chipIconColor,
+      class: getObjectValue(data, this.chipClass) || this.chipClass,
+      background: getObjectValue(data, this.chipBackground) || this.chipBackground,
+      color: getObjectValue(data, this.chipColor) || this.chipColor
+    };
   }
 
   private _validateText(text): boolean {
@@ -485,17 +495,12 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
 
   private _addText(text): void {
     if (this._validateText(text)) {
-      const textObject = this._createItem(text, DataType.Text);
+      const textObject = this._createTextItem(text, true);
       this._updateModel([...this._model, textObject]);
-      this.focus();
     }
   }
 
   private _close(): void {
-    if (this.allowText) {
-      this._addText(this.keyword);
-    }
-
     this._clearInput();
   }
 
@@ -539,21 +544,17 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
     this._fetch$
       .pipe(
         filter(() => this.inited),
-        tap((keyword) => {
-          if (this.allowText) {
-            this.textData = {};
-
-            if (this._validateText(keyword)) {
-              this.textData = this._createItem(keyword, DataType.Text);
-            }
-          }
-        }),
         switchMap((keyword) => {
+
+          if (this.allowText) {
+            this.textData = this._createTextItem(keyword, this._validateText(keyword));
+          }
+
           if (this.allowObject) {
             this.noResults = false;
 
             return this._doFetchByKeyword(keyword);
-          }
+          } 
 
           return of([]);
         }),
@@ -574,7 +575,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
           }
 
           this.data = response.map(data => {
-            return this._createItem(data, DataType.Object);
+            return this._createObjectItem(data);
           });
 
           if (this.multiple) {

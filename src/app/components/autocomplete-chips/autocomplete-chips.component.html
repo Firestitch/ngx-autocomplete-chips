@@ -79,6 +79,16 @@
         (closed)="closed()"
         [panelWidth]="panelWidth"
         autoActiveFirstOption="true">
+
+      <ng-container *ngIf="keyword && allowText">
+        <mat-option *ngIf="textData.type===dataType.Text" [value]="textData" [disabled]="!textData.valid">
+          <ng-container
+            [ngTemplateOutlet]="itemTemplate"
+            [ngTemplateOutletContext]="{ item: textData }">
+          </ng-container>
+        </mat-option>
+      </ng-container>        
+      
       <mat-option
         [ngClass]="{ multiple: multiple }"
         class="option"
@@ -121,15 +131,6 @@
             No results <ng-container *ngIf="keyword">for "{{keyword}}"</ng-container>
           </mat-option>
         </ng-template>
-      </ng-container>
-
-      <ng-container *ngIf="keyword && allowText">
-        <mat-option *ngIf="textData.type===dataType.Text" [value]="textData">
-          <ng-container
-            [ngTemplateOutlet]="itemTemplate"
-            [ngTemplateOutletContext]="{ item: textData }">
-          </ng-container>
-        </mat-option>
       </ng-container>
 
       <ng-container *ngIf="staticTemplates.length">
