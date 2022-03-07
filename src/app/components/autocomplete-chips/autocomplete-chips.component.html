@@ -78,7 +78,7 @@
         (optionSelected)="optionSelected($event)"
         (closed)="closed()"
         [panelWidth]="panelWidth"
-        autoActiveFirstOption="true">
+        [autoActiveFirstOption]="true">
 
       <ng-container *ngIf="keyword && allowText">
         <mat-option *ngIf="textData.type===dataType.Text" [value]="textData" [disabled]="!textData.valid">

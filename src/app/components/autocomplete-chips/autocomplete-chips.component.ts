@@ -228,13 +228,11 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   }
 
   public keyDown(event: KeyboardEvent): void {
-    if (this.readonly || this.disabled) {
+    if (this.readonly || this.disabled || ['Enter', 'ArrowDown', 'ArrowUp'].indexOf(event.code) !== -1) {
       return;
     }
-
-    if (['Enter', 'ArrowDown', 'ArrowUp'].indexOf(event.code) !== -1) {
-      return;
-    } else if (event.code === 'Tab') {
+    
+    if (event.code === 'Tab') {
       const activeOption = this.autocompleteTrigger.activeOption;
       if (activeOption) {
         if(activeOption.value.type === DataType.Object) {
@@ -246,6 +244,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
         }
       }
     }
+    
     this._clearData();
   }
 
