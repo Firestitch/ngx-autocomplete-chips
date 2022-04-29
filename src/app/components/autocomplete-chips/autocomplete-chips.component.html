@@ -1,12 +1,12 @@
 <ng-container *ngIf="inited; else elseInited">
   <mat-form-field
-      [ngClass]="{ 'mat-form-field-disabled': disabled }"
       [floatLabel]="initOnClick ? 'always' : 'auto'"
       (click)="focus()">
     <mat-chip-list
-        [tabIndex]="-1"
-        cdkDropListGroup
-        #searchList>
+      [disabled]="disabled"
+      [tabIndex]="-1"
+      cdkDropListGroup
+      #searchList>
       <div
           *ngFor="let item of model; let index = index"
           cdkDropList
@@ -19,9 +19,9 @@
             [removable]="!disabled"
             [disabled]="disabled"
             [class]="'fs-autocomplete-chip ' + item.class"
-            [ngClass]="{ 
-              imaged: item.image, 
-              'size-small': size === 'small', 
+            [ngClass]="{
+              imaged: item.image,
+              'size-small': size === 'small',
               'size-large': size === 'large',
               'last-chip': model.length - 1 === index
             }"
@@ -49,7 +49,6 @@
         #input
         autocomplete="off"
         [placeholder]="placeholder"
-        [disabled]="disabled"
         [readonly]="readonly"
         (input)="inputed($event)"
         (keydown)="keyDown($event)"
@@ -87,8 +86,8 @@
             [ngTemplateOutletContext]="{ item: textData }">
           </ng-container>
         </mat-option>
-      </ng-container>        
-      
+      </ng-container>
+
       <mat-option
         [ngClass]="{ multiple: multiple }"
         class="option"
