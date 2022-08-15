@@ -29,14 +29,33 @@
 }
 
 :host ::ng-deep {
-  .fs-autocomplete-chips-trigger {
-    opacity: 1 !important;
-  }
-
   .mat-form-field {
     min-width: 225px;
     width: 100%;
     letter-spacing: inherit;
+
+    &.inited {
+      cursor: pointer;
+    }
+
+    &.mat-focused:not(.multiple) .mat-chip {
+      visibility: hidden;
+      width: 0;
+      padding-left: 0;
+      padding-right: 0;
+      margin-right: 0;
+      margin-left: 0;
+    }
+
+    &:not(.inited) {
+      .mat-form-field-underline {
+        visibility: hidden;
+      }
+
+      .mat-chip {
+        cursor: pointer;
+      }
+    }
 
     .mat-form-field-prefix,
     .mat-form-field-suffix {
@@ -56,8 +75,6 @@
       line-height: 0;
 
       .mat-chip {
-        line-height: normal;
-
         &:not(.cdk-drag-disabled) {
           cursor: move;
         }
@@ -74,32 +91,9 @@
 
   .mat-chip-list-wrapper .mat-chip {
     margin: 4px 4px 0 0;
-  }
-
-  fs-label-field {
-    .field-content {
-      min-height: 31px;
-    }
-
-    &.init-on-click:not(.inited) {
-      .mat-chip,
-      .mat-chip-list {
-        cursor: pointer;
-      }
-    }
-
-    ::ng-deep {
-      .field-message {
-        padding-top: 7px;
-      }
-    }
-  }
-
-  .mat-chip-list-wrapper {
-    margin: -4px 0 -4px;
+    line-height: normal;
   }
 }
-
 
 ::ng-deep {
   .fs-autocomplete-chips-panel {
@@ -135,6 +129,24 @@
     .mat-option {
       line-height: 45px;
       height: 45px;
+
+      &.option-text {
+        .valid-check, .invalid-check {
+          margin-left: 5px;
+          display: none;
+          font-size: 85%;
+        }
+        
+        &.valid .valid-check {
+          display: block;
+          color: rgb(15, 170, 15);
+        }
+
+        &:not(.valid) .invalid-check {
+          display: block;
+          color: rgb(234, 27, 9);
+        }
+      }
 
       &.option {
         padding: 0;
@@ -196,7 +208,6 @@
   .mat-chip.fs-autocomplete-chip {
     background-color: #f3f3f3;
     white-space: nowrap;
-    min-height: 30px;
     box-shadow: none !important;
     user-select: none;
     max-width: 100%;

@@ -1,190 +1,158 @@
-<ng-container *ngIf="inited; else elseInited">
-  <mat-form-field
-      [floatLabel]="initOnClick ? 'always' : 'auto'"
-      (click)="focus()">
-    <mat-chip-list
-      [disabled]="disabled"
-      [tabIndex]="-1"
-      cdkDropListGroup
-      #searchList>
-      <div
-          *ngFor="let item of model; let index = index"
-          cdkDropList
-          [cdkDropListData]="{ index: index }"
-          cdkDropListOrientation="horizontal"
-          (cdkDropListDropped)="drop($event)">
-        <mat-chip
-            [disableRipple]="true"
-            [selectable]="!disabled"
-            [removable]="!disabled"
-            [disabled]="disabled"
-            [class]="'fs-autocomplete-chip ' + item.class"
-            [ngClass]="{
-              imaged: item.image,
-              'size-small': size === 'small',
-              'size-large': size === 'large',
-              'last-chip': model.length - 1 === index
-            }"
-            [style.backgroundColor]="item.background || background"
-            [style.color]="item.color || color"
-            (keydown)="chipKeyDown($event, index)"
-            (click)="chipClick($event)"
-            [cdkDragDisabled]="!orderable || disabled"
-            [cdkDragData]="item"
-            tabindex="-1"
-            cdkDrag
-            cdkDragHandle>
-          <ng-container
-            [ngTemplateOutlet]="itemTemplate"
-            [ngTemplateOutletContext]="{ item: item, selecting: false }">
-          </ng-container>
-          <ng-container
-            [ngTemplateOutlet]="itemSuffixTemplate"
-            [ngTemplateOutletContext]="{ item: item, selecting: false, disabled: disabled }">
-          </ng-container>
-        </mat-chip>
-      </div>
-
-      <input
-        #input
-        autocomplete="off"
-        [placeholder]="placeholder"
-        [readonly]="readonly"
-        (input)="inputed($event)"
-        (keydown)="keyDown($event)"
-        (focus)="focused($event)"
-        [name]="name"
-        [matAutocomplete]="autocompleteSearch"
-        [matChipInputFor]="searchList">
-    </mat-chip-list>
-
-    <span *ngIf="chipsSuffixTemplate" matSuffix>
-      <ng-container [ngTemplateOutlet]="chipsSuffixTemplate"></ng-container>
-    </span>
-
-    <span *ngIf="!disabled && allowClear" matSuffix>
-      <mat-icon
-          *ngIf="model.length"
-          class="clear"
-          (click)="clearClick($event)">
-        clear
-      </mat-icon>
-    </span>
-
-    <mat-autocomplete
-        #autocompleteSearch="matAutocomplete"
-        [class]="panelClasses"
-        (optionSelected)="optionSelected($event)"
-        (closed)="closed()"
-        [panelWidth]="panelWidth"
-        [autoActiveFirstOption]="true">
-
-      <ng-container *ngIf="keyword && allowText">
-        <mat-option *ngIf="textData.type===dataType.Text" [value]="textData" [disabled]="!textData.valid">
-          <ng-container
-            [ngTemplateOutlet]="itemTemplate"
-            [ngTemplateOutletContext]="{ item: textData }">
-          </ng-container>
-        </mat-option>
-      </ng-container>
-
-      <mat-option
-        [ngClass]="{ multiple: multiple }"
-        class="option"
-        *ngFor="let item of data" [value]="item">
-        <a
-            *ngIf="multiple"
-            class="add-icon"
-            (click)="optionClick($event, item, true)">
-          <mat-icon>add</mat-icon>
-        </a>
-        <div class="option-chip" (click)="optionClick($event, item)">
-          <mat-radio-button *ngIf="!multiple" [checked]="item.selected"></mat-radio-button>
-          <mat-chip
-              (click)="optionClick($event, item)"
-              [disableRipple]="true"
-              [class]="'fs-autocomplete-chip ' + item.class"
-              [ngClass]="{ imaged: item.image, 'size-small': size === 'small', 'size-large': size === 'large' }"
-              [style.backgroundColor]="item.background || background"
-            [style.color]="item.color || color">
-            <ng-container
-              [ngTemplateOutlet]="itemTemplate"
-              [ngTemplateOutletContext]="{ item: item, selecting: true }">
-            </ng-container>
-            <ng-container
-              [ngTemplateOutlet]="itemSuffixTemplate"
-              [ngTemplateOutletContext]="{ item: item, selecting: true, disabled: disabled }">
-            </ng-container>
-          </mat-chip>
-        </div>
-      </mat-option>
-
-      <ng-container *ngIf="noResults !== false">
-        <ng-template
-          *ngIf="noResultsTemplate; else noResultsOption"
-          [ngTemplateOutlet]="noResultsTemplate"
-          [ngTemplateOutletContext]="{ keyword: keyword }">
-        </ng-template>
-        <ng-template #noResultsOption>
-          <mat-option disabled class="no-results">
-            No results <ng-container *ngIf="keyword">for "{{keyword}}"</ng-container>
-          </mat-option>
-        </ng-template>
-      </ng-container>
-
-      <ng-container *ngIf="staticTemplates.length">
-        <div class="static-templates">
-          <mat-option
-            *ngFor="let staticTemplate of staticTemplates; let i = index"
-            class="static-option"
-            (click)="staticClick($event, i)">
-            <ng-template *ngTemplateOutlet="staticTemplate;context: { test: true }"></ng-template>
-          </mat-option>
-        </div>
-      </ng-container>
-
-      <mat-option disabled class="blank-placeholder"></mat-option>
-    </mat-autocomplete>
-    <mat-hint *ngIf="hint">{{ hint }}</mat-hint>
-    <input class="dummy-input" #dummyInput tabindex="-1">
-  </mat-form-field>
-</ng-container>
-
-<ng-template #elseInited>
-  <fs-label-field [ngClass]="{ 'init-on-click': initOnClick, inited: inited }">
-    <fs-label>{{placeholder}}</fs-label>
-    <div (click)="init()">
-      <mat-chip-list
-        *ngIf="model.length; else none">
-        <mat-chip
-          class="fs-autocomplete-chips-trigger"
-          *ngFor="let item of model"
+<mat-form-field
+    [ngClass]="{ inited: inited, multiple: multiple }"
+    (click)="focus()">
+  <mat-label>{{placeholder}}</mat-label>
+  <mat-chip-list
+    [disabled]="disabled"
+    [placeholder]="placeholder"
+    [tabIndex]="-1"
+    cdkDropListGroup
+    #searchList>
+    <div
+        *ngFor="let item of model; let index = index"
+        cdkDropList
+        [cdkDropListData]="{ index: index }"
+        cdkDropListOrientation="horizontal"
+        (cdkDropListDropped)="drop($event)">
+      <mat-chip
           [disableRipple]="true"
+          [selectable]="!disabled"
+          [removable]="!disabled"
+          [disabled]="disabled"
           [class]="'fs-autocomplete-chip ' + item.class"
-          [disabled]="true"
-          [ngClass]="{ imaged: item.image, 'size-small': size === 'small', 'size-large': size === 'large' }"
+          [ngClass]="{
+            imaged: item.image,
+            'size-small': size === 'small',
+            'size-large': size === 'large',
+            'last-chip': model.length - 1 === index
+          }"
           [style.backgroundColor]="item.background || background"
+          [style.color]="item.color || color"
+          (keydown)="chipKeyDown($event, index)"
+          (click)="chipClick($event)"
+          [cdkDragDisabled]="!orderable || disabled || !inited"
+          [cdkDragData]="item"
+          tabindex="-1"
+          cdkDrag
+          cdkDragHandle>
+        <ng-container
+          [ngTemplateOutlet]="itemTemplate"
+          [ngTemplateOutletContext]="{ item: item, selecting: false }">
+        </ng-container>
+        <ng-container
+          [ngTemplateOutlet]="itemSuffixTemplate"
+          [ngTemplateOutletContext]="{ item: item, selecting: false, disabled: disabled }">
+        </ng-container>
+      </mat-chip>
+    </div>
+    <input
+      #input
+      autocomplete="off"
+      [readonly]="readonly"
+      (input)="inputed($event)"
+      (keydown)="keyDown($event)"
+      (focus)="focused()"
+      (blur)="blured()"
+      [name]="name"
+      [matAutocomplete]="autocompleteSearch"
+      [matChipInputFor]="searchList">
+  </mat-chip-list>
+
+  <span *ngIf="chipsSuffixTemplate" matSuffix>
+    <ng-container [ngTemplateOutlet]="chipsSuffixTemplate"></ng-container>
+  </span>
+
+  <span *ngIf="!disabled && allowClear" matSuffix>
+    <mat-icon
+        *ngIf="model.length"
+        class="clear"
+        (click)="clearClick($event)">
+      clear
+    </mat-icon>
+  </span>
+
+  <mat-autocomplete
+      #autocompleteSearch="matAutocomplete"
+      [class]="panelClasses"
+      (optionSelected)="optionSelected($event)"
+      (closed)="closed()"
+      [panelWidth]="panelWidth"
+      [autoActiveFirstOption]="true">
+    <ng-container *ngIf="keyword && allowText">
+      <mat-option 
+          class="option-text"
+          *ngIf="textData.type===dataType.Text" [value]="textData"
+          [ngClass]="{ valid: validText(keyword) }">
+        <ng-container
+          [ngTemplateOutlet]="itemTemplate"
+          [ngTemplateOutletContext]="{ item: textData }">
+        </ng-container>
+
+        <span class="invalid-check">Invalid</span>
+        <span class="valid-check">Valid</span>
+      </mat-option>
+    </ng-container>
+
+    <mat-option
+      [ngClass]="{ multiple: multiple }"
+      class="option"
+      *ngFor="let item of data" [value]="item">
+      <a
+          *ngIf="multiple"
+          class="add-icon"
+          (click)="optionClick($event, item, true)">
+        <mat-icon>add</mat-icon>
+      </a>
+      <div class="option-chip" (click)="optionClick($event, item)">
+        <mat-radio-button *ngIf="!multiple" [checked]="item.selected"></mat-radio-button>
+        <mat-chip
+            (click)="optionClick($event, item)"
+            [disableRipple]="true"
+            [class]="'fs-autocomplete-chip ' + item.class"
+            [ngClass]="{ imaged: item.image, 'size-small': size === 'small', 'size-large': size === 'large' }"
+            [style.backgroundColor]="item.background || background"
           [style.color]="item.color || color">
           <ng-container
             [ngTemplateOutlet]="itemTemplate"
-            [ngTemplateOutletContext]="{ item: item, selecting: false }">
+            [ngTemplateOutletContext]="{ item: item, selecting: true }">
           </ng-container>
           <ng-container
             [ngTemplateOutlet]="itemSuffixTemplate"
-            [ngTemplateOutletContext]="{ item: item, selecting: false, disabled: disabled }">
+            [ngTemplateOutletContext]="{ item: item, selecting: true, disabled: disabled }">
           </ng-container>
         </mat-chip>
-      </mat-chip-list>
-    </div>
-    <fs-label-message *ngIf="hint">
-      {{ hint }}
-    </fs-label-message>
-  </fs-label-field>
+      </div>
+    </mat-option>
 
-  <ng-template #none>
-    <span class="none-placeholder" (click)="init()">None</span>
-  </ng-template>
-</ng-template>
+    <ng-container *ngIf="noResults !== false">
+      <ng-template
+        *ngIf="noResultsTemplate; else noResultsOption"
+        [ngTemplateOutlet]="noResultsTemplate"
+        [ngTemplateOutletContext]="{ keyword: keyword }">
+      </ng-template>
+      <ng-template #noResultsOption>
+        <mat-option disabled class="no-results">
+          No results <ng-container *ngIf="keyword">for "{{keyword}}"</ng-container>
+        </mat-option>
+      </ng-template>
+    </ng-container>
+
+    <ng-container *ngIf="staticTemplates.length">
+      <div class="static-templates">
+        <mat-option
+          *ngFor="let staticTemplate of staticTemplates; let i = index"
+          class="static-option"
+          (click)="staticClick($event, i)">
+          <ng-template *ngTemplateOutlet="staticTemplate;context: { test: true }"></ng-template>
+        </mat-option>
+      </div>
+    </ng-container>
+
+    <mat-option disabled class="blank-placeholder"></mat-option>
+  </mat-autocomplete>
+  <mat-hint *ngIf="hint">{{ hint }}</mat-hint>
+  <input class="dummy-input" #dummyInput tabindex="-1">
+</mat-form-field>
 
 <ng-template #itemTemplate let-item="item" let-selecting="selecting">
   <ng-container *ngIf="item.type===dataType.Object" class="item">

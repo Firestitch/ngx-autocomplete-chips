@@ -39,7 +39,7 @@ export class AutocompleteChipsExampleComponent implements OnInit {
 
   ngOnInit() {
     setTimeout(() => {
-      this.model = [{ firstName: 'Jessey', lastName: 'Wing', gender: 'men', icon: 'settings' }];
+      this.model = this.mapData([{ firstName: 'Jessey', lastName: 'Wing', gender: 'men', icon: 'settings' }]);
     }, 1000)
   }
 
@@ -66,11 +66,7 @@ export class AutocompleteChipsExampleComponent implements OnInit {
     return this.exampleService.fetch(keyword, 10, this.config.multiple)
       .pipe(
         delay(100),
-        map(items => {
-          return items.map(item => {
-            return Object.assign(item, { background: '#569CD6', color: '#fff' });
-          });
-        })
+        map((items) => this.mapData(items)),
       );
   };
 
@@ -99,6 +95,16 @@ export class AutocompleteChipsExampleComponent implements OnInit {
       color += letters[Math.floor(Math.random() * 16)];
     }
     return color;
+  }
+
+  public mapData(data) {
+    return data.map((item) => {
+      return {
+        ...item,
+        background: '#569CD6',
+        color: '#fff'
+      };
+    });
   }
 
 }
