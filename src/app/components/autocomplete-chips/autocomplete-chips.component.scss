@@ -73,6 +73,7 @@
     .mat-chip-list-wrapper {
       cursor: pointer;
       line-height: 0;
+      margin: -4px 0;
 
       .mat-chip {
         &:not(.cdk-drag-disabled) {
