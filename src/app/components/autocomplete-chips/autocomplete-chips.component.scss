@@ -1,5 +1,6 @@
 .mat-chip-list {
   outline: transparent;
+  overflow: hidden;
 }
 
 .blank-placeholder {
@@ -30,21 +31,33 @@
 
 :host ::ng-deep {
   .mat-form-field {
-    min-width: 225px;
     width: 100%;
     letter-spacing: inherit;
+    
+    input.mat-chip-input {
+      width: 0px;
+    }
 
     &.inited {
       cursor: pointer;
     }
 
-    &.mat-focused:not(.multiple) .mat-chip {
-      visibility: hidden;
-      width: 0;
-      padding-left: 0;
-      padding-right: 0;
-      margin-right: 0;
-      margin-left: 0;
+    &.mat-focused {
+      &:not(.multiple) .mat-chip {
+        margin-left: -10000px;
+      }
+    }
+
+    &.mat-focused {
+      input.mat-chip-input {
+        width: 200px;
+      }
+    }
+
+    &:not(.inited):not(.has-value) {
+      input.mat-chip-input {
+        width: 100px;
+      }
     }
 
     &:not(.inited) {
@@ -55,6 +68,10 @@
       .mat-chip {
         cursor: pointer;
       }
+    }
+
+    .mat-form-field-infix {
+      width: unset;
     }
 
     .mat-form-field-prefix,
@@ -82,8 +99,7 @@
       }
 
       input.mat-chip-input {
-        width: 40px;
-        flex: 1 0 40px;
+        flex: 1;
         margin-right: 0;
         margin-bottom: 2px;
       }

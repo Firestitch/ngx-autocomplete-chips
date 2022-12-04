@@ -26,7 +26,7 @@ import { isEqual, random } from 'lodash-es';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 import { Subject, of, timer, Observable } from 'rxjs';
-import { takeUntil, switchMap, tap, debounce, filter } from 'rxjs/operators';
+import { takeUntil, switchMap, tap, debounce } from 'rxjs/operators';
 
 import { getObjectValue } from '../../helpers/get-object-value';
 import { IAutocompleteItem } from '../../interfaces/autocomplete-item.interface';
@@ -93,7 +93,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
     this.disabled = value;
   }
   @Input()
-  public panelWidth: string | number = null;
+  public panelWidth: string | number = 400;
 
   @Output() public selected = new EventEmitter();
   @Output() public removed = new EventEmitter();
@@ -198,6 +198,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
       to: index,
       items: this._model,
     });
+    
     this._updateModel(this._model);
   }
 

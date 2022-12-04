@@ -1,13 +1,13 @@
 <mat-form-field
-    [ngClass]="{ inited: inited, multiple: multiple }"
+    [ngClass]="{ inited: inited, multiple: multiple, 'has-value': !!(model || []).length }"
     (click)="focus()">
   <mat-label>{{placeholder}}</mat-label>
   <mat-chip-list
-    [disabled]="disabled"
-    [placeholder]="placeholder"
-    [tabIndex]="-1"
-    cdkDropListGroup
-    #searchList>
+      [disabled]="disabled"
+      [placeholder]="placeholder"
+      [tabIndex]="-1"
+      cdkDropListGroup
+      #searchList>
     <div
         *ngFor="let item of model; let index = index"
         cdkDropList
@@ -62,7 +62,7 @@
     <ng-container [ngTemplateOutlet]="chipsSuffixTemplate"></ng-container>
   </span>
 
-  <span *ngIf="!disabled && allowClear" matSuffix>
+  <span *ngIf="!disabled && allowClear && inited" matSuffix>
     <mat-icon
         *ngIf="model.length"
         class="clear"
@@ -76,7 +76,7 @@
       [class]="panelClasses"
       (optionSelected)="optionSelected($event)"
       (closed)="closed()"
-      [panelWidth]="panelWidth"
+      [panelWidth]="400"
       [autoActiveFirstOption]="true">
     <ng-container *ngIf="keyword && allowText">
       <mat-option 
