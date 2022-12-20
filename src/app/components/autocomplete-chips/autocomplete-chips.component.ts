@@ -223,11 +223,14 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   }
 
   public keyDown(event: KeyboardEvent): void {
-    if (this.readonly || this.disabled || ['Enter', 'ArrowDown', 'ArrowUp'].indexOf(event.code) !== -1) {
+    if (this.readonly || this.disabled || ['ArrowDown', 'ArrowUp'].indexOf(event.code) !== -1) {
       return;
     }
-    
-    if (event.code === 'Tab') {
+
+    if ( event.code === 'Enter') {
+      this.unfocus();
+      return;
+    } else if (event.code === 'Tab') {
       const activeOption = this.autocompleteTrigger.activeOption;
       if (activeOption) {
         if(activeOption.value.type === DataType.Object) {
@@ -260,6 +263,11 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
     }
   }
 
+  public chipRemovedMousedown(event: UIEvent): void {
+    // Used to bypass focus event 
+    event.preventDefault();
+  }
+
   public chipRemoved(event: UIEvent, item): void {
     event.stopPropagation();
     event.stopImmediatePropagation();
@@ -283,9 +291,8 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
       this._cdRef.markForCheck();
     }
 
-    setTimeout(() => {
+    // Hack: Delay to wait for animation to finish
       this.inputEl.focus();
-    }, options.delay); // Hack: Delay to wait for animation to finish
   }
 
   public unfocus() {
@@ -430,10 +437,6 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   }
 
   private _select(selected, options: { fetch?: boolean } = {}): void {
-    if (!this.multiple) {
-      this._model = [];
-    }
-
     if (this.data) {
       const index = this.data.indexOf(selected);
 
@@ -442,18 +445,22 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
       }
     }
 
-    const value = this.allowObject && this.allowText ? selected : selected.data;
-    if (selected.type === DataType.Object) {
-      if (!this._model.includes(value)) {
-        this._addObject(selected);
-        this.selected.emit(selected);
-      }
+    if(!this.multiple) {
+      this._model = [];
     }
 
-    if (selected.type === DataType.Text) {
-      if (!this._model.includes(value)) {
-        this._addText(selected.data);
-        this.selected.emit(selected.data);
+    const value = this.allowObject && this.allowText ? selected : selected.data;
+    if (!this._model.includes(value)) {
+      switch (selected.type) {
+        case DataType.Object:
+          this._addObject(selected)
+          this.selected.emit(selected);
+        break;
+      
+        case DataType.Text:
+          this._addText(selected.data);
+          this.selected.emit(selected.data);
+          break;
       }
     }
 

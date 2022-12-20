@@ -33,6 +33,7 @@
   .mat-form-field {
     width: 100%;
     letter-spacing: inherit;
+    margin-left: 0px;
     
     input.mat-chip-input {
       width: 0px;
@@ -43,12 +44,10 @@
     }
 
     &.mat-focused {
-      &:not(.multiple) .mat-chip {
-        margin-left: -10000px;
+      &:not(.multiple).has-keyword .mat-chip {
+        margin-left: -1000px;
       }
-    }
 
-    &.mat-focused {
       input.mat-chip-input {
         width: 200px;
       }

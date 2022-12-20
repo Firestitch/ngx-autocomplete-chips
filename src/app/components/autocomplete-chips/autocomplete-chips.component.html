@@ -1,5 +1,10 @@
 <mat-form-field
-    [ngClass]="{ inited: inited, multiple: multiple, 'has-value': !!(model || []).length }"
+    [ngClass]="{ 
+      inited: inited, 
+      multiple: multiple, 
+      'has-value': !!(model || []).length,
+      'has-keyword': !!keyword
+    }"
     (click)="focus()">
   <mat-label>{{placeholder}}</mat-label>
   <mat-chip-list
@@ -181,7 +186,8 @@
     <a
         class="remove"
         *ngIf="!selecting && removable && !disabled"
-        (click)="chipRemoved($event, item)">
+        (click)="chipRemoved($event, item)"
+        (mousedown)="chipRemovedMousedown($event)">
       <mat-icon
       [style.color]="item.color || color">clear</mat-icon>
     </a>

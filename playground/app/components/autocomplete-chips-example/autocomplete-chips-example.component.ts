@@ -32,15 +32,13 @@ export class AutocompleteChipsExampleComponent implements OnInit {
     size: 'large',
   }
 
-  constructor(
-    private exampleService: ExampleService,
+  public constructor(
+    private _exampleService: ExampleService,
     private _message: FsMessage,
   ) { }
 
-  ngOnInit() {
-    setTimeout(() => {
-      this.model = this.mapData([{ firstName: 'Jessey', lastName: 'Wing', gender: 'men', icon: 'settings' }]);
-    }, 1000)
+  public ngOnInit() {
+    this.model = this.mapData([this._exampleService.people[0]]);
   }
 
   public compareWith = (o1, o2) => {
@@ -63,7 +61,7 @@ export class AutocompleteChipsExampleComponent implements OnInit {
   public fetch = (keyword) => {
     console.log('Fetch', keyword);
     keyword = null;
-    return this.exampleService.fetch(keyword, 10, this.config.multiple)
+    return this._exampleService.fetch(keyword, 10, this.config.multiple)
       .pipe(
         delay(100),
         map((items) => this.mapData(items)),
