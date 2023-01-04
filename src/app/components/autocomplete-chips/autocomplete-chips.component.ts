@@ -36,6 +36,9 @@ import { FsAutocompleteChipsNoResultsDirective } from '../../directives/autocomp
 import { FsAutocompleteChipsStaticDirective } from './../../directives/static-template/static-template.directive';
 import { FsAutocompleteChipSuffixDirective } from './../../directives/chip-suffix/chip-suffix.directive';
 import { FsAutocompleteChipsSuffixDirective } from './../../directives/chips-suffix/chips-suffix.directive';
+import { FsAutocompleteChipsTextValidIndicatorDirective } from '../../directives';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmComponent } from '../confirm';
 
 
 @Component({
@@ -66,7 +69,6 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   @Input() public allowObject = true;
   @Input() public delay = 200;
   @Input() public validateText: (text: string) => boolean;
-  @Input() public invalidTextMessage = '';
   @Input() public removable = true;
   @Input() public allowClear = true;
   @Input() public color = '';
@@ -76,6 +78,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   @Input() public initOnClick = false;
   @Input() public fetchOnFocus = true;
   @Input() public multiple = true;
+  @Input() public confirm = false;
   @Input() public set panelClass(value) {
     this.panelClasses = [
       ...['fs-account-picker-autocomplete', 'fs-autocomplete-chips-panel'],
@@ -135,6 +138,9 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   @ContentChild(FsAutocompleteChipsSuffixDirective, { read: TemplateRef })
   public chipsSuffixTemplate: TemplateRef<FsAutocompleteChipsSuffixDirective> = null;
 
+  @ContentChild(FsAutocompleteChipsTextValidIndicatorDirective, { read: TemplateRef })
+  public textValidIndicatorTemplate: TemplateRef<FsAutocompleteChipsTextValidIndicatorDirective> = null;
+
   @ContentChild(FsAutocompleteChipsNoResultsDirective, { read: TemplateRef, static: true })
   public noResultsTemplate: TemplateRef<FsAutocompleteChipsNoResultsDirective> = null;
 
@@ -153,7 +159,6 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   public name = 'autocomplete_'.concat(random(1, 9999999));
   public _model: any[] = [];
   public inited = false;
-  public inputFocus = false;
   public panelClasses: string;
 
   public get model() {
@@ -161,7 +166,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   }
 
   public get inputEl() {
-    return this.input ? this.input.nativeElement : null;
+    return this.input?.nativeElement;
   }
 
   private _keyword$ = new Subject<InputEvent>();
@@ -175,6 +180,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
 
   public constructor(
     private _cdRef: ChangeDetectorRef,
+    private _dialog: MatDialog,
   ) {
     this.panelClass = '';
   }
@@ -292,7 +298,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
     }
 
     // Hack: Delay to wait for animation to finish
-      this.inputEl.focus();
+    this.inputEl.focus();
   }
 
   public unfocus() {
@@ -327,7 +333,10 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
 
   public closed(): void {
     setTimeout(() => {
-      this._close();
+      if(!this.confirm) {
+        this._close();
+      }
+
       if (this.initOnClick) {
         // Wait for keyDown() to fire to process
           this.inited = false;
@@ -339,17 +348,38 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   }
 
   public blured(): void {
-    this.inputFocus = true;
-    this._cdRef.markForCheck();
+    if(this.confirm && this.keyword) {
+      // Wait 100ms to allow for selected values to process first 
+      setTimeout(() => {
+        this._dialog.open(ConfirmComponent,{
+          disableClose: true,
+        })
+          .afterClosed()
+          .pipe(
+            takeUntil(this._destroy$)
+          )
+          .subscribe((result) => {
+            switch(result) {
+              case 'review':
+                this.inputEl.focus();
+
+                break;
+
+              case 'discard':
+                this._clearInput();
+                break;
+            }
+          });
+        }, 100);
+    }
   }
   
-  public focused(): void {
-    this.inputFocus = true;
+  public focused(event: FocusEvent): void {
+    this.inited = true;
     this._cdRef.markForCheck();
-    this._clearInput();
-
+    
     if (this.fetchOnFocus) {
-      this._fetch();
+      this._fetch$.next(this.keyword);
       this.autocompleteTrigger.openPanel();
     }
   }
@@ -434,6 +464,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
 
     this.textData = {};
     this.keyword = '';
+    this._cdRef.markForCheck();
   }
 
   private _select(selected, options: { fetch?: boolean } = {}): void {
@@ -534,16 +565,21 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
     this._keyword$
       .pipe(
         tap((e) => {
-          if (e.data === ',') {
-            this._select({
-              type: DataType.Text,
-              data: this.keyword,
-            });
-            this._clearInput();
-          } else {
-            this.keyword = this.inputEl ? this.inputEl.value.trim() : '';
-          }
+          let keyword = this.inputEl ? this.inputEl.value.trim() : '';
 
+          if(this.allowText) {
+            if (e.data === ',') {
+              this._select({
+                type: DataType.Text,
+                data: keyword,
+              });
+              
+              this._clearInput();
+              keyword = '';
+            }
+          }
+          
+          this.keyword = keyword;
           this.data = null;
         }),
         debounce(() => {

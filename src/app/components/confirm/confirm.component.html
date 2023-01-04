@@ -1,0 +1,21 @@
+<fs-dialog>
+  <h1 mat-dialog-title>You Have Not Confirmed Your Entry</h1>
+  <mat-dialog-content>
+    What would you like to do with your entry?
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button
+        mat-button
+        type="button"
+        [mat-dialog-close]="'review'"
+        color="primary">
+      Review
+    </button>
+    <button
+        mat-button
+        type="button"
+        [mat-dialog-close]="'discard'">
+      Discard
+    </button>
+  </mat-dialog-actions>
+</fs-dialog>

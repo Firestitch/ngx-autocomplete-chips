@@ -1,8 +1,3 @@
-/*
- * Public API Surface of fs-menu
- */
-
-// Modules
 export { FsAutocompleteChipsModule } from './app/fs-autocomplete-chips.module';
 
 export { FsAutocompleteChipsComponent } from './app/components/autocomplete-chips/autocomplete-chips.component';
@@ -11,3 +6,4 @@ export { FsAutocompleteChipsStaticDirective } from './app/directives/static-temp
 export { FsAutocompleteChipsNoResultsDirective } from './app/directives/autocomplete-no-results/autocomplete-no-results.directive';
 export { FsAutocompleteChipSuffixDirective } from './app/directives/chip-suffix/chip-suffix.directive';
 export { FsAutocompleteChipsSuffixDirective } from './app/directives/chips-suffix/chips-suffix.directive';
+export { FsAutocompleteChipsTextValidIndicatorDirective } from './app/directives';

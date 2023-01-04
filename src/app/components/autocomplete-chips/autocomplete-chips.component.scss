@@ -147,19 +147,16 @@
       height: 45px;
 
       &.option-text {
-        .valid-check, .invalid-check {
+        .check {
           margin-left: 5px;
-          display: none;
           font-size: 85%;
         }
         
-        &.valid .valid-check {
-          display: block;
+        &.valid .check {
           color: rgb(15, 170, 15);
         }
 
-        &:not(.valid) .invalid-check {
-          display: block;
+        &:not(.valid) .check {
           color: rgb(234, 27, 9);
         }
       }

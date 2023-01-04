@@ -1,11 +1,15 @@
 <fs-autocomplete-chips
-  [(ngModel)]="model"
-  placeholder="Enter Email Addresses"
-  [allowText]="true"
-  [allowObject]="false"
-  [validateText]="validateText"
-  [limit]="3"
-  name="model">
+    [(ngModel)]="model"
+    placeholder="Enter Email Addresses"
+    [allowText]="true"
+    [allowObject]="false"
+    [validateText]="validateText"
+    [confirm]="true"
+    [limit]="3"
+    name="model">
+  <ng-template fsAutocompleteChipsTextValidIndicator let-valid="valid">
+    {{valid ? 'Valid Email' : 'Invalid Email'}}
+  </ng-template>
 </fs-autocomplete-chips>
 
 <fieldset>

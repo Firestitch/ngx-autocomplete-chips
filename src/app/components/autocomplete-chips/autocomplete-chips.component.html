@@ -56,7 +56,7 @@
       [readonly]="readonly"
       (input)="inputed($event)"
       (keydown)="keyDown($event)"
-      (focus)="focused()"
+      (focus)="focused($event)"
       (blur)="blured()"
       [name]="name"
       [matAutocomplete]="autocompleteSearch"
@@ -83,18 +83,27 @@
       (closed)="closed()"
       [panelWidth]="400"
       [autoActiveFirstOption]="true">
+
     <ng-container *ngIf="keyword && allowText">
       <mat-option 
           class="option-text"
-          *ngIf="textData.type===dataType.Text" [value]="textData"
-          [ngClass]="{ valid: validText(keyword) }">
+          *ngIf="textData.type===dataType.Text" 
+          [value]="textData"
+          [ngClass]="{ valid: textData.valid }">
         <ng-container
           [ngTemplateOutlet]="itemTemplate"
           [ngTemplateOutletContext]="{ item: textData }">
         </ng-container>
-
-        <span class="invalid-check">Invalid</span>
-        <span class="valid-check">Valid</span>
+        <span class="check">
+          <ng-container 
+            *ngIf="textValidIndicatorTemplate; else textValidIndicator"
+            [ngTemplateOutlet]="textValidIndicatorTemplate"
+            [ngTemplateOutletContext]="{ valid: textData.valid }">
+          </ng-container>
+          <ng-template #textValidIndicator>
+            {{ textData.valid ? 'Valid' : 'Invalid' }}
+          </ng-template>
+        </span>
       </mat-option>
     </ng-container>
 
