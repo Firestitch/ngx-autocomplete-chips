@@ -26,7 +26,7 @@ import { isEqual, random } from 'lodash-es';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 import { Subject, of, timer, Observable } from 'rxjs';
-import { takeUntil, switchMap, tap, debounce } from 'rxjs/operators';
+import { takeUntil, switchMap, tap, debounce, delay, filter, take } from 'rxjs/operators';
 
 import { getObjectValue } from '../../helpers/get-object-value';
 import { IAutocompleteItem } from '../../interfaces/autocomplete-item.interface';
@@ -348,30 +348,31 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   }
 
   public blured(): void {
-    if(this.confirm && this.keyword) {
-      // Wait 100ms to allow for selected values to process first 
-      setTimeout(() => {
-        this._dialog.open(ConfirmComponent,{
+    of(true)
+    .pipe(
+      filter(() => this.confirm),
+      delay(100),
+      filter(() => !!this.keyword),
+      switchMap(() => this._dialog.open(ConfirmComponent,{
           disableClose: true,
         })
           .afterClosed()
-          .pipe(
-            takeUntil(this._destroy$)
-          )
-          .subscribe((result) => {
-            switch(result) {
-              case 'review':
-                this.inputEl.focus();
+      ),
+      take(1),
+      takeUntil(this._destroy$)
+    )
+    .subscribe((result) => {
+      switch(result) {
+        case 'review':
+          this.inputEl.focus();
 
-                break;
+          break;
 
-              case 'discard':
-                this._clearInput();
-                break;
-            }
-          });
-        }, 100);
-    }
+        case 'discard':
+          this._clearInput();
+          break;
+      }
+    });
   }
   
   public focused(event: FocusEvent): void {

@@ -83,7 +83,6 @@
       (closed)="closed()"
       [panelWidth]="400"
       [autoActiveFirstOption]="true">
-
     <ng-container *ngIf="keyword && allowText">
       <mat-option 
           class="option-text"
@@ -125,7 +124,7 @@
             [class]="'fs-autocomplete-chip ' + item.class"
             [ngClass]="{ imaged: item.image, 'size-small': size === 'small', 'size-large': size === 'large' }"
             [style.backgroundColor]="item.background || background"
-          [style.color]="item.color || color">
+            [style.color]="item.color || color">
           <ng-container
             [ngTemplateOutlet]="itemTemplate"
             [ngTemplateOutletContext]="{ item: item, selecting: true }">
