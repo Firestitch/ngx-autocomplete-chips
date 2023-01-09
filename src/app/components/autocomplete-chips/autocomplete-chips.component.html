@@ -81,7 +81,7 @@
       [class]="panelClasses"
       (optionSelected)="optionSelected($event)"
       (closed)="closed()"
-      [panelWidth]="400"
+      [panelWidth]="panelWidth"
       [autoActiveFirstOption]="true">
     <ng-container *ngIf="keyword && allowText">
       <mat-option 
