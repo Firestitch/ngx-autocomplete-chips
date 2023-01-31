@@ -204,7 +204,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
       to: index,
       items: this._model,
     });
-    
+
     this._updateModel(this._model);
   }
 
@@ -238,19 +238,18 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
       return;
     } else if (event.code === 'Tab') {
       const activeOption = this.autocompleteTrigger.activeOption;
+
       if (activeOption) {
-        if(activeOption.value.type === DataType.Object) {
-          this._addObject(activeOption.value);
-          this.selected.emit(activeOption.value);
-        } else if(activeOption.value.type === DataType.Text) {
-          this._addText(this.keyword);
-          this.selected.emit(this.keyword);
+        if (activeOption.value) {
+          this._select(activeOption.value);
+          this._clearData();
+          this._clearInput();
         }
       }
 
       this._clearInput();
     }
-    
+
     this._clearData();
   }
 
@@ -263,14 +262,14 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
       if(this.multiple) {
         this.model.splice(index, 1);
         this._updateModel(this.model);
-      } else {        
+      } else {
         this._updateModel([]);
       }
     }
   }
 
   public chipRemovedMousedown(event: UIEvent): void {
-    // Used to bypass focus event 
+    // Used to bypass focus event
     event.preventDefault();
   }
 
@@ -292,7 +291,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   }
 
   public focus(options = { delay: 0}): void {
-    if(!this.disabled) {
+    if (!this.disabled) {
       this.inited = true;
       this._cdRef.markForCheck();
     }
@@ -303,7 +302,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
 
   public unfocus() {
     setTimeout(() => {
-      if(this.dummyInput) {
+      if (this.dummyInput) {
         this.dummyInput.nativeElement.focus();
       }
     });
@@ -333,7 +332,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
 
   public closed(): void {
     setTimeout(() => {
-      if(!this.confirm) {
+      if (!this.confirm) {
         this._close();
       }
 
@@ -374,11 +373,11 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
       }
     });
   }
-  
+
   public focused(event: FocusEvent): void {
     this.inited = true;
     this._cdRef.markForCheck();
-    
+
     if (this.fetchOnFocus) {
       this._fetch$.next(this.keyword);
       this.autocompleteTrigger.openPanel();
@@ -388,9 +387,9 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   public optionClick(event: UIEvent, value: any, refocus = false): void {
     event.stopPropagation();
     event.preventDefault();
-    
+
     // Clear input before close to prevent adding text item which was not selected
-    if(!refocus) {
+    if (!refocus) {
       this._clearInput();
     }
 
@@ -477,7 +476,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
       }
     }
 
-    if(!this.multiple) {
+    if (!this.multiple) {
       this._model = [];
     }
 
@@ -488,7 +487,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
           this._addObject(selected)
           this.selected.emit(selected);
         break;
-      
+
         case DataType.Text:
           this._addText(selected.data);
           this.selected.emit(selected.data);
@@ -506,13 +505,13 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
       });
     }
   }
-  
+
   private _createTextItem(data, valid: boolean): IAutocompleteItem {
     return {
       data,
       type: DataType.Text,
       valid,
-    }; 
+    };
   }
 
   private _createObjectItem(data): IAutocompleteItem {
@@ -574,12 +573,12 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
                 type: DataType.Text,
                 data: keyword,
               });
-              
+
               this._clearInput();
               keyword = '';
             }
           }
-          
+
           this.keyword = keyword;
           this.data = null;
         }),
