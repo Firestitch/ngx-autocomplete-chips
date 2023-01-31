@@ -20,7 +20,8 @@ import {
   AutocompleteChipsExampleComponent,
   AutocompleteChipsOrderableExampleComponent,
   TextExampleComponent,
-  LabelExampleComponent
+  LabelExampleComponent,
+  StatusExampleComponent,
 } from './components';
 import { EmailExampleComponent } from './components/email-example';
 import { ExampleService } from './services/example.service';
@@ -47,6 +48,7 @@ import { ExampleService } from './services/example.service';
     AutocompleteChipsExampleComponent,
     AutocompleteChipsOrderableExampleComponent,
     LabelExampleComponent,
+    StatusExampleComponent,
     TextExampleComponent,
     EmailExampleComponent
   ],
