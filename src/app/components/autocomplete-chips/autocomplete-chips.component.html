@@ -81,6 +81,7 @@
       [class]="panelClasses"
       (optionSelected)="optionSelected($event)"
       (closed)="closed()"
+      (opened)="opened()"
       [panelWidth]="panelWidth"
       [autoActiveFirstOption]="true">
     <ng-container *ngIf="keyword && allowText">
