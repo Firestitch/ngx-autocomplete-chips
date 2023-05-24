@@ -30,6 +30,11 @@
 }
 
 :host ::ng-deep {
+
+  .cdk-drop-list {
+    max-width: 100%;
+  }
+  
   .mat-form-field {
     width: 100%;
     letter-spacing: inherit;
