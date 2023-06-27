@@ -399,17 +399,10 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
     event.stopPropagation();
     event.preventDefault();
 
-    // Clear input before close to prevent adding text item which was not selected
-    if (!refocus) {
-      this._clearInput();
-    }
-
     if (this.multiple) {
       this._select(value, { fetch: !this.fetchOnFocus });
-      if (!refocus) {
-        this.closePanel();
-      }
     } else {
+      this._clearInput();
       this._select(value, { fetch: false });
       this._close();
       this.closePanel();

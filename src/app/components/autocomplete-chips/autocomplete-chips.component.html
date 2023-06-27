@@ -108,17 +108,10 @@
     </ng-container>
 
     <mat-option
-      [ngClass]="{ multiple: multiple }"
-      class="option"
-      *ngFor="let item of data" [value]="item">
-      <a
-          *ngIf="multiple"
-          class="add-icon"
-          (click)="optionClick($event, item, true)">
-        <mat-icon>add</mat-icon>
-      </a>
+        [ngClass]="{ multiple: multiple }"
+        class="option"
+        *ngFor="let item of data" [value]="item">
       <div class="option-chip" (click)="optionClick($event, item)">
-        <mat-radio-button *ngIf="!multiple" [checked]="item.selected"></mat-radio-button>
         <mat-chip
             (click)="optionClick($event, item)"
             [disableRipple]="true"
