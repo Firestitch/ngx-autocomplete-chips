@@ -331,14 +331,16 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
     }
   }
 
-  public opened(): void {    
-    let width = this._elRef.nativeElement.getBoundingClientRect().width
-    setTimeout(() => {
-      let panel = this.autocomplete.panel?.nativeElement;
-      if (panel)  {
-        panel.style.minWidth = `${width}px`;
-      }
-    })
+  public opened(): void { 
+    setTimeout(() => {   
+      let width = this._elRef.nativeElement.getBoundingClientRect().width;
+      setTimeout(() => {
+        let panel = this.autocomplete.panel?.nativeElement;
+        if (panel)  {
+          panel.style.minWidth = `${width}px`;
+        }
+      });
+    });
   }
 
   public closed(): void {
