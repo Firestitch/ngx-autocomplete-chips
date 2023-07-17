@@ -96,7 +96,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
     this.disabled = value;
   }
   @Input()
-  public panelWidth: string | number = 400;
+  public panelWidth: string | number;
 
   @Output() public selected = new EventEmitter();
   @Output() public removed = new EventEmitter();
