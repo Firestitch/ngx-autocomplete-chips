@@ -41,6 +41,10 @@ export class AutocompleteChipsExampleComponent implements OnInit {
     this.model = this.mapData([this._exampleService.people[0]]);
   }
 
+  public selected(keyword) {
+    console.log('Selected', keyword);
+  }
+
   public compareWith = (o1, o2) => {
     return isEqual(o1, o2);
   };

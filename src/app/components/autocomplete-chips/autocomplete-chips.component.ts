@@ -429,6 +429,8 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
 
     const staticDirective: FsAutocompleteChipsStaticDirective = this.staticDirectives.toArray()[index];
     staticDirective.click.emit(event);
+    staticDirective.selected.emit(this.keyword);
+
     if (this.inputEl) {
       this.inputEl.blur();
     }

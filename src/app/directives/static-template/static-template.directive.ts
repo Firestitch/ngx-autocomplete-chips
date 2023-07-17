@@ -9,6 +9,8 @@ export class FsAutocompleteChipsStaticDirective {
   @Input() public showOnEmptyKeyword = true;
 
   @Output() public click = new EventEmitter();
+
+  @Output() public selected = new EventEmitter<string>();
   
   public constructor(
     public templateRef: TemplateRef<any>

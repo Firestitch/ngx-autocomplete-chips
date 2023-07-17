@@ -41,14 +41,14 @@
     Select All
   </ng-template>
 
-  <ng-template fsAutocompleteChipsStatic let-keyword="keyword" [showOnEmptyKeyword]="false">
+  <ng-template fsAutocompleteChipsStatic let-keyword="keyword" [showOnEmptyKeyword]="false" (selected)="selected($event)">
     Create new "{{keyword}}"
   </ng-template>
 
   <ng-template fsAutocompleteChipsNoResults>
     <div class="custom-results">Custom No Results</div>
   </ng-template>
-</fs-autocomplete-chips>
+</fs-autocomplete-chips>^
 
 <mat-tab-group mat-align-tabs="start">
   <mat-tab label="First">
