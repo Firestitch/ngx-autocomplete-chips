@@ -118,6 +118,13 @@
 
 ::ng-deep {
   .fs-autocomplete-chips-panel {
+    &.fetching {
+      .custom-results,
+      .mat-option {
+        opacity: .5;
+      }
+    }
+
     &:not(:hover) {
       .mat-active .option-chip {
         background-color: rgb(42 42 42 / 10%);

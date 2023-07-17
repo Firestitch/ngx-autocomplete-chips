@@ -146,12 +146,15 @@
 
     <ng-container *ngIf="staticTemplates.length">
       <div class="static-templates">
-        <mat-option
-          *ngFor="let staticTemplate of staticTemplates; let i = index"
-          class="static-option"
-          (click)="staticClick($event, i)">
-          <ng-template *ngTemplateOutlet="staticTemplate;context: { test: true }"></ng-template>
-        </mat-option>
+        <ng-container *ngFor="let staticTemplate of staticTemplates; let i = index">
+          <ng-container *ngIf="keyword || (!keyword && staticTemplate.showOnEmptyKeyword)">
+            <mat-option
+                class="static-option"
+                (click)="staticClick($event, i)">
+              <ng-template *ngTemplateOutlet="staticTemplate.templateRef;context: { keyword: keyword }"></ng-template>
+            </mat-option>
+          </ng-container>
+        </ng-container>
       </div>
     </ng-container>
 

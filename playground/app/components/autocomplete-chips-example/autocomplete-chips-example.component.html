@@ -37,12 +37,12 @@
     </a>
   </ng-template>
 
-  <ng-template fsAutocompleteChipsStatic (click)="staticClick($event)">
-    Add New Account
+  <ng-template fsAutocompleteChipsStatic (click)="selectAllClick($event)">
+    Select All
   </ng-template>
 
-  <ng-template fsAutocompleteChipsStatic (click)="selectAllClick($event)">
-    Select All Accounts
+  <ng-template fsAutocompleteChipsStatic let-keyword="keyword" [showOnEmptyKeyword]="false">
+    Create new "{{keyword}}"
   </ng-template>
 
   <ng-template fsAutocompleteChipsNoResults>

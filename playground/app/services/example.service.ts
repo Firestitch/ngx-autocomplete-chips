@@ -17,10 +17,12 @@ export class ExampleService {
   }
 
   public fetch(keyword, limit = 10, multiple = true) {
-    const people = this.people.filter(item => {
-      return !keyword ||
-      (item.firstName.toLowerCase().indexOf(keyword) >= 0 || item.lastName.toLowerCase().indexOf(keyword) >= 0);
-    });
+    const people = this.people
+      .filter((item) => {
+        return !keyword ||
+          item.firstName.toLowerCase().indexOf(keyword) >= 0 || 
+          item.lastName.toLowerCase().indexOf(keyword) >= 0;
+      });
 
     return of(people.splice(0, limit));
   }
