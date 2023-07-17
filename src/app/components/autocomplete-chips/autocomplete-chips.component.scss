@@ -120,7 +120,7 @@
   .fs-autocomplete-chips-panel {
     &.fetching {
       .custom-results,
-      .mat-option {
+      .mat-option:not(.static-option) {
         opacity: .5;
       }
     }
