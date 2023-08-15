@@ -48,7 +48,7 @@
       cursor: pointer;
     }
 
-    &.mat-focused {
+    &.mat-focused.inited {
       &:not(.multiple).has-keyword .mat-chip {
         margin-left: -1000px;
       }
