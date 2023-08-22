@@ -34,12 +34,12 @@
   .cdk-drop-list {
     max-width: 100%;
   }
-  
+
   .mat-form-field {
     width: 100%;
     letter-spacing: inherit;
     margin-left: 0px;
-    
+
     input.mat-chip-input {
       width: 0px;
     }
@@ -54,7 +54,7 @@
       }
 
       input.mat-chip-input {
-        width: 200px;
+        width: 100%;
       }
     }
 
@@ -146,7 +146,7 @@
         border-top: 1px solid #e0e0e0;
       }
     }
-    
+
     .invalid-message .mat-option-text {
       line-height: normal;
       flex-direction: column;
@@ -163,7 +163,7 @@
           margin-left: 5px;
           font-size: 85%;
         }
-        
+
         &.valid .check {
           color: rgb(15, 170, 15);
         }
@@ -180,7 +180,7 @@
       &.multiple .option-chip {
         padding-left: 8px;
       }
-        
+
       .option-chip {
         user-select: none;
         display: flex;
@@ -195,7 +195,7 @@
         .mat-chip {
           cursor: pointer;
           pointer-events: all;
-  
+
           .mat-icon {
             margin-right: 5px;
           }
@@ -208,7 +208,7 @@
       }
 
       &.mat-active,
-      &:hover:not(.mat-option-disabled), 
+      &:hover:not(.mat-option-disabled),
       &:focus:not(.mat-option-disabled) {
         background: none;
       }
@@ -236,7 +236,7 @@
     box-shadow: none !important;
     user-select: none;
     max-width: 100%;
-  
+
     &:hover::after {
       opacity: 0;
     }
