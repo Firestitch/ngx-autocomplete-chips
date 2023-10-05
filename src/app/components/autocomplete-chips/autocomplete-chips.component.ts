@@ -1,50 +1,49 @@
+import { BACKSPACE, DELETE } from '@angular/cdk/keycodes';
 import {
   ChangeDetectionStrategy, ChangeDetectorRef,
   Component,
   ContentChild,
+  ContentChildren,
   ElementRef,
   EventEmitter,
-  forwardRef,
   HostBinding,
   HostListener,
   Input,
   OnDestroy,
   OnInit,
   Output,
+  QueryList,
   TemplateRef,
   ViewChild,
-  ContentChildren,
-  QueryList,
-  ViewChildren,
+  forwardRef
 } from '@angular/core';
-import { MatFormField } from '@angular/material/form-field';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
-import { BACKSPACE, DELETE } from '@angular/cdk/keycodes';
+import { MatFormField } from '@angular/material/form-field';
 
-import { isEqual, random } from 'lodash-es';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { isEqual, random } from 'lodash-es';
 
-import { Subject, of, timer, Observable } from 'rxjs';
-import { takeUntil, switchMap, tap, debounce, delay, filter, take, finalize } from 'rxjs/operators';
+import { Observable, Subject, of, timer } from 'rxjs';
+import { debounce, delay, filter, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 
+import { MatDialog } from '@angular/material/dialog';
+import { FsAutocompleteChipsTextValidIndicatorDirective } from '../../directives';
+import { FsAutocompleteChipsNoResultsDirective } from '../../directives/autocomplete-no-results/autocomplete-no-results.directive';
+import { FsAutocompleteObjectDirective } from '../../directives/autocomplete-object/autocomplete-object.directive';
 import { getObjectValue } from '../../helpers/get-object-value';
 import { IAutocompleteItem } from '../../interfaces/autocomplete-item.interface';
 import { DataType } from '../../interfaces/data-type';
-import { FsAutocompleteObjectDirective } from '../../directives/autocomplete-object/autocomplete-object.directive';
-import { FsAutocompleteChipsNoResultsDirective } from '../../directives/autocomplete-no-results/autocomplete-no-results.directive';
-import { FsAutocompleteChipsStaticDirective } from './../../directives/static-template/static-template.directive';
+import { ConfirmComponent } from '../confirm';
 import { FsAutocompleteChipSuffixDirective } from './../../directives/chip-suffix/chip-suffix.directive';
 import { FsAutocompleteChipsSuffixDirective } from './../../directives/chips-suffix/chips-suffix.directive';
-import { FsAutocompleteChipsTextValidIndicatorDirective } from '../../directives';
-import { MatDialog } from '@angular/material/dialog';
-import { ConfirmComponent } from '../confirm';
+import { FsAutocompleteChipsStaticDirective } from './../../directives/static-template/static-template.directive';
 
 
 @Component({
   selector: 'fs-autocomplete-chips',
   templateUrl: './autocomplete-chips.component.html',
-  styleUrls: [ './autocomplete-chips.component.scss' ],
+  styleUrls: ['./autocomplete-chips.component.scss'],
   providers: [{
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => FsAutocompleteChipsComponent),
@@ -142,9 +141,6 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   public noResultsTemplate: TemplateRef<FsAutocompleteChipsNoResultsDirective>;
 
   @ContentChildren(FsAutocompleteChipsStaticDirective)
-  public staticTemplates: QueryList<FsAutocompleteChipsStaticDirective>;
-
-  @ContentChildren(FsAutocompleteChipsStaticDirective)
   public staticDirectives: QueryList<FsAutocompleteChipsStaticDirective>;
 
   public data: IAutocompleteItem[];
@@ -231,7 +227,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
       return;
     }
 
-    if ( event.code === 'Enter' &&  !this.multiple) {
+    if (event.code === 'Enter' && !this.multiple) {
       this.unfocus();
       return;
     }
@@ -243,7 +239,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
 
   public chipKeyDown(event: KeyboardEvent, index): void {
     if (event.keyCode === BACKSPACE || event.keyCode === DELETE) {
-      if(this.multiple) {
+      if (this.multiple) {
         this.model.splice(index, 1);
         this._updateModel(this.model);
       } else {
@@ -274,7 +270,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
     }
   }
 
-  public focus(options = { delay: 0}): void {
+  public focus(options = { delay: 0 }): void {
     if (!this.disabled) {
       this.inited = true;
       this._cdRef.markForCheck();
@@ -315,11 +311,13 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
     }
   }
 
-  public opened(): void { 
-    setTimeout(() => {   
+  public opened(): void {
+    this._updateStaticDirectives();
+
+    setTimeout(() => {
       let width = this._elRef.nativeElement.getBoundingClientRect().width;
       let panel = this.autocomplete.panel?.nativeElement;
-      if (panel)  {
+      if (panel) {
         panel.style.minWidth = `${width}px`;
       }
     }, 200);
@@ -333,8 +331,8 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
 
       if (this.initOnClick) {
         // Wait for keyDown() to fire to process
-          this.inited = false;
-          this._cdRef.markForCheck();
+        this.inited = false;
+        this._cdRef.markForCheck();
       }
 
       this._clearData();
@@ -343,30 +341,30 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
 
   public blured(): void {
     of(true)
-    .pipe(
-      filter(() => this.confirm),
-      delay(100),
-      filter(() => !!this.keyword),
-      switchMap(() => this._dialog.open(ConfirmComponent,{
+      .pipe(
+        filter(() => this.confirm),
+        delay(100),
+        filter(() => !!this.keyword),
+        switchMap(() => this._dialog.open(ConfirmComponent, {
           disableClose: true,
         })
           .afterClosed()
-      ),
-      take(1),
-      takeUntil(this._destroy$)
-    )
-    .subscribe((result) => {
-      switch(result) {
-        case 'review':
-          this.inputEl.focus();
+        ),
+        take(1),
+        takeUntil(this._destroy$)
+      )
+      .subscribe((result) => {
+        switch (result) {
+          case 'review':
+            this.inputEl.focus();
 
-          break;
+            break;
 
-        case 'discard':
-          this._clearInput();
-          break;
-      }
-    });
+          case 'discard':
+            this._clearInput();
+            break;
+        }
+      });
   }
 
   public focused(event: FocusEvent): void {
@@ -399,7 +397,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
     }
 
     this._select(event.option.value);
-    if(!this.multiple) {
+    if (!this.multiple) {
       this._clearData();
       this._clearInput();
     }
@@ -411,8 +409,8 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
 
       value = value.map((item) => {
         return typeof item === 'object' ?
-        this._createObjectItem(item) :
-        this._createTextItem(item, true);
+          this._createObjectItem(item) :
+          this._createTextItem(item, true);
       });
 
     } else {
@@ -478,7 +476,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
         case DataType.Object:
           this._addObject(selected)
           this.selected.emit(selected);
-        break;
+          break;
 
         case DataType.Text:
           this._addText(selected.data);
@@ -553,18 +551,33 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
     this._fetch$.next(null);
   }
 
+  private _getKeyword() {
+    return this.inputEl?.value.trim() || '';
+  }
+
+  private _updateStaticDirectives() {
+    this.staticDirectives.forEach((staticDirective) => {
+      staticDirective.isShow = staticDirective.show(this._getKeyword());
+      staticDirective.isDisabled = staticDirective.disable(this._getKeyword());
+    });
+  }
+
   private _listenKeywordChange(): void {
     this._keyword$
       .pipe(
+        tap(() => {
+          this._updateStaticDirectives();
+          this._cdRef.markForCheck();
+        }),
         tap(() => {
           setTimeout(() => {
             this.autocomplete.panel?.nativeElement.classList.add('fetching');
           });
         }),
         tap((e) => {
-          let keyword = this.inputEl ? this.inputEl.value.trim() : '';
+          let keyword = this._getKeyword();
 
-          if(this.allowText) {
+          if (this.allowText) {
             if (e.data === ',') {
               this._select({
                 type: DataType.Text,
@@ -597,7 +610,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
     this._fetch$
       .pipe(
         switchMap((keyword) => {
-          this.autocompleteTrigger.openPanel();        
+          this.autocompleteTrigger.openPanel();
           this._cdRef.markForCheck();
 
           if (this.allowText) {
@@ -608,7 +621,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
             this.noResults = false;
 
             return this._doFetchByKeyword(keyword);
-          } 
+          }
 
           return of([]);
         }),

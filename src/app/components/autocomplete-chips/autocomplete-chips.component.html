@@ -132,26 +132,27 @@
     </mat-option>
 
     <ng-container *ngIf="noResults !== false">
-      <ng-template
-        *ngIf="noResultsTemplate; else noResultsOption"
-        [ngTemplateOutlet]="noResultsTemplate"
-        [ngTemplateOutletContext]="{ keyword: keyword }">
-      </ng-template>
-      <ng-template #noResultsOption>
-        <mat-option disabled class="no-results">
-          No results <ng-container *ngIf="keyword">for "{{keyword}}"</ng-container>
-        </mat-option>
-      </ng-template>
+      <mat-option disabled class="no-results">
+        <ng-template
+          *ngIf="noResultsTemplate; else noResultsOption"
+          [ngTemplateOutlet]="noResultsTemplate"
+          [ngTemplateOutletContext]="{ keyword: keyword }">
+        </ng-template>
+        <ng-template #noResultsOption>
+            No results <ng-container *ngIf="keyword">for "{{keyword}}"</ng-container>
+        </ng-template>
+      </mat-option>
     </ng-container>
 
-    <ng-container *ngIf="staticTemplates.length">
+    <ng-container *ngIf="staticDirectives.length">
       <div class="static-templates">
-        <ng-container *ngFor="let staticTemplate of staticTemplates; let i = index">
-          <ng-container *ngIf="keyword || (!keyword && staticTemplate.showOnEmptyKeyword)">
+        <ng-container *ngFor="let staticDirective of staticDirectives; let i = index">
+          <ng-container *ngIf="staticDirective.isShow">
             <mat-option
                 class="static-option"
+                [disabled]="staticDirective.isDisabled"
                 (click)="staticClick($event, i)">
-              <ng-template *ngTemplateOutlet="staticTemplate.templateRef;context: { keyword: keyword }"></ng-template>
+              <ng-template *ngTemplateOutlet="staticDirective.templateRef;context: { keyword: keyword }"></ng-template>
             </mat-option>
           </ng-container>
         </ng-container>

@@ -1,9 +1,9 @@
-import { isEqual } from 'lodash-es';
-import { delay, map } from 'rxjs/operators';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { email } from '@firestitch/common';
-import { ExampleService } from 'playground/app/services/example.service';
 import { FsMessage } from '@firestitch/message';
+import { isEqual } from 'lodash-es';
+import { ExampleService } from 'playground/app/services/example.service';
+import { delay, map } from 'rxjs/operators';
 import { FsAutocompleteChipsComponent } from './../../../../src/app/components/autocomplete-chips/autocomplete-chips.component';
 
 
@@ -43,6 +43,10 @@ export class AutocompleteChipsExampleComponent implements OnInit {
 
   public selected(keyword) {
     console.log('Selected', keyword);
+  }
+
+  public showKeyword = (keyword) => {
+    return !!keyword;
   }
 
   public compareWith = (o1, o2) => {

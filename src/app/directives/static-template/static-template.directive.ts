@@ -1,4 +1,4 @@
-import { Directive, Output, EventEmitter, Input, TemplateRef } from '@angular/core';
+import { Directive, EventEmitter, Input, Output, TemplateRef } from '@angular/core';
 
 
 @Directive({
@@ -6,14 +6,18 @@ import { Directive, Output, EventEmitter, Input, TemplateRef } from '@angular/co
 })
 export class FsAutocompleteChipsStaticDirective {
 
-  @Input() public showOnEmptyKeyword = true;
+  @Input() public show = (keyword: string) => true;
+  @Input() public disable = (keyword: string) => false;
 
   @Output() public click = new EventEmitter();
 
   @Output() public selected = new EventEmitter<string>();
-  
+
   public constructor(
     public templateRef: TemplateRef<any>
-  ) {}
+  ) { }
+
+  public isShow = true;
+  public isDisabled = false;
 
 }
