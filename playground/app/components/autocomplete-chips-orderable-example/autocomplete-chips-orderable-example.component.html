@@ -3,13 +3,15 @@
     [(ngModel)]="model"
     placeholder="Select &amp; Order Accounts"
     [orderable]="true"
+    [multiple]="false"    
+    [fetchOnFocus]="true"
     chipImage="image"
     name="model">
   <ng-template fsAutocompleteObject let-object="object">
     {{object.firstName}} {{object.lastName}}
   </ng-template>
   <ng-template fsAutocompleteChipSuffix let-object="object">
-    <a (click)="click(object)"><mat-icon>launch</mat-icon></a>
+    <a (click)="click($event, object)"><mat-icon>launch</mat-icon></a>
   </ng-template>
 </fs-autocomplete-chips>
 <fieldset>

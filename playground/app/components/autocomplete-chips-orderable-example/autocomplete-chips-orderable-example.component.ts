@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FsMessage } from '@firestitch/message';
 import { ExampleService } from 'playground/app/services/example.service';
 
 
@@ -10,21 +11,27 @@ export class AutocompleteChipsOrderableExampleComponent implements OnInit {
 
   public model = [];
 
-  constructor(private exampleService: ExampleService) { }
+  constructor(
+    private _exampleService: ExampleService,
+    private _message: FsMessage,
+  ) { }
 
   public ngOnInit() {
-    this.exampleService.fetch('', 3)
-    .subscribe((response) => {
-      this.model = response;
-    });
+    this._exampleService.fetch('', 3)
+      .subscribe((response) => {
+        this.model = response;
+      });
   }
 
   public fetch = (keyword, existing) => {
-    return this.exampleService.fetch(keyword, existing);
+    return this._exampleService.fetch(keyword, existing);
   }
 
 
-  public click(data) {
-    console.log(data);
+  public click(event: MouseEvent, data) {
+    event.preventDefault();
+    event.stopPropagation();
+    event.stopImmediatePropagation();
+    this._message.success('Launch clicked');
   }
 }
