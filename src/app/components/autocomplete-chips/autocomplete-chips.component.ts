@@ -1,5 +1,6 @@
 import { BACKSPACE, DELETE } from '@angular/cdk/keycodes';
 import {
+  AfterViewInit,
   ChangeDetectionStrategy, ChangeDetectorRef,
   Component,
   ContentChild,
@@ -15,6 +16,7 @@ import {
   QueryList,
   TemplateRef,
   ViewChild,
+  ViewChildren,
   forwardRef
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -27,6 +29,7 @@ import { isEqual, random } from 'lodash-es';
 import { Observable, Subject, of, timer } from 'rxjs';
 import { debounce, delay, filter, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 
+import { MatChip } from '@angular/material/chips';
 import { MatDialog } from '@angular/material/dialog';
 import { FsAutocompleteChipsTextValidIndicatorDirective } from '../../directives';
 import { FsAutocompleteChipsNoResultsDirective } from '../../directives/autocomplete-no-results/autocomplete-no-results.directive';
@@ -51,7 +54,7 @@ import { FsAutocompleteChipsStaticDirective } from './../../directives/static-te
   }],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlValueAccessor {
+export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlValueAccessor, AfterViewInit {
 
   @Input() public fetch = null;
   @Input() public readonly = false;
@@ -143,6 +146,9 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   @ContentChildren(FsAutocompleteChipsStaticDirective)
   public staticDirectives: QueryList<FsAutocompleteChipsStaticDirective>;
 
+  @ViewChildren(MatChip)
+  public chips: QueryList<MatChip>;
+
   public data: IAutocompleteItem[];
   public textData: Partial<IAutocompleteItem> = {};
   public disabled = false;
@@ -178,10 +184,25 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   ) {
     this.panelClass = '';
   }
+  setDisabledState?(isDisabled: boolean): void {
+    throw new Error('Method not implemented.');
+  }
+
+  public ngAfterViewInit(): void {
+    // Disabled MatChip focus functionality
+    this.chips.changes
+      .pipe(
+        takeUntil(this._destroy$),
+      )
+      .subscribe(() => {
+        this.chips.forEach((chip) => {
+          chip.focus = () => { };
+        });
+      });
+  }
 
   public ngOnInit(): void {
     this.inited = !this.initOnClick;
-
     this._listenFetch();
     this._listenKeywordChange();
   }
@@ -231,6 +252,12 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
       this.unfocus();
       return;
     }
+  }
+
+  public chipFocus(event: FocusEvent): void {
+    event.stopImmediatePropagation();
+    event.stopPropagation();
+    event.preventDefault();
   }
 
   public chipClick(event: MouseEvent): void {
