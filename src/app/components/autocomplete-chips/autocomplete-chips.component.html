@@ -191,11 +191,10 @@
     </ng-container>
     <a
         class="remove"
-        *ngIf="!selecting && removable && !disabled"
+        *ngIf="!selecting && removable && !disabled && multiple"
         (click)="chipRemoved($event, item)"
         (mousedown)="chipRemovedMousedown($event)">
-      <mat-icon
-      [style.color]="item.color || color">clear</mat-icon>
+      <mat-icon [style.color]="item.color || color">clear</mat-icon>
     </a>
   </div>
 </ng-template>
