@@ -93,10 +93,8 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
     return isEqual(o1, o2);
   };
 
-  @Input('disabled')
-  set setDisabled(value) {
-    this.disabled = value;
-  }
+  @Input() public disabled = false
+
   @Input()
   public panelWidth: string | number;
 
@@ -151,7 +149,6 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
 
   public data: IAutocompleteItem[];
   public textData: Partial<IAutocompleteItem> = {};
-  public disabled = false;
   public dataType = DataType;
   public keyword: string = null;
   public noResults = false;
@@ -184,8 +181,9 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   ) {
     this.panelClass = '';
   }
-  setDisabledState?(isDisabled: boolean): void {
-    throw new Error('Method not implemented.');
+
+  public setDisabledState?(isDisabled: boolean): void {
+    this.disabled = isDisabled;
   }
 
   public ngAfterViewInit(): void {
