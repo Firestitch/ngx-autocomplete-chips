@@ -21,7 +21,7 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
-import { MatFormField } from '@angular/material/form-field';
+import { MatFormField, MatFormFieldAppearance } from '@angular/material/form-field';
 
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { isEqual, random } from 'lodash-es';
@@ -57,6 +57,7 @@ import { FsAutocompleteChipsStaticDirective } from './../../directives/static-te
 export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlValueAccessor, AfterViewInit {
 
   @Input() public fetch = null;
+  @Input() public appearance: MatFormFieldAppearance;
   @Input() public readonly = false;
   @Input() public size: 'large' | 'small' = 'large';
   @Input() public placeholder = '';
