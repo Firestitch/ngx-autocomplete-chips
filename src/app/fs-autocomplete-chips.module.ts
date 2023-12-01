@@ -1,26 +1,27 @@
-import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
 import { MatRadioModule } from '@angular/material/radio';
-import { DragDropModule } from '@angular/cdk/drag-drop';
 
-import { FsLabelModule } from '@firestitch/label';
+import { FsClearModule } from '@firestitch/clear';
 import { FsDialogModule } from '@firestitch/dialog';
+import { FsLabelModule } from '@firestitch/label';
 
+import { ConfirmComponent } from './components';
 import { FsAutocompleteChipsComponent } from './components/autocomplete-chips/autocomplete-chips.component';
-import { FsAutocompleteObjectDirective } from './directives/autocomplete-object/autocomplete-object.directive';
+import { FsAutocompleteChipsTextValidIndicatorDirective } from './directives';
 import { FsAutocompleteChipsNoResultsDirective } from './directives/autocomplete-no-results/autocomplete-no-results.directive';
-import { FsAutocompleteChipsStaticDirective } from './directives/static-template/static-template.directive';
+import { FsAutocompleteObjectDirective } from './directives/autocomplete-object/autocomplete-object.directive';
 import { FsAutocompleteChipSuffixDirective } from './directives/chip-suffix/chip-suffix.directive';
 import { FsAutocompleteChipsSuffixDirective } from './directives/chips-suffix/chips-suffix.directive';
-import { FsAutocompleteChipsTextValidIndicatorDirective } from './directives';
-import { ConfirmComponent } from './components';
+import { FsAutocompleteChipsStaticDirective } from './directives/static-template/static-template.directive';
 
 
 @NgModule({
@@ -34,11 +35,12 @@ import { ConfirmComponent } from './components';
     MatInputModule,
     MatIconModule,
     MatRadioModule,
-    FsDialogModule,
     MatButtonModule,
 
     FsLabelModule,
     FsDialogModule,
+    FsDialogModule,
+    FsClearModule,
   ],
   exports: [
     FsAutocompleteChipsComponent,
@@ -61,7 +63,7 @@ import { ConfirmComponent } from './components';
   ],
 })
 export class FsAutocompleteChipsModule {
-  static forRoot(): ModuleWithProviders<FsAutocompleteChipsModule> {
+  public static forRoot(): ModuleWithProviders<FsAutocompleteChipsModule> {
     return {
       ngModule: FsAutocompleteChipsModule,
     };

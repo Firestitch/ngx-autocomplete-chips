@@ -78,9 +78,14 @@
       width: unset;
     }
 
+    &.mat-form-field-appearance-outline .mat-form-field-flex {
+      display: flex;
+      align-items: center;
+    }
+
     .mat-form-field-prefix,
     .mat-form-field-suffix {
-      align-self: flex-end;
+      display: flex;
 
       .clear {
         cursor: pointer;

@@ -1,4 +1,3 @@
-import { BACKSPACE, DELETE } from '@angular/cdk/keycodes';
 import {
   AfterViewInit,
   ChangeDetectionStrategy, ChangeDetectorRef,
@@ -17,20 +16,23 @@ import {
   TemplateRef,
   ViewChild,
   ViewChildren,
-  forwardRef
+  forwardRef,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { MatAutocomplete, MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
-import { MatFormField, MatFormFieldAppearance } from '@angular/material/form-field';
 
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { isEqual, random } from 'lodash-es';
+import { BACKSPACE, DELETE } from '@angular/cdk/keycodes';
+import { MatAutocomplete, MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { MatChip } from '@angular/material/chips';
+import { MatDialog } from '@angular/material/dialog';
+import { MatFormField, MatFormFieldAppearance } from '@angular/material/form-field';
 
 import { Observable, Subject, of, timer } from 'rxjs';
 import { debounce, delay, filter, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 
-import { MatChip } from '@angular/material/chips';
-import { MatDialog } from '@angular/material/dialog';
+
+import { isEqual, random } from 'lodash-es';
+
 import { FsAutocompleteChipsTextValidIndicatorDirective } from '../../directives';
 import { FsAutocompleteChipsNoResultsDirective } from '../../directives/autocomplete-no-results/autocomplete-no-results.directive';
 import { FsAutocompleteObjectDirective } from '../../directives/autocomplete-object/autocomplete-object.directive';
@@ -38,6 +40,7 @@ import { getObjectValue } from '../../helpers/get-object-value';
 import { IAutocompleteItem } from '../../interfaces/autocomplete-item.interface';
 import { DataType } from '../../interfaces/data-type';
 import { ConfirmComponent } from '../confirm';
+
 import { FsAutocompleteChipSuffixDirective } from './../../directives/chip-suffix/chip-suffix.directive';
 import { FsAutocompleteChipsSuffixDirective } from './../../directives/chips-suffix/chips-suffix.directive';
 import { FsAutocompleteChipsStaticDirective } from './../../directives/static-template/static-template.directive';
@@ -50,11 +53,12 @@ import { FsAutocompleteChipsStaticDirective } from './../../directives/static-te
   providers: [{
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => FsAutocompleteChipsComponent),
-    multi: true
+    multi: true,
   }],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlValueAccessor, AfterViewInit {
+export class FsAutocompleteChipsComponent
+  implements OnInit, OnDestroy, ControlValueAccessor, AfterViewInit {
 
   @Input() public fetch = null;
   @Input() public appearance: MatFormFieldAppearance;
@@ -82,22 +86,19 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   @Input() public fetchOnFocus = true;
   @Input() public multiple = true;
   @Input() public confirm = false;
+  @Input() public disabled = false;
+  @Input() public panelWidth: string | number;
   @Input() public set panelClass(value) {
     this.panelClasses = [
       ...['fs-account-picker-autocomplete', 'fs-autocomplete-chips-panel'],
       value,
     ];
-  };
+  }
 
   @Input()
   public compareWith = (o1: any, o2: any) => {
     return isEqual(o1, o2);
   };
-
-  @Input() public disabled = false
-
-  @Input()
-  public panelWidth: string | number;
 
   @Output() public selected = new EventEmitter();
   @Output() public removed = new EventEmitter();
@@ -110,7 +111,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   @HostListener('dragstart', ['$event'])
   public dragStart(e) {
     e.preventDefault();
-  };
+  }
 
   @ViewChild('input')
   public input: ElementRef = null;
@@ -125,7 +126,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   public autocompleteTrigger: MatAutocompleteTrigger;
 
   @ViewChild(MatFormField, { read: ElementRef })
-  public formField: ElementRef = null
+  public formField: ElementRef = null;
 
   @ContentChild(FsAutocompleteObjectDirective, { read: TemplateRef })
   public objectTemplate: TemplateRef<FsAutocompleteObjectDirective> = null;
@@ -172,10 +173,14 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
   private _onTouched = () => { };
   private _onChange = (value: any) => { };
 
-  public registerOnChange(fn: (value: any) => any): void { this._onChange = fn; }
-  public registerOnTouched(fn: () => any): void { this._onTouched = fn; }
+  public registerOnChange(fn: (value: any) => any): void {
+    this._onChange = fn;
+  }
+  public registerOnTouched(fn: () => any): void {
+    this._onTouched = fn;
+  }
 
-  public constructor(
+  constructor(
     private _cdRef: ChangeDetectorRef,
     private _dialog: MatDialog,
     private _elRef: ElementRef,
@@ -249,6 +254,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
 
     if (event.code === 'Enter' && !this.multiple) {
       this.unfocus();
+
       return;
     }
   }
@@ -346,8 +352,8 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
     this._updateStaticDirectives();
 
     setTimeout(() => {
-      let width = this._elRef.nativeElement.getBoundingClientRect().width;
-      let panel = this.autocomplete.panel?.nativeElement;
+      const width = this._elRef.nativeElement.getBoundingClientRect().width;
+      const panel = this.autocomplete.panel?.nativeElement;
       if (panel) {
         panel.style.minWidth = `${width}px`;
       }
@@ -379,10 +385,10 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
         switchMap(() => this._dialog.open(ConfirmComponent, {
           disableClose: true,
         })
-          .afterClosed()
+          .afterClosed(),
         ),
         take(1),
-        takeUntil(this._destroy$)
+        takeUntil(this._destroy$),
       )
       .subscribe((result) => {
         switch (result) {
@@ -493,7 +499,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
       const index = this.data.indexOf(selected);
 
       if (index !== -1) {
-        this.data.splice(index, 1)
+        this.data.splice(index, 1);
       }
     }
 
@@ -505,7 +511,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
     if (!this._model.includes(value)) {
       switch (selected.type) {
         case DataType.Object:
-          this._addObject(selected)
+          this._addObject(selected);
           this.selected.emit(selected);
           break;
 
@@ -516,7 +522,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
       }
     }
 
-    if (options.fetch !== false) {
+    if (options.fetch) {
       this._fetch();
 
       setTimeout(() => {
@@ -544,7 +550,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
       iconColor: getObjectValue(data, this.chipIconColor) || this.chipIconColor,
       class: getObjectValue(data, this.chipClass) || this.chipClass,
       background: getObjectValue(data, this.chipBackground) || this.chipBackground,
-      color: getObjectValue(data, this.chipColor) || this.chipColor
+      color: getObjectValue(data, this.chipColor) || this.chipColor,
     };
   }
 
@@ -669,10 +675,10 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
       .pipe(
         tap((response: unknown) => {
           if (!Array.isArray(response)) {
-            return
+            return;
           }
 
-          this.data = response.map(data => {
+          this.data = response.map((data) => {
             return this._createObjectItem(data);
           });
 
@@ -696,7 +702,7 @@ export class FsAutocompleteChipsComponent implements OnInit, OnDestroy, ControlV
 
           this.noResults = !this.data.length;
         }),
-      )
+      );
   }
 
 }
