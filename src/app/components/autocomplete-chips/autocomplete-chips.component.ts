@@ -60,6 +60,42 @@ import { FsAutocompleteChipsStaticDirective } from './../../directives/static-te
 export class FsAutocompleteChipsComponent
   implements OnInit, OnDestroy, ControlValueAccessor, AfterViewInit {
 
+  @ViewChild('input')
+  public input: ElementRef = null;
+
+  @ViewChild('dummyInput')
+  public dummyInput: ElementRef = null;
+
+  @ViewChild(MatAutocomplete)
+  public autocomplete: MatAutocomplete;
+
+  @ViewChild(MatAutocompleteTrigger)
+  public autocompleteTrigger: MatAutocompleteTrigger;
+
+  @ViewChild(MatFormField, { read: ElementRef })
+  public formField: ElementRef = null;
+
+  @ContentChild(FsAutocompleteObjectDirective, { read: TemplateRef })
+  public objectTemplate: TemplateRef<FsAutocompleteObjectDirective> = null;
+
+  @ContentChild(FsAutocompleteChipSuffixDirective, { read: TemplateRef })
+  public chipSuffixTemplate: TemplateRef<FsAutocompleteChipSuffixDirective> = null;
+
+  @ContentChild(FsAutocompleteChipsSuffixDirective, { read: TemplateRef })
+  public chipsSuffixTemplate: TemplateRef<FsAutocompleteChipsSuffixDirective> = null;
+
+  @ContentChild(FsAutocompleteChipsTextValidIndicatorDirective, { read: TemplateRef })
+  public textValidIndicatorTemplate: TemplateRef<FsAutocompleteChipsTextValidIndicatorDirective>;
+
+  @ContentChild(FsAutocompleteChipsNoResultsDirective, { read: TemplateRef, static: true })
+  public noResultsTemplate: TemplateRef<FsAutocompleteChipsNoResultsDirective>;
+
+  @ContentChildren(FsAutocompleteChipsStaticDirective)
+  public staticDirectives: QueryList<FsAutocompleteChipsStaticDirective>;
+
+  @ViewChildren(MatChip)
+  public chips: QueryList<MatChip>;
+
   @Input() public fetch = null;
   @Input() public appearance: MatFormFieldAppearance;
   @Input() public readonly = false;
@@ -112,42 +148,6 @@ export class FsAutocompleteChipsComponent
   public dragStart(e) {
     e.preventDefault();
   }
-
-  @ViewChild('input')
-  public input: ElementRef = null;
-
-  @ViewChild('dummyInput')
-  public dummyInput: ElementRef = null;
-
-  @ViewChild(MatAutocomplete)
-  public autocomplete: MatAutocomplete;
-
-  @ViewChild(MatAutocompleteTrigger)
-  public autocompleteTrigger: MatAutocompleteTrigger;
-
-  @ViewChild(MatFormField, { read: ElementRef })
-  public formField: ElementRef = null;
-
-  @ContentChild(FsAutocompleteObjectDirective, { read: TemplateRef })
-  public objectTemplate: TemplateRef<FsAutocompleteObjectDirective> = null;
-
-  @ContentChild(FsAutocompleteChipSuffixDirective, { read: TemplateRef })
-  public chipSuffixTemplate: TemplateRef<FsAutocompleteChipSuffixDirective> = null;
-
-  @ContentChild(FsAutocompleteChipsSuffixDirective, { read: TemplateRef })
-  public chipsSuffixTemplate: TemplateRef<FsAutocompleteChipsSuffixDirective> = null;
-
-  @ContentChild(FsAutocompleteChipsTextValidIndicatorDirective, { read: TemplateRef })
-  public textValidIndicatorTemplate: TemplateRef<FsAutocompleteChipsTextValidIndicatorDirective>;
-
-  @ContentChild(FsAutocompleteChipsNoResultsDirective, { read: TemplateRef, static: true })
-  public noResultsTemplate: TemplateRef<FsAutocompleteChipsNoResultsDirective>;
-
-  @ContentChildren(FsAutocompleteChipsStaticDirective)
-  public staticDirectives: QueryList<FsAutocompleteChipsStaticDirective>;
-
-  @ViewChildren(MatChip)
-  public chips: QueryList<MatChip>;
 
   public data: IAutocompleteItem[];
   public textData: Partial<IAutocompleteItem> = {};
@@ -357,7 +357,7 @@ export class FsAutocompleteChipsComponent
       if (panel) {
         panel.style.minWidth = `${width}px`;
       }
-    }, 200);
+    });
   }
 
   public closed(): void {

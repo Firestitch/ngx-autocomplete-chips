@@ -1,16 +1,19 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+
 import { email } from '@firestitch/common';
 import { FsMessage } from '@firestitch/message';
+
+import { delay, map } from 'rxjs/operators';
+
 import { isEqual } from 'lodash-es';
 import { ExampleService } from 'playground/app/services/example.service';
-import { delay, map } from 'rxjs/operators';
-import { FsAutocompleteChipsComponent } from './../../../../src/app/components/autocomplete-chips/autocomplete-chips.component';
 
+import { FsAutocompleteChipsComponent } from './../../../../src/app/components/autocomplete-chips/autocomplete-chips.component';
 
 
 @Component({
   selector: 'autocomplete-chips-example',
-  styleUrls: ['autocomplete-chips-example.component.scss'],
+  styleUrls: ['./autocomplete-chips-example.component.scss'],
   templateUrl: './autocomplete-chips-example.component.html',
 })
 export class AutocompleteChipsExampleComponent implements OnInit {
@@ -30,9 +33,9 @@ export class AutocompleteChipsExampleComponent implements OnInit {
     color: true,
     orderable: true,
     size: 'large',
-  }
+  };
 
-  public constructor(
+  constructor(
     private _exampleService: ExampleService,
     private _message: FsMessage,
   ) { }
@@ -47,13 +50,13 @@ export class AutocompleteChipsExampleComponent implements OnInit {
 
   public showKeyword = (keyword) => {
     return !!keyword;
-  }
+  };
 
   public compareWith = (o1, o2) => {
     return isEqual(o1, o2);
   };
 
-  public validateText = keyword => {
+  public validateText = (keyword) => {
     return email(keyword);
   };
 
@@ -68,6 +71,7 @@ export class AutocompleteChipsExampleComponent implements OnInit {
 
   public fetch = (keyword) => {
     console.log('Fetch', keyword);
+
     return this._exampleService.fetch(keyword, 10, this.config.multiple)
       .pipe(
         delay(100),
@@ -93,12 +97,13 @@ export class AutocompleteChipsExampleComponent implements OnInit {
     this.activeFirstName = data.firstName;
   }
 
-  getRandomColor() {
+  public getRandomColor() {
     const letters = '0123456789ABCDEF';
     let color = '#';
     for (let i = 0; i < 6; i++) {
       color += letters[Math.floor(Math.random() * 16)];
     }
+
     return color;
   }
 
@@ -107,7 +112,7 @@ export class AutocompleteChipsExampleComponent implements OnInit {
       return {
         ...item,
         background: '#569CD6',
-        color: '#fff'
+        color: '#fff',
       };
     });
   }
