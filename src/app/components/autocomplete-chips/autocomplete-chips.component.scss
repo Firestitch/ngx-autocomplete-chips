@@ -48,13 +48,16 @@
       cursor: pointer;
     }
 
-    &.mat-focused.inited {
-      &:not(.multiple).has-keyword .mat-chip {
-        margin-left: -1000px;
-      }
+    &.inited {
 
-      input.mat-chip-input {
-        width: 100%;
+      &.mat-focused, &.panel-open {
+        &:not(.multiple).has-keyword .mat-chip {
+          margin-left: -1000px;
+        }
+
+        input.mat-chip-input {
+          width: 100%;
+        }
       }
     }
 

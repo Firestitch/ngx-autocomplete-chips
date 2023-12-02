@@ -302,11 +302,6 @@ export class FsAutocompleteChipsComponent
     }
   }
 
-  public formFieldClick(event: MouseEvent): void {
-    debugger;
-    this.focus();
-  }
-
   public focus(options = { delay: 0 }): void {
     if (!this.disabled) {
       this.inited = true;

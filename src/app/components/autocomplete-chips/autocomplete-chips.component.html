@@ -3,6 +3,7 @@
     [ngClass]="{ 
       inited: inited, 
       multiple: multiple, 
+      'panel-open': autocompleteSearch.isOpen, 
       'has-value': !!(model || []).length,
       'has-keyword': !!keyword
     }"
