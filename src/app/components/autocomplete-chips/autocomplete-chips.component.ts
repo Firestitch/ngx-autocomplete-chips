@@ -415,6 +415,7 @@ export class FsAutocompleteChipsComponent
 
     if (this.multiple) {
       this._select(value, { fetch: !this.fetchOnFocus });
+      this._clearInput();
     } else {
       this._clearInput();
       this._select(value, { fetch: false });
