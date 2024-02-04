@@ -172,6 +172,7 @@ export class FsAutocompleteChipsComponent
   private _destroy$ = new Subject();
   private _onTouched = () => { };
   private _onChange = (value: any) => { };
+  private _focused = false;
 
   public registerOnChange(fn: (value: any) => any): void {
     this._onChange = fn;
@@ -296,7 +297,11 @@ export class FsAutocompleteChipsComponent
     this.removed.emit(item);
 
     if (this.autocomplete.isOpen) {
-      this.focus();
+      if (!this._focused) {
+        this.focus();
+      } else {
+        this._fetch$.next(this.keyword);
+      }
     } else {
       this.unfocus();
     }
@@ -372,6 +377,8 @@ export class FsAutocompleteChipsComponent
   }
 
   public blured(): void {
+    this._focused = false;
+
     of(true)
       .pipe(
         filter(() => this.confirm),
@@ -386,6 +393,7 @@ export class FsAutocompleteChipsComponent
         takeUntil(this._destroy$),
       )
       .subscribe((result) => {
+        this._focused = true;
         switch (result) {
           case 'review':
             this.inputEl.focus();
@@ -401,6 +409,7 @@ export class FsAutocompleteChipsComponent
 
   public focused(event: FocusEvent): void {
     this.inited = true;
+    this._focused = true;
     this._cdRef.markForCheck();
 
     if (this.fetchOnFocus) {
