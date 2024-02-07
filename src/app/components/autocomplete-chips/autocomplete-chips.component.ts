@@ -439,7 +439,7 @@ export class FsAutocompleteChipsComponent
     }
 
     this._select(event.option.value);
-    if (!this.multiple) {
+    if (this.allowText || !this.multiple) {
       this._clearData();
       this._clearInput();
     }
