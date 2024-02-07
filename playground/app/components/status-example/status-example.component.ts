@@ -36,7 +36,6 @@ export class StatusExampleComponent implements OnInit {
     if (!this.status && this.assignDefaultStatus) {
       this._fetchStatuses()
         .subscribe((statuses) => {
-          console.log('cock', statuses);
           this.status = statuses[0];
           this.changeStatus(this.status);
           this._cdRef.markForCheck();
