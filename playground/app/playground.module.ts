@@ -42,7 +42,6 @@ import { ExampleService } from './services/example.service';
   ],
   declarations: [
     AppComponent,
-
     AutocompleteChipsExampleComponent,
     AutocompleteChipsOrderableExampleComponent,
     LabelExampleComponent,
