@@ -1,34 +1,33 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { FsExampleModule } from '@firestitch/example';
+
+import { FsApi, FsApiModule } from '@firestitch/api';
+import { FsAutocompleteChipsModule } from '@firestitch/autocomplete-chips';
 import { FsArray } from '@firestitch/common';
-import { FsApiModule, FsApi } from '@firestitch/api';
+import { FsExampleModule } from '@firestitch/example';
 import { FsFormModule } from '@firestitch/form';
 import { FsLabelModule } from '@firestitch/label';
 import { FsMessageModule } from '@firestitch/message';
 
-import { ToastrModule } from 'ngx-toastr';
-
-import { FsAutocompleteChipsModule } from '@firestitch/autocomplete-chips';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
-import { AppMaterialModule } from './material.module';
 import {
   AutocompleteChipsExampleComponent,
   AutocompleteChipsOrderableExampleComponent,
-  TextExampleComponent,
   LabelExampleComponent,
   StatusExampleComponent,
+  TextExampleComponent,
 } from './components';
 import { EmailExampleComponent } from './components/email-example';
+import { AppMaterialModule } from './material.module';
 import { ExampleService } from './services/example.service';
 
 
 @NgModule({
-  bootstrap: [ AppComponent ],
+  bootstrap: [AppComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -38,7 +37,6 @@ import { ExampleService } from './services/example.service';
     FsExampleModule.forRoot(),
     FsLabelModule,
     FsMessageModule.forRoot(),
-    ToastrModule.forRoot(),
     FsAutocompleteChipsModule.forRoot(),
     AppMaterialModule,
   ],
@@ -50,12 +48,12 @@ import { ExampleService } from './services/example.service';
     LabelExampleComponent,
     StatusExampleComponent,
     TextExampleComponent,
-    EmailExampleComponent
+    EmailExampleComponent,
   ],
   providers: [
     FsArray,
     FsApi,
-    ExampleService
+    ExampleService,
   ],
 })
 export class PlaygroundModule {
