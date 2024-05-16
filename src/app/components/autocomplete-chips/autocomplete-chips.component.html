@@ -35,7 +35,6 @@
           }"
           [style.backgroundColor]="item.background || background"
           [style.color]="item.color || color"
-          (keydown)="chipKeyDown($event, index)"
           (click)="chipClick($event)"
           [cdkDragDisabled]="!orderable || disabled || !inited"
           [cdkDragData]="item"

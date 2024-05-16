@@ -21,15 +21,17 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { BACKSPACE, DELETE } from '@angular/cdk/keycodes';
-import { MatAutocomplete, MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import {
+  MatAutocomplete, MatAutocompleteSelectedEvent, MatAutocompleteTrigger,
+} from '@angular/material/autocomplete';
 import { MatChip } from '@angular/material/chips';
 import { MatDialog } from '@angular/material/dialog';
 import { MatFormField, MatFormFieldAppearance } from '@angular/material/form-field';
 
+import { KEY_BACKSPACE, KEY_DELETE } from '@firestitch/common';
+
 import { Observable, Subject, of, timer } from 'rxjs';
 import { debounce, delay, filter, switchMap, take, takeUntil, tap } from 'rxjs/operators';
-
 
 import { isEqual, random } from 'lodash-es';
 
@@ -58,7 +60,7 @@ import { FsAutocompleteChipsStaticDirective } from './../../directives/static-te
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FsAutocompleteChipsComponent
-  implements OnInit, OnDestroy, ControlValueAccessor, AfterViewInit {
+implements OnInit, OnDestroy, ControlValueAccessor, AfterViewInit {
 
   @ViewChild('input')
   public input: ElementRef = null;
@@ -132,9 +134,7 @@ export class FsAutocompleteChipsComponent
   }
 
   @Input()
-  public compareWith = (o1: any, o2: any) => {
-    return isEqual(o1, o2);
-  };
+  public compareWith: (o1: any, o2: any) => boolean;
 
   @Output() public selected = new EventEmitter();
   @Output() public removed = new EventEmitter();
@@ -143,11 +143,6 @@ export class FsAutocompleteChipsComponent
 
   @HostBinding('class.fs-form-wrapper')
   public formWrapper = true;
-
-  @HostListener('dragstart', ['$event'])
-  public dragStart(e) {
-    e.preventDefault();
-  }
 
   public data: IAutocompleteItem[];
   public textData: Partial<IAutocompleteItem> = {};
@@ -159,6 +154,10 @@ export class FsAutocompleteChipsComponent
   public inited = false;
   public panelClasses: string[];
 
+  private _keyword$ = new Subject<InputEvent>();
+  private _fetch$ = new Subject<string>();
+  private _destroy$ = new Subject();
+
   public get model() {
     return this._model;
   }
@@ -167,19 +166,9 @@ export class FsAutocompleteChipsComponent
     return this.input?.nativeElement;
   }
 
-  private _keyword$ = new Subject<InputEvent>();
-  private _fetch$ = new Subject<string>();
-  private _destroy$ = new Subject();
-  private _onTouched = () => { };
-  private _onChange = (value: any) => { };
+  private _onTouched: () => void;
+  private _onChange: (value: any) => void;
   private _focused = false;
-
-  public registerOnChange(fn: (value: any) => any): void {
-    this._onChange = fn;
-  }
-  public registerOnTouched(fn: () => any): void {
-    this._onTouched = fn;
-  }
 
   constructor(
     private _cdRef: ChangeDetectorRef,
@@ -187,6 +176,24 @@ export class FsAutocompleteChipsComponent
     private _elRef: ElementRef,
   ) {
     this.panelClass = '';
+    if(!this.compareWith) {
+      this.compareWith = (o1: any, o2: any) => {
+        return isEqual(o1, o2);
+      };
+    }
+  }
+
+  public registerOnChange(fn: (value: any) => any): void {
+    this._onChange = fn;
+  }
+
+  public registerOnTouched(fn: () => any): void {
+    this._onTouched = fn;
+  }
+
+  @HostListener('dragstart', ['$event'])
+  public dragStart(e) {
+    e.preventDefault();
   }
 
   public setDisabledState?(isDisabled: boolean): void {
@@ -201,7 +208,9 @@ export class FsAutocompleteChipsComponent
       )
       .subscribe(() => {
         this.chips.forEach((chip) => {
-          chip.focus = () => { };
+          chip.focus = () => { 
+            //
+          };
         });
       });
   }
@@ -252,8 +261,18 @@ export class FsAutocompleteChipsComponent
     if (this.readonly || this.disabled || ['ArrowDown', 'ArrowUp'].indexOf(event.code) !== -1) {
       return;
     }
-
-    if (event.code === 'Enter' && !this.multiple) {
+    
+    if(
+      (event.keyCode === KEY_BACKSPACE || event.keyCode === KEY_DELETE) &&
+      !this.keywordLength
+    ) {
+      if (this.multiple) {
+        this.model.pop();
+        this._updateModel(this.model);
+      } else {
+        this._updateModel([]);
+      }
+    } else if (event.code === 'Enter' && !this.multiple) {
       this.unfocus();
 
       return;
@@ -268,17 +287,6 @@ export class FsAutocompleteChipsComponent
 
   public chipClick(event: MouseEvent): void {
     this.focus();
-  }
-
-  public chipKeyDown(event: KeyboardEvent, index): void {
-    if (event.keyCode === BACKSPACE || event.keyCode === DELETE) {
-      if (this.multiple) {
-        this.model.splice(index, 1);
-        this._updateModel(this.model);
-      } else {
-        this._updateModel([]);
-      }
-    }
   }
 
   public chipRemovedMousedown(event: UIEvent): void {
@@ -484,6 +492,10 @@ export class FsAutocompleteChipsComponent
   public validText(text): boolean {
     return String(text).trim().length && (!this.validateText || this.validateText(text));
   }
+  
+  public get keywordLength(): number {
+    return typeof this.keyword === 'string' ? this.keyword.length : 0; 
+  }
 
   private _clearData(): void {
     this.data = null;
@@ -634,12 +646,12 @@ export class FsAutocompleteChipsComponent
           this.keyword = keyword;
         }),
         debounce(() => {
-          let delay = 0;
+          let timerDelay = 0;
           if (this.keyword.length && this.allowObject) {
-            delay = this.delay;
+            timerDelay = this.delay;
           }
 
-          return timer(delay);
+          return timer(timerDelay);
         }),
         takeUntil(this._destroy$),
       )
