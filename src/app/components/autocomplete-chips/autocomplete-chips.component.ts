@@ -688,7 +688,7 @@ implements OnInit, OnDestroy, ControlValueAccessor, AfterViewInit {
   }
 
   private _doFetchByKeyword(keyword: string): Observable<unknown> {
-    return this.fetch(keyword)
+    return this.fetch(keyword || '')
       .pipe(
         tap((response: unknown) => {
           if (!Array.isArray(response)) {
