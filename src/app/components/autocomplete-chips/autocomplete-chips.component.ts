@@ -351,9 +351,11 @@ implements OnInit, OnDestroy, ControlValueAccessor, AfterViewInit {
   }
 
   public closePanel(): void {
-    if (this.autocompleteTrigger) {
-      this.autocompleteTrigger.closePanel();
-    }
+    this.autocompleteTrigger?.closePanel();
+  }
+
+  public openPanel(): void {
+    this.autocompleteTrigger?.openPanel();
   }
 
   public opened(): void {
