@@ -3,6 +3,8 @@ import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 
 
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+
 import { FsApi, FsApiModule } from '@firestitch/api';
 import { FsAutocompleteChipsModule } from '@firestitch/autocomplete-chips';
 import { FsArray } from '@firestitch/common';
@@ -53,6 +55,10 @@ import { ExampleService } from './services/example.service';
     FsArray,
     FsApi,
     ExampleService,
+    {
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+      useValue: { floatLabel: 'auto', appearance: 'outline' },
+    },
   ],
 })
 export class PlaygroundModule {

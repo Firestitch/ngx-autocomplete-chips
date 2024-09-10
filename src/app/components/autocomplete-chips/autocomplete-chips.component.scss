@@ -72,6 +72,18 @@
         visibility: hidden;
       }
 
+      .mat-form-field-outline {
+        .mat-form-field-outline-start,
+        .mat-form-field-outline-gap,
+        .mat-form-field-outline-end {
+          border-color: transparent;
+        }
+      }
+
+      input {
+        cursor: pointer;
+      }
+
       .mat-chip {
         cursor: pointer;
       }
