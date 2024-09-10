@@ -65,7 +65,10 @@
   </mat-chip-list>
 
   <span *ngIf="chipsSuffixTemplate" matSuffix>
-    <ng-container [ngTemplateOutlet]="chipsSuffixTemplate"></ng-container>
+    <ng-container 
+      [ngTemplateOutlet]="chipsSuffixTemplate"
+      [ngTemplateOutletContext]="{ open: autocompleteSearch.isOpen }">
+    </ng-container>
   </span>
 
   <span *ngIf="!disabled && allowClear && inited" matSuffix>

@@ -25,7 +25,7 @@
     {{object.firstName}} {{object.lastName}}
   </ng-template>
 
-  <ng-template fsAutocompleteChipsSuffix>
+  <ng-template fsAutocompleteChipsSuffix let-open="open">
     <a (click)="chipsSuffixClick($event)" class="chips-suffix">
       <mat-icon>tune</mat-icon>
     </a>
