@@ -26,7 +26,7 @@ import {
 } from '@angular/material/autocomplete';
 import { MatChip } from '@angular/material/chips';
 import { MatDialog } from '@angular/material/dialog';
-import { MatFormField, MatFormFieldAppearance } from '@angular/material/form-field';
+import { FloatLabelType, MatFormField, MatFormFieldAppearance } from '@angular/material/form-field';
 
 import { KEY_BACKSPACE, KEY_DELETE } from '@firestitch/common';
 
@@ -100,9 +100,11 @@ implements OnInit, OnDestroy, ControlValueAccessor, AfterViewInit {
 
   @Input() public fetch = null;
   @Input() public appearance: MatFormFieldAppearance;
+  @Input() public floatLabel: FloatLabelType;
   @Input() public readonly = false;
   @Input() public size: 'large' | 'small' = 'large';
   @Input() public placeholder = '';
+  @Input() public label = '';
   @Input() public chipImage = 'image';
   @Input() public chipBackground: string;
   @Input() public chipColor: string;
@@ -162,6 +164,10 @@ implements OnInit, OnDestroy, ControlValueAccessor, AfterViewInit {
     return this._model;
   }
 
+  public get hasValue() {
+    return !!(this.model || []).length;
+  }
+
   public get inputEl() {
     return this.input?.nativeElement;
   }
@@ -216,6 +222,12 @@ implements OnInit, OnDestroy, ControlValueAccessor, AfterViewInit {
   }
 
   public ngOnInit(): void {
+    // Legacy support
+    if(this.label === undefined) {
+      this.label = this.placeholder;
+      this.placeholder = '';
+    }
+
     this.inited = !this.initOnClick;
     this._listenFetch();
     this._listenKeywordChange();

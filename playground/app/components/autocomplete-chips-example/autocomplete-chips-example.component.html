@@ -2,6 +2,7 @@
 <fs-autocomplete-chips
     [fetch]="fetch"
     [(ngModel)]="model"
+    label="Account"
     placeholder="Select Account"
     [initOnClick]="true"
     [chipImage]="config.image ? 'image' : ''"
@@ -25,7 +26,7 @@
     {{object.firstName}} {{object.lastName}}
   </ng-template>
 
-  <ng-template fsAutocompleteChipsSuffix let-open="open">
+  <ng-template   let-open="open">
     <a (click)="chipsSuffixClick($event)" class="chips-suffix">
       <mat-icon>tune</mat-icon>
     </a>

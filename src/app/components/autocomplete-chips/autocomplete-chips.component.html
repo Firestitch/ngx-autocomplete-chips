@@ -1,17 +1,17 @@
 <mat-form-field
     [appearance]="appearance"
+    [floatLabel]="floatLabel"
     [ngClass]="{ 
       inited: inited, 
       multiple: multiple, 
       'panel-open': autocompleteSearch.isOpen, 
-      'has-value': !!(model || []).length,
+      'has-value': hasValue,
       'has-keyword': !!keyword
     }"
     (click)="focus()">
-  <mat-label>{{placeholder}}</mat-label>
+  <mat-label>{{label}}</mat-label>
   <mat-chip-list
       [disabled]="disabled"
-      [placeholder]="placeholder"
       [tabIndex]="-1"
       cdkDropListGroup
       #searchList>
@@ -55,6 +55,7 @@
       #input
       autocomplete="off"
       [readonly]="readonly"
+      [placeholder]="hasValue ? '' : placeholder"
       (input)="inputed($event)"
       (keydown)="keyDown($event)"
       (focus)="focused($event)"
