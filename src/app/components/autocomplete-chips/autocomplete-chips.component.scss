@@ -50,7 +50,8 @@
 
     &.inited {
 
-      &.mat-focused, &.panel-open {
+      &.mat-focused, 
+      &.panel-open {
         &:not(.multiple).has-keyword .mat-chip {
           margin-left: -1000px;
         }
@@ -67,9 +68,13 @@
       }
     }
 
-    &:not(.inited) {
+    &:not(.inited):not(:hover) {
       .mat-form-field-underline {
         visibility: hidden;
+      }
+
+      .clear {
+        display: none;
       }
 
       .mat-form-field-outline {
@@ -162,6 +167,7 @@
       bottom: 0;
       width: 100%;
       background: #fff;
+
       mat-option:first-child {
         border-top: 1px solid #e0e0e0;
       }
