@@ -72,7 +72,7 @@
     </ng-container>
   </span>
 
-  <span *ngIf="!disabled && allowClear" matSuffix>
+  <span *ngIf="!disabled && allowClear && inited" matSuffix>
     <mat-icon
         *ngIf="model.length"
         class="clear"
