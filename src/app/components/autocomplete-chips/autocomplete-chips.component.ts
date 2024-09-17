@@ -103,8 +103,8 @@ implements OnInit, OnDestroy, ControlValueAccessor, AfterViewInit {
   @Input() public floatLabel: FloatLabelType;
   @Input() public readonly = false;
   @Input() public size: 'large' | 'small' = 'large';
-  @Input() public placeholder = '';
-  @Input() public label = '';
+  @Input() public placeholder: string;
+  @Input() public label: string;
   @Input() public chipImage = 'image';
   @Input() public chipBackground: string;
   @Input() public chipColor: string;
