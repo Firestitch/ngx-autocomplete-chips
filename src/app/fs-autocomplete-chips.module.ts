@@ -5,11 +5,11 @@ import { FormsModule } from '@angular/forms';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
-import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 
+import { FsChipModule } from '@firestitch/chip';
 import { FsClearModule } from '@firestitch/clear';
 import { FsDialogModule } from '@firestitch/dialog';
 import { FsLabelModule } from '@firestitch/label';
@@ -31,7 +31,6 @@ import { FsAutocompleteChipsStaticDirective } from './directives/static-template
     DragDropModule,
 
     MatAutocompleteModule,
-    MatChipsModule,
     MatInputModule,
     MatIconModule,
     MatRadioModule,
@@ -41,6 +40,7 @@ import { FsAutocompleteChipsStaticDirective } from './directives/static-template
     FsDialogModule,
     FsDialogModule,
     FsClearModule,
+    FsChipModule,
   ],
   exports: [
     FsAutocompleteChipsComponent,

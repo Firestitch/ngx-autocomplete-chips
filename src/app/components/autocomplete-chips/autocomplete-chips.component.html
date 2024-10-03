@@ -1,6 +1,6 @@
 <mat-form-field
     [appearance]="appearance"
-    [floatLabel]="floatLabel"
+    [floatLabel]="hasValue ? 'always' : floatLabel"
     [ngClass]="{ 
       inited: inited, 
       multiple: multiple, 
@@ -10,47 +10,27 @@
     }"
     (click)="focus()">
   <mat-label>{{label}}</mat-label>
-  <mat-chip-list
-      [disabled]="disabled"
+  <fs-chips
       [tabIndex]="-1"
       cdkDropListGroup
       #searchList>
-    <div
-        *ngFor="let item of model; let index = index"
-        cdkDropList
-        [cdkDropListData]="{ index: index }"
-        cdkDropListOrientation="horizontal"
-        (cdkDropListDropped)="drop($event)">
-      <mat-chip
-          [disableRipple]="true"
-          [selectable]="!disabled"
-          [removable]="!disabled"
-          [disabled]="disabled"
-          [class]="'fs-autocomplete-chip ' + item.class"
-          [ngClass]="{
-            imaged: item.image,
-            'size-small': size === 'small',
-            'size-large': size === 'large',
-            'last-chip': model.length - 1 === index
-          }"
-          [style.backgroundColor]="item.background || background"
-          [style.color]="item.color || color"
-          (click)="chipClick($event)"
-          [cdkDragDisabled]="!orderable || disabled || !inited"
-          [cdkDragData]="item"
-          tabindex="-1"
-          cdkDrag
-          cdkDragHandle>
-        <ng-container
-          [ngTemplateOutlet]="itemTemplate"
-          [ngTemplateOutletContext]="{ item: item, selecting: false }">
+    <ng-container *ngFor="let item of model; let index = index">
+      <div        
+          cdkDropList
+          [cdkDropListData]="{ index: index }"
+          cdkDropListOrientation="horizontal"
+          (cdkDropListDropped)="drop($event)">
+        <ng-container 
+          [ngTemplateOutlet]="chipTemplate"
+          [ngTemplateOutletContext]="{ 
+            item: item, 
+            index: index,
+            removable: removable && !disabled && multiple,
+            selecting: false
+          }">
         </ng-container>
-        <ng-container
-          [ngTemplateOutlet]="itemSuffixTemplate"
-          [ngTemplateOutletContext]="{ item: item, selecting: false, disabled: disabled }">
-        </ng-container>
-      </mat-chip>
-    </div>
+      </div>
+    </ng-container>
     <input
       #input
       autocomplete="off"
@@ -61,10 +41,9 @@
       (focus)="focused($event)"
       (blur)="blured()"
       [name]="name"
-      [matAutocomplete]="autocompleteSearch"
-      [matChipInputFor]="searchList">
-  </mat-chip-list>
-
+      [matAutocomplete]="autocompleteSearch">
+  </fs-chips>
+  <input matInput style="display: none;">
   <span *ngIf="chipsSuffixTemplate" matSuffix>
     <ng-container 
       [ngTemplateOutlet]="chipsSuffixTemplate"
@@ -115,11 +94,20 @@
     <mat-option
         [ngClass]="{ multiple: multiple }"
         class="option"
-        *ngFor="let item of data" [value]="item">
+        *ngFor="let item of data; let index = index" [value]="item">
       <div class="option-chip" (click)="optionClick($event, item)">
-        <mat-chip
+
+        <ng-container 
+          [ngTemplateOutlet]="chipTemplate"
+          [ngTemplateOutletContext]="{ 
+            item: item, 
+            index: index,
+            removable: false,
+            selecting: true 
+          }">
+        </ng-container>
+        <!-- <fs-chip
             (click)="optionClick($event, item)"
-            [disableRipple]="true"
             [class]="'fs-autocomplete-chip ' + item.class"
             [ngClass]="{ imaged: item.image, 'size-small': size === 'small', 'size-large': size === 'large' }"
             [style.backgroundColor]="item.background || background"
@@ -132,7 +120,7 @@
             [ngTemplateOutlet]="itemSuffixTemplate"
             [ngTemplateOutletContext]="{ item: item, selecting: true, disabled: disabled }">
           </ng-container>
-        </mat-chip>
+        </fs-chip> -->
       </div>
     </mat-option>
 
@@ -194,12 +182,43 @@
       [ngTemplateOutlet]="chipSuffixTemplate"
       [ngTemplateOutletContext]="{ object: item.data, selecting: selecting, disabled: disabled }">
     </ng-container>
-    <a
-        class="remove"
-        *ngIf="!selecting && removable && !disabled && multiple"
-        (click)="chipRemoved($event, item)"
-        (mousedown)="chipRemovedMousedown($event)">
-      <mat-icon [style.color]="item.color || color">clear</mat-icon>
-    </a>
   </div>
+</ng-template>
+
+<ng-template  
+    #chipTemplate 
+    let-item="item" 
+    let-index="index" 
+    let-removable="removable"
+    let-selecting="selecting">
+  <fs-chip
+      [removable]="removable"
+      (removed)="chipRemoved(item)"
+      [image]="item.image"
+      [class]="'fs-autocomplete-chip ' + item.class"
+      [backgroundColor]="item.background || background"
+      [color]="item.color || color"
+      [ngClass]="{
+        imaged: item.image,
+        'size-small': size === 'small',
+        'size-large': size === 'large',
+        'last-chip': model.length - 1 === index
+      }"
+      (click)="chipClick($event)"
+      [cdkDragDisabled]="!orderable || disabled || !inited"
+      [cdkDragData]="item"
+      tabindex="-1"
+      cdkDrag
+      cdkDragHandle>
+    <div class="chip-content">
+      <ng-container
+        [ngTemplateOutlet]="itemTemplate"
+        [ngTemplateOutletContext]="{ item: item, selecting: selecting }">
+      </ng-container>
+      <ng-container
+        [ngTemplateOutlet]="itemSuffixTemplate"
+        [ngTemplateOutletContext]="{ item: item, selecting: selecting, disabled: disabled }">
+      </ng-container>
+    </div>
+  </fs-chip>
 </ng-template>

@@ -1,8 +1,3 @@
-.mat-chip-list {
-  outline: transparent;
-  overflow: hidden;
-}
-
 .blank-placeholder {
   display: none;
 }
@@ -35,7 +30,7 @@
     max-width: 100%;
   }
 
-  .mat-form-field {
+  mat-form-field {
     width: 100%;
     letter-spacing: inherit;
     margin-left: 0px;
@@ -83,9 +78,11 @@
 
       input {
         cursor: pointer;
+        border: none;
+        outline: none;
       }
 
-      .mat-chip {
+      fs-chip {
         cursor: pointer;
       }
     }
@@ -106,39 +103,28 @@
       .clear {
         cursor: pointer;
       }
-    }
+    }   
+  }
 
-    &.mat-form-field-appearance-legacy.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
-      transform: translateY(-1.34375em) scale(0.75);
-    }
+  fs-chip {
+    margin-right: 5px;
 
-    .mat-chip-list-wrapper {
-      cursor: pointer;
-      line-height: 0;
-      margin: -4px 0;
-
-      .mat-chip {
-        &:not(.cdk-drag-disabled) {
-          cursor: move;
-        }
-      }
-
-      input.mat-chip-input {
-        flex: 1;
-        margin-right: 0;
-        margin-bottom: 2px;
-      }
+    .chip-content {
+      display: flex;
+      align-items: center;
     }
   }
 
-  .mat-chip-list-wrapper .mat-chip {
-    margin: 4px 4px 0 0;
-    line-height: normal;
+  input {
+    border: 0;
+    outline: 0;
   }
 }
 
 ::ng-deep {
   .fs-autocomplete-chips-panel {
+    padding: 0 !important;
+
     &.fetching {
       .custom-results,
       .mat-option:not(.static-option) {

@@ -26,7 +26,7 @@ import {
 } from '@angular/material/autocomplete';
 import { MatChip } from '@angular/material/chips';
 import { MatDialog } from '@angular/material/dialog';
-import { FloatLabelType, MatFormField, MatFormFieldAppearance } from '@angular/material/form-field';
+import { MatFormField, MatFormFieldAppearance } from '@angular/material/form-field';
 
 import { KEY_BACKSPACE, KEY_DELETE } from '@firestitch/common';
 
@@ -100,7 +100,7 @@ implements OnInit, OnDestroy, ControlValueAccessor, AfterViewInit {
 
   @Input() public fetch = null;
   @Input() public appearance: MatFormFieldAppearance;
-  @Input() public floatLabel: FloatLabelType;
+  @Input() public floatLabel: 'always' | 'auto';
   @Input() public readonly = false;
   @Input() public size: 'large' | 'small' = 'large';
   @Input() public placeholder: string;
@@ -306,10 +306,7 @@ implements OnInit, OnDestroy, ControlValueAccessor, AfterViewInit {
     event.preventDefault();
   }
 
-  public chipRemoved(event: UIEvent, item): void {
-    event.stopPropagation();
-    event.stopImmediatePropagation();
-
+  public chipRemoved(item): void {
     this._model = this.model
       .filter((modelItem) => modelItem !== item);
 
