@@ -303,23 +303,6 @@
       }
     }
 
-    &.size-small {
-      height: 25px;
-      font-size: 85%;
-      padding: 0 8px;
-      min-height: auto;
-
-      .item-image {
-        width: 25px;
-        height: 25px;
-      }
-
-      .item-icon {
-        transform: scale(0.8);
-        margin-right: 0;
-      }
-    }
-
     &.imaged {
       padding-left: 0;
 

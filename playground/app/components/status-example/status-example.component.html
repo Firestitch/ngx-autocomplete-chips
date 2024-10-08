@@ -1,7 +1,7 @@
 <fs-autocomplete-chips
     [fetch]="fetch"
     [(ngModel)]="status"
-    [placeholder]="label"
+    [label]="label"
     size="small"
     [initOnClick]="initOnClick"
     chipColor="#fff"
@@ -9,7 +9,7 @@
     [multiple]="false"
     [compareWith]="compareWith"
     (ngModelChange)="changeStatus($event)"
-  name="status_{{ guid }}">
+    [name]="'status' + guid">
   <ng-template fsAutocompleteChipsTemplate let-object="object">
     {{ object.name }}
   </ng-template>

@@ -1,12 +1,14 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   OnInit,
-  ChangeDetectorRef,
 } from '@angular/core';
 
 import { guid } from '@firestitch/common';
+
 import { Observable, of } from 'rxjs';
+
 import { statusData } from './status-response.data';
 
 

@@ -35,10 +35,9 @@
       #input
       autocomplete="off"
       [readonly]="readonly"
-      [placeholder]="hasValue ? '' : placeholder"
       (input)="inputed($event)"
       (keydown)="keyDown($event)"
-      (focus)="focused($event)"
+      (focus)="focused()"
       (blur)="blured()"
       [name]="name"
       [matAutocomplete]="autocompleteSearch">
@@ -51,14 +50,17 @@
     </ng-container>
   </span>
 
-  <span *ngIf="!disabled && allowClear && inited" matSuffix>
-    <mat-icon
-        *ngIf="model.length"
-        class="clear"
+  <div *ngIf="!disabled && allowClear && inited" matSuffix>
+    <a 
+        mat-icon-button
         (click)="clearClick($event)">
-      clear
-    </mat-icon>
-  </span>
+      <mat-icon
+          *ngIf="model.length"
+          class="clear">
+        clear
+      </mat-icon>
+    </a>
+  </div>
 
   <mat-autocomplete
       #autocompleteSearch="matAutocomplete"
@@ -96,7 +98,6 @@
         class="option"
         *ngFor="let item of data; let index = index" [value]="item">
       <div class="option-chip" (click)="optionClick($event, item)">
-
         <ng-container 
           [ngTemplateOutlet]="chipTemplate"
           [ngTemplateOutletContext]="{ 
@@ -106,21 +107,6 @@
             selecting: true 
           }">
         </ng-container>
-        <!-- <fs-chip
-            (click)="optionClick($event, item)"
-            [class]="'fs-autocomplete-chip ' + item.class"
-            [ngClass]="{ imaged: item.image, 'size-small': size === 'small', 'size-large': size === 'large' }"
-            [style.backgroundColor]="item.background || background"
-            [style.color]="item.color || color">
-          <ng-container
-            [ngTemplateOutlet]="itemTemplate"
-            [ngTemplateOutletContext]="{ item: item, selecting: true }">
-          </ng-container>
-          <ng-container
-            [ngTemplateOutlet]="itemSuffixTemplate"
-            [ngTemplateOutletContext]="{ item: item, selecting: true, disabled: disabled }">
-          </ng-container>
-        </fs-chip> -->
       </div>
     </mat-option>
 
@@ -193,6 +179,7 @@
     let-selecting="selecting">
   <fs-chip
       [removable]="removable"
+      [size]="size"
       (removed)="chipRemoved(item)"
       [image]="item.image"
       [class]="'fs-autocomplete-chip ' + item.class"
@@ -200,11 +187,9 @@
       [color]="item.color || color"
       [ngClass]="{
         imaged: item.image,
-        'size-small': size === 'small',
-        'size-large': size === 'large',
         'last-chip': model.length - 1 === index
       }"
-      (click)="chipClick($event)"
+      (click)="chipClick()"
       [cdkDragDisabled]="!orderable || disabled || !inited"
       [cdkDragData]="item"
       tabindex="-1"

@@ -1,7 +1,7 @@
 <fs-autocomplete-chips
     [fetch]="fetch"
     [(ngModel)]="model"
-    placeholder="Select &amp; Order Accounts"
+    [label]="'Select &amp; Order Accounts'"
     [orderable]="true"
     [multiple]="false"    
     [fetchOnFocus]="true"
@@ -9,9 +9,6 @@
     name="model">
   <ng-template fsAutocompleteObject let-object="object">
     {{object.firstName}} {{object.lastName}}
-  </ng-template>
-  <ng-template fsAutocompleteChipSuffix let-object="object">
-    <a (click)="click($event, object)"><mat-icon>launch</mat-icon></a>
   </ng-template>
 </fs-autocomplete-chips>
 <fieldset>

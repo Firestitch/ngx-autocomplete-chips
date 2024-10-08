@@ -26,15 +26,9 @@
     {{object.firstName}} {{object.lastName}}
   </ng-template>
 
-  <ng-template   let-open="open">
+  <ng-template let-open="open">
     <a (click)="chipsSuffixClick($event)" class="chips-suffix">
       <mat-icon>tune</mat-icon>
-    </a>
-  </ng-template>
-
-  <ng-template fsAutocompleteChipSuffix let-object="object" let-selecting="selecting">
-    <a (click)="suffixClick($event, object)" *ngIf="!selecting" [ngClass]="{ selected: object.firstName===activeFirstName }">
-      <mat-icon [ngStyle]="{ color: '#fff' }">launch</mat-icon>
     </a>
   </ng-template>
 

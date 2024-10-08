@@ -32,7 +32,7 @@ export class AutocompleteChipsExampleComponent implements OnInit {
     image: true,
     color: true,
     orderable: true,
-    size: 'large',
+    size: 'small',
   };
 
   constructor(
@@ -83,7 +83,7 @@ export class AutocompleteChipsExampleComponent implements OnInit {
     console.log('Model Change', e);
   }
 
-  public staticClick(event) {
+  public staticClick() {
     this._message.success('Add New Account Clicked');
   }
 

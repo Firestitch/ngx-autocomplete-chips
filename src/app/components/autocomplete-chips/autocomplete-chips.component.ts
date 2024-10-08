@@ -103,7 +103,6 @@ implements OnInit, OnDestroy, ControlValueAccessor, AfterViewInit {
   @Input() public floatLabel: 'always' | 'auto';
   @Input() public readonly = false;
   @Input() public size: 'large' | 'small' = 'large';
-  @Input() public placeholder: string;
   @Input() public label: string;
   @Input() public chipImage = 'image';
   @Input() public chipBackground: string;
@@ -222,12 +221,6 @@ implements OnInit, OnDestroy, ControlValueAccessor, AfterViewInit {
   }
 
   public ngOnInit(): void {
-    // Legacy support
-    if(this.label === undefined) {
-      this.label = this.placeholder;
-      this.placeholder = '';
-    }
-
     this.inited = !this.initOnClick;
     this._listenFetch();
     this._listenKeywordChange();
@@ -297,7 +290,7 @@ implements OnInit, OnDestroy, ControlValueAccessor, AfterViewInit {
     event.preventDefault();
   }
 
-  public chipClick(event: MouseEvent): void {
+  public chipClick(): void {
     this.focus();
   }
 
@@ -426,7 +419,7 @@ implements OnInit, OnDestroy, ControlValueAccessor, AfterViewInit {
       });
   }
 
-  public focused(event: FocusEvent): void {
+  public focused(): void {
     this.inited = true;
     this._focused = true;
     this._cdRef.markForCheck();
@@ -437,7 +430,7 @@ implements OnInit, OnDestroy, ControlValueAccessor, AfterViewInit {
     }
   }
 
-  public optionClick(event: UIEvent, value: any, refocus = false): void {
+  public optionClick(event: UIEvent, value: any): void {
     event.stopPropagation();
     event.preventDefault();
 
