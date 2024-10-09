@@ -162,7 +162,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
     return !!(this.model || []).length;
   }
 
-  public get inputEl() {
+  public get inputEl(): HTMLInputElement {
     return this.matInputEl?.nativeElement;
   }
 
@@ -235,9 +235,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   }
 
   public inputed(event): void {
-    const el: HTMLInputElement = this.matInputEl.nativeElement;
-
-    el.setAttribute('size', (el.value.length * 1.2).toString());
+    this.inputEl.setAttribute('size', ((this.inputEl.value.length || 1) * 1.2).toString());
 
     if (this.readonly || this.disabled) {
       return;
@@ -344,14 +342,6 @@ implements OnInit, OnDestroy, ControlValueAccessor {
 
   public opened(): void {
     this._updateStaticDirectives();
-
-    setTimeout(() => {
-      const width = this._elRef.nativeElement.getBoundingClientRect().width;
-      const panel = this.autocomplete.panel?.nativeElement;
-      if (panel) {
-        panel.style.minWidth = `${width}px`;
-      }
-    });
   }
 
   public closed(): void {
@@ -372,6 +362,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
 
   public blured(): void {
     this._focused = false;
+    this.inputEl.setAttribute('size', '1');
     this.keyword = '';
 
     of(true)
@@ -439,6 +430,15 @@ implements OnInit, OnDestroy, ControlValueAccessor {
       this._clearData();
       this._clearInput();
     }
+    
+    // TODO make this work again
+    // setTimeout(() => {
+    //   const width = this._elRef.nativeElement.getBoundingClientRect().width;
+    //   const panel = this.autocomplete.panel?.nativeElement;
+    //   if (panel) {
+    //     panel.style.minWidth = `${width}px`;
+    //   }
+    // });
   }
 
   public writeValue(value: any): void {
