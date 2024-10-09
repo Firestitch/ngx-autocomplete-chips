@@ -2,61 +2,18 @@
   display: none;
 }
 
-.none-placeholder {
-  cursor: pointer;
-  color: rgba(0, 0, 0, 0.54);
-  border-bottom: 1px solid transparent;
-
-  &:hover {
-    border-bottom-style: dashed;
-  }
-}
-
 .no-results {
   background-color: inherit;
 }
 
-.dummy-input {
-  display: none !important;
-}
-
 :host ::ng-deep {
-
-  .cdk-drop-list {
-    max-width: 100%;
-  }
-
   mat-form-field {
     width: 100%;
     letter-spacing: inherit;
     margin-left: 0px;
 
-    input.mat-chip-input {
-      width: 0px;
-    }
-
     &.inited {
       cursor: pointer;
-    }
-
-    &.inited {
-
-      &.mat-focused, 
-      &.panel-open {
-        &:not(.multiple).has-keyword .mat-chip {
-          margin-left: -1000px;
-        }
-
-        input.mat-chip-input {
-          width: 100%;
-        }
-      }
-    }
-
-    &:not(.inited):not(.has-value) {
-      input.mat-chip-input {
-        width: 100px;
-      }
     }
 
     &:not(.inited):not(:hover) {
@@ -64,18 +21,8 @@
         visibility: hidden;
       }
 
-      .mat-form-field-outline {
-        .mat-form-field-outline-start,
-        .mat-form-field-outline-gap,
-        .mat-form-field-outline-end {
-          border-color: transparent;
-        }
-      }
-
-      input {
-        cursor: pointer;
-        border: none;
-        outline: none;
+      .mat-mdc-notch-piece {
+        border-color: transparent;
       }
 
       fs-chip {
@@ -83,37 +30,33 @@
       }
     }
 
-    .mat-form-field-infix {
+    .mat-mdc-form-field-infix {
       width: unset;
-    }
-
-    &.mat-form-field-appearance-outline .mat-form-field-flex {
       display: flex;
-      align-items: center;
-    }
+      gap: 5px;
+      flex-wrap: wrap;
 
-    .mat-form-field-prefix,
-    .mat-form-field-suffix {
-      display: flex;
-
-      .clear {
+      input {
         cursor: pointer;
+        border: none;
+        outline: none;
+        width: auto;
       }
-    }   
+    }
+  }
+
+  fs-chips {
+    display: inline-flex;
   }
 
   fs-chip {
     margin-right: 5px;
+    margin-top: 0 !important;
 
     .chip-content {
       display: flex;
       align-items: center;
     }
-  }
-
-  input {
-    border: 0;
-    outline: 0;
   }
 }
 
@@ -134,10 +77,19 @@
       }
     }
 
-    .mat-option-text {
+    .option-chip {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 0 16px;
       align-items: center;
-      display: inline-flex;
-      height: inherit;
+      display: flex;
+
+      fs-chip {
+        cursor: pointer;
+      }
     }
 
     .static-templates {
@@ -185,27 +137,6 @@
         padding-left: 8px;
       }
 
-      .option-chip {
-        user-select: none;
-        display: flex;
-        text-overflow: ellipsis;
-        overflow: inherit;
-        cursor: pointer;
-        padding: 0 16px;
-        align-items: center;
-        height: inherit;
-        width: 100%;
-
-        .mat-chip {
-          cursor: pointer;
-          pointer-events: all;
-
-          .mat-icon {
-            margin-right: 5px;
-          }
-        }
-      }
-
       .option-chip:hover,
       .add-icon:hover {
         background-color: rgb(0 0 0 / 10%);
@@ -234,77 +165,4 @@
     }
   }
 
-  .mat-chip.fs-autocomplete-chip {
-    background-color: #f3f3f3;
-    white-space: nowrap;
-    box-shadow: none !important;
-    user-select: none;
-    max-width: 100%;
-
-    &:hover::after {
-      opacity: 0;
-    }
-
-    &.cdk-drag-placeholder {
-      opacity: .5;
-    }
-
-    .item-image {
-      width: 30px;
-      height: 30px;
-      object-fit: cover;
-      background-repeat: no-repeat;
-      background-size: cover;
-      background-position: 50% 50%;
-      margin-right: 5px;
-      display: flex;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
-
-    .item-content {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    .item-template {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-    }
-
-    .item-icon {
-      margin: 0 5px 0 -5px;
-    }
-
-    .item-suffix {
-      display: flex;
-      align-items: center;
-
-      a {
-        display: flex;
-      }
-
-      .mat-icon {
-        color: #8f8f8f;
-        opacity: 1;
-        margin-left: 3px;
-        margin-right: -5px;
-        cursor: pointer;
-        transform: scale(.77);
-        &:hover {
-          color: #202020;
-        }
-      }
-    }
-
-    &.imaged {
-      padding-left: 0;
-
-      .item-image {
-        margin-left: -1px;
-      }
-    }
-  }
 }

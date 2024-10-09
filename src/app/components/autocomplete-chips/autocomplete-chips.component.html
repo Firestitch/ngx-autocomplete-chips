@@ -1,5 +1,6 @@
 <mat-form-field
     [appearance]="appearance"
+    [floatLabel]="'always'"
     [ngClass]="{ 
       inited: inited, 
       multiple: multiple, 
@@ -9,52 +10,39 @@
     }"
     (click)="focus()">
   <mat-label>{{label}}</mat-label>
-  <input 
-    class="dummy-input"
-    matInput 
-    (cleared)="clearClick()"
-    type="text"
-    [fsClear]="!disabled && allowClear && inited" 
-    [ngModel]="model.length">
-  <fs-chips
-      [tabIndex]="-1"
-      cdkDropListGroup
-      #searchList>
-    <ng-container *ngFor="let item of model; let index = index">
-      <div        
-          cdkDropList
-          [cdkDropListData]="{ index: index }"
-          cdkDropListOrientation="horizontal"
-          (cdkDropListDropped)="drop($event)">
-        <ng-container 
-          [ngTemplateOutlet]="chipTemplate"
-          [ngTemplateOutletContext]="{ 
-            item: item, 
-            index: index,
-            removable: removable && !disabled && multiple,
-            selecting: false
-          }">
-        </ng-container>
-      </div>
+  <ng-container *ngFor="let item of model; let index = index">
+    <ng-container 
+      [ngTemplateOutlet]="chipTemplate"
+      [ngTemplateOutletContext]="{ 
+        item: item, 
+        index: index,
+        removable: removable && !disabled && multiple,
+        selecting: false
+      }">
     </ng-container>
-    <input
-      #input
+  </ng-container>
+  <input 
+      matInput 
+      (input)="inputed($event)"
+      (cleared)="clearClick()"
+      type="text"
       autocomplete="off"
       [readonly]="readonly"
-      (input)="inputed($event)"
       (keydown)="keyDown($event)"
       (focus)="focused()"
       (blur)="blured()"
       [name]="name"
-      [matAutocomplete]="autocompleteSearch">
-  </fs-chips>
-
-  <span *ngIf="chipsSuffixTemplate" matSuffix>
-    <ng-container 
-      [ngTemplateOutlet]="chipsSuffixTemplate"
-      [ngTemplateOutletContext]="{ open: autocompleteSearch.isOpen }">
-    </ng-container>
-  </span>
+      [matAutocomplete]="autocompleteSearch"
+      [placeholder]="model.length === 0 ? 'None' : ''"
+      [(ngModel)]="keyword"
+      [fsClear]="!disabled && allowClear && inited"
+      [visible]="model.length !== 0">
+    <span *ngIf="chipsSuffixTemplate" matSuffix>
+      <ng-container 
+        [ngTemplateOutlet]="chipsSuffixTemplate"
+        [ngTemplateOutletContext]="{ open: autocompleteSearch.isOpen }">
+      </ng-container>
+    </span>
 
   <mat-autocomplete
       #autocompleteSearch="matAutocomplete"
@@ -87,22 +75,26 @@
       </mat-option>
     </ng-container>
 
-    <mat-option
-        [ngClass]="{ multiple: multiple }"
-        class="option"
-        *ngFor="let item of data; let index = index" [value]="item">
-      <div class="option-chip" (click)="optionClick($event, item)">
-        <ng-container 
-          [ngTemplateOutlet]="chipTemplate"
-          [ngTemplateOutletContext]="{ 
-            item: item, 
-            index: index,
-            removable: false,
-            selecting: true 
-          }">
-        </ng-container>
-      </div>
-    </mat-option>
+    <ng-container *ngFor="let item of data; let index = index">
+      <mat-option
+          [ngClass]="{ multiple: multiple }"
+          class="option"        
+          [value]="item">
+        <div 
+            class="option-chip"
+            (click)="optionClick($event, item)">
+          <ng-container 
+            [ngTemplateOutlet]="chipTemplate"
+            [ngTemplateOutletContext]="{ 
+              item: item, 
+              index: index,
+              removable: false,
+              selecting: true 
+            }">
+          </ng-container>
+        </div>
+      </mat-option>
+    </ng-container>
 
     <ng-container *ngIf="noResults !== false">
       <mat-option disabled class="no-results">

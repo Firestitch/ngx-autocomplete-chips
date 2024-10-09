@@ -24,6 +24,7 @@ import {
 } from '@angular/material/autocomplete';
 import { MatDialog } from '@angular/material/dialog';
 import { MatFormField, MatFormFieldAppearance } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
 
 import { KEY_BACKSPACE, KEY_DELETE } from '@firestitch/common';
 
@@ -59,11 +60,11 @@ import { FsAutocompleteChipsStaticDirective } from './../../directives/static-te
 export class FsAutocompleteChipsComponent
 implements OnInit, OnDestroy, ControlValueAccessor {
 
-  @ViewChild('input')
-  public input: ElementRef = null;
-
   @ViewChild('dummyInput')
   public dummyInput: ElementRef = null;
+
+  @ViewChild(MatInput, { read: ElementRef })
+  public matInputEl: ElementRef;
 
   @ViewChild(MatAutocomplete)
   public autocomplete: MatAutocomplete;
@@ -162,7 +163,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   }
 
   public get inputEl() {
-    return this.input?.nativeElement;
+    return this.matInputEl?.nativeElement;
   }
 
   private _onTouched: () => void;
@@ -234,6 +235,10 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   }
 
   public inputed(event): void {
+    const el: HTMLInputElement = this.matInputEl.nativeElement;
+
+    el.setAttribute('size', (el.value.length * 1.2).toString());
+
     if (this.readonly || this.disabled) {
       return;
     }
@@ -302,7 +307,6 @@ implements OnInit, OnDestroy, ControlValueAccessor {
       this._cdRef.markForCheck();
     }
 
-    // Hack: Delay to wait for animation to finish
     this.inputEl.focus();
   }
 
@@ -368,6 +372,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
 
   public blured(): void {
     this._focused = false;
+    this.keyword = '';
 
     of(true)
       .pipe(
@@ -409,6 +414,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   }
 
   public optionClick(event: UIEvent, value: any): void {
+    event.stopImmediatePropagation();
     event.stopPropagation();
     event.preventDefault();
 
