@@ -100,6 +100,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   @Input() public readonly = false;
   @Input() public size: 'large' | 'small' = 'large';
   @Input() public label: string;
+  @Input() public placeholder: string;
   @Input() public chipImage = 'image';
   @Input() public chipBackground: string;
   @Input() public chipColor: string;

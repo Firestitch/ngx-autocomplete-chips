@@ -9,7 +9,7 @@
       'has-keyword': !!keyword
     }"
     (click)="focus()">
-  <mat-label>{{label}}</mat-label>
+  <mat-label>{{label || placeholder}}</mat-label>
   <ng-container *ngFor="let item of model; let index = index">
     <ng-container 
       [ngTemplateOutlet]="chipTemplate"
