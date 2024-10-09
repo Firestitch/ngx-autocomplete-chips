@@ -32,7 +32,6 @@ import { Observable, Subject, of, timer } from 'rxjs';
 import { debounce, delay, filter, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 
 import { isEqual, random } from 'lodash-es';
-import { AutoSizeInputDirective } from 'src/app/modules/ngx-autosize-input/src';
 
 import { FsAutocompleteChipsTextValidIndicatorDirective } from '../../directives';
 import { FsAutocompleteChipsNoResultsDirective } from '../../directives/autocomplete-no-results/autocomplete-no-results.directive';
@@ -40,6 +39,7 @@ import { FsAutocompleteObjectDirective } from '../../directives/autocomplete-obj
 import { getObjectValue } from '../../helpers/get-object-value';
 import { IAutocompleteItem } from '../../interfaces/autocomplete-item.interface';
 import { DataType } from '../../interfaces/data-type';
+import { AutoSizeInputDirective } from '../../modules/ngx-autosize-input/src';
 import { ConfirmComponent } from '../confirm';
 
 import { FsAutocompleteChipSuffixDirective } from './../../directives/chip-suffix/chip-suffix.directive';
