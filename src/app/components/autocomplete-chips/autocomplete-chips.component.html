@@ -1,6 +1,5 @@
 <mat-form-field
     [appearance]="appearance"
-    [floatLabel]="hasValue ? 'always' : floatLabel"
     [ngClass]="{ 
       inited: inited, 
       multiple: multiple, 
@@ -10,6 +9,13 @@
     }"
     (click)="focus()">
   <mat-label>{{label}}</mat-label>
+  <input 
+    class="dummy-input"
+    matInput 
+    (cleared)="clearClick()"
+    type="text"
+    [fsClear]="!disabled && allowClear && inited" 
+    [ngModel]="model.length">
   <fs-chips
       [tabIndex]="-1"
       cdkDropListGroup
@@ -42,25 +48,13 @@
       [name]="name"
       [matAutocomplete]="autocompleteSearch">
   </fs-chips>
-  <input matInput style="display: none;">
+
   <span *ngIf="chipsSuffixTemplate" matSuffix>
     <ng-container 
       [ngTemplateOutlet]="chipsSuffixTemplate"
       [ngTemplateOutletContext]="{ open: autocompleteSearch.isOpen }">
     </ng-container>
   </span>
-
-  <div *ngIf="!disabled && allowClear && inited" matSuffix>
-    <a 
-        mat-icon-button
-        (click)="clearClick($event)">
-      <mat-icon
-          *ngIf="model.length"
-          class="clear">
-        clear
-      </mat-icon>
-    </a>
-  </div>
 
   <mat-autocomplete
       #autocompleteSearch="matAutocomplete"
@@ -141,7 +135,6 @@
     <mat-option disabled class="blank-placeholder"></mat-option>
   </mat-autocomplete>
   <mat-hint *ngIf="hint">{{ hint }}</mat-hint>
-  <input class="dummy-input" #dummyInput tabindex="-1">
 </mat-form-field>
 
 <ng-template #itemTemplate let-item="item" let-selecting="selecting">

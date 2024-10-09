@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy, ChangeDetectorRef,
   Component,
   ContentChild,
@@ -15,7 +14,6 @@ import {
   QueryList,
   TemplateRef,
   ViewChild,
-  ViewChildren,
   forwardRef,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -24,7 +22,6 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import {
   MatAutocomplete, MatAutocompleteSelectedEvent, MatAutocompleteTrigger,
 } from '@angular/material/autocomplete';
-import { MatChip } from '@angular/material/chips';
 import { MatDialog } from '@angular/material/dialog';
 import { MatFormField, MatFormFieldAppearance } from '@angular/material/form-field';
 
@@ -60,7 +57,7 @@ import { FsAutocompleteChipsStaticDirective } from './../../directives/static-te
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FsAutocompleteChipsComponent
-implements OnInit, OnDestroy, ControlValueAccessor, AfterViewInit {
+implements OnInit, OnDestroy, ControlValueAccessor {
 
   @ViewChild('input')
   public input: ElementRef = null;
@@ -94,9 +91,6 @@ implements OnInit, OnDestroy, ControlValueAccessor, AfterViewInit {
 
   @ContentChildren(FsAutocompleteChipsStaticDirective)
   public staticDirectives: QueryList<FsAutocompleteChipsStaticDirective>;
-
-  @ViewChildren(MatChip)
-  public chips: QueryList<MatChip>;
 
   @Input() public fetch = null;
   @Input() public appearance: MatFormFieldAppearance;
@@ -205,21 +199,6 @@ implements OnInit, OnDestroy, ControlValueAccessor, AfterViewInit {
     this.disabled = isDisabled;
   }
 
-  public ngAfterViewInit(): void {
-    // Disabled MatChip focus functionality
-    this.chips.changes
-      .pipe(
-        takeUntil(this._destroy$),
-      )
-      .subscribe(() => {
-        this.chips.forEach((chip) => {
-          chip.focus = () => { 
-            //
-          };
-        });
-      });
-  }
-
   public ngOnInit(): void {
     this.inited = !this.initOnClick;
     this._listenFetch();
@@ -317,7 +296,7 @@ implements OnInit, OnDestroy, ControlValueAccessor, AfterViewInit {
     }
   }
 
-  public focus(options = { delay: 0 }): void {
+  public focus(): void {
     if (!this.disabled) {
       this.inited = true;
       this._cdRef.markForCheck();
@@ -335,8 +314,7 @@ implements OnInit, OnDestroy, ControlValueAccessor, AfterViewInit {
     });
   }
 
-  public clearClick(event: MouseEvent): void {
-    event.stopPropagation();
+  public clearClick(): void {
     this.clear(true);
     this.clearEvent.emit();
   }
