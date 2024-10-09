@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -29,7 +28,6 @@ import { AutoSizeInputModule } from './modules/ngx-autosize-input/src';
   imports: [
     CommonModule,
     FormsModule,
-    DragDropModule,
 
     MatAutocompleteModule,
     MatInputModule,

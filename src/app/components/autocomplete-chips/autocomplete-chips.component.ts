@@ -273,10 +273,6 @@ implements OnInit, OnDestroy, ControlValueAccessor {
     event.preventDefault();
   }
 
-  public chipClick(): void {
-    this.focus();
-  }
-
   public chipRemovedMousedown(event: UIEvent): void {
     // Used to bypass focus event
     event.preventDefault();

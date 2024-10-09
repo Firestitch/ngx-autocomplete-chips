@@ -176,12 +176,7 @@
         imaged: item.image,
         'last-chip': model.length - 1 === index
       }"
-      (click)="chipClick()"
-      [cdkDragDisabled]="!orderable || disabled || !inited"
-      [cdkDragData]="item"
-      tabindex="-1"
-      cdkDrag
-      cdkDragHandle>
+      tabindex="-1">
     <div class="chip-content">
       <ng-container
         [ngTemplateOutlet]="itemTemplate"
