@@ -22,6 +22,7 @@ import { FsAutocompleteObjectDirective } from './directives/autocomplete-object/
 import { FsAutocompleteChipSuffixDirective } from './directives/chip-suffix/chip-suffix.directive';
 import { FsAutocompleteChipsSuffixDirective } from './directives/chips-suffix/chips-suffix.directive';
 import { FsAutocompleteChipsStaticDirective } from './directives/static-template/static-template.directive';
+import { AutoSizeInputModule } from './modules/ngx-autosize-input/src';
 
 
 @NgModule({
@@ -41,6 +42,8 @@ import { FsAutocompleteChipsStaticDirective } from './directives/static-template
     FsDialogModule,
     FsClearModule,
     FsChipModule,
+
+    AutoSizeInputModule,
   ],
   exports: [
     FsAutocompleteChipsComponent,

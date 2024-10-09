@@ -32,6 +32,7 @@ import { Observable, Subject, of, timer } from 'rxjs';
 import { debounce, delay, filter, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 
 import { isEqual, random } from 'lodash-es';
+import { AutoSizeInputDirective } from 'src/app/modules/ngx-autosize-input/src';
 
 import { FsAutocompleteChipsTextValidIndicatorDirective } from '../../directives';
 import { FsAutocompleteChipsNoResultsDirective } from '../../directives/autocomplete-no-results/autocomplete-no-results.directive';
@@ -60,8 +61,8 @@ import { FsAutocompleteChipsStaticDirective } from './../../directives/static-te
 export class FsAutocompleteChipsComponent
 implements OnInit, OnDestroy, ControlValueAccessor {
 
-  @ViewChild('dummyInput')
-  public dummyInput: ElementRef = null;
+  @ViewChild(AutoSizeInputDirective)
+  public autoSizeInput: AutoSizeInputDirective;
 
   @ViewChild(MatInput, { read: ElementRef })
   public matInputEl: ElementRef;
@@ -235,7 +236,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   }
 
   public inputed(event): void {
-    this.inputEl.setAttribute('size', ((this.inputEl.value.length || 1) * 1.2).toString());
+    // this.inputEl.setAttribute('size', ((this.inputEl.value.length || 1) * 1.2).toString());
 
     if (this.readonly || this.disabled) {
       return;
@@ -309,11 +310,11 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   }
 
   public unfocus() {
-    setTimeout(() => {
-      if (this.dummyInput) {
-        this.dummyInput.nativeElement.focus();
-      }
-    });
+    // setTimeout(() => {
+    //   if (this.dummyInput) {
+    //     this.dummyInput.nativeElement.focus();
+    //   }
+    // });
   }
 
   public clearClick(): void {
@@ -360,11 +361,14 @@ implements OnInit, OnDestroy, ControlValueAccessor {
     });
   }
 
-  public blured(): void {
+  public blured(): void {  
     this._focused = false;
-    this.inputEl.setAttribute('size', '1');
     this.keyword = '';
-
+    
+    setTimeout(() => {
+      this.autoSizeInput.updateWidth();
+    }, 100);
+    
     of(true)
       .pipe(
         filter(() => this.confirm),
@@ -425,7 +429,6 @@ implements OnInit, OnDestroy, ControlValueAccessor {
       return;
     }
 
-    this._select(event.option.value);
     if (this.allowText || !this.multiple) {
       this._clearData();
       this._clearInput();
