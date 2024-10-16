@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { RouterModule } from '@angular/router';
 
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 
@@ -41,6 +41,7 @@ import { ExampleService } from './services/example.service';
     FsMessageModule.forRoot(),
     FsAutocompleteChipsModule.forRoot(),
     AppMaterialModule,
+    RouterModule.forRoot([]),
   ],
   declarations: [
     AppComponent,

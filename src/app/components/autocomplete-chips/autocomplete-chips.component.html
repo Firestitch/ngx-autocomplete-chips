@@ -133,8 +133,6 @@
 
 <ng-template #itemTemplate let-item="item" let-selecting="selecting">
   <ng-container *ngIf="item.type===dataType.Object" class="item">
-    <div class="item-image" *ngIf="item.image" [style.backgroundImage]="'url(' + item.image + ')'"></div>
-    <mat-icon class="item-icon" *ngIf="item.icon" [style.color]="item.iconColor || item.color">{{item.icon}}</mat-icon>
     <span class="item-content">
       <ng-template
         [ngTemplateOutlet]="objectTemplate"
@@ -169,6 +167,7 @@
       [size]="size"
       (removed)="chipRemoved(item)"
       [image]="item.image"
+      [icon]="item.icon"
       [class]="'fs-autocomplete-chip ' + item.class"
       [backgroundColor]="item.background || background"
       [color]="item.color || color"
