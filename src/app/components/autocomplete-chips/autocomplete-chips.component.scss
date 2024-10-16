@@ -11,9 +11,22 @@
     width: 100%;
     letter-spacing: inherit;
     margin-left: 0px;
+    min-width: 80px;
 
     &.inited {
       cursor: pointer;
+    }
+
+    &:not(.panel-open) {
+      fs-clear {
+        display: none;
+      }
+    }
+
+    &:not(.has-value) {
+      input {
+        min-width: 50px ;
+      }
     }
 
     &:not(.inited):not(:hover) {
