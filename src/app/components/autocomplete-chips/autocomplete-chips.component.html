@@ -133,12 +133,10 @@
 
 <ng-template #itemTemplate let-item="item" let-selecting="selecting">
   <ng-container *ngIf="item.type===dataType.Object" class="item">
-    <span class="item-content">
-      <ng-template
-        [ngTemplateOutlet]="objectTemplate"
-        [ngTemplateOutletContext]="{ object: item.data, selecting: selecting }">
-      </ng-template>
-    </span>
+    <ng-template
+      [ngTemplateOutlet]="objectTemplate"
+      [ngTemplateOutletContext]="{ object: item.data, selecting: selecting }">
+    </ng-template>
   </ng-container>
 
   <ng-container *ngIf="item.type===dataType.Text">
