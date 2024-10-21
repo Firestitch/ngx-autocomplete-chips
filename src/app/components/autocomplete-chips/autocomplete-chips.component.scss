@@ -13,7 +13,7 @@
     margin-left: 0px;
     min-width: 80px;
 
-    &.inited {
+    &.inited:not(.mat-form-field-disabled) {
       cursor: pointer;
     }
 
@@ -25,7 +25,27 @@
 
     &:not(.has-value) {
       input {
-        min-width: 50px ;
+        min-width: 50px;
+      }
+
+      &:not(.mat-focused) {
+        input {
+          opacity: 0;
+        }
+
+        .mdc-notched-outline__notch {
+          border-top-width: 1px;
+          border-top-style: solid;
+          width: auto !important;
+    
+          label {
+            transform: none !important;
+            top: 0 !important;
+            height: 100%;
+            display: flex;
+            align-items: center;
+          }      
+        }
       }
     }
 

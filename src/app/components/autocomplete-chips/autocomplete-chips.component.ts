@@ -100,7 +100,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   @Input() public readonly = false;
   @Input() public size: 'large' | 'small' = 'large';
   @Input() public label: string;
-  @Input() public placeholder: string;
+  @Input() public placeholder;
   @Input() public chipImage = 'image';
   @Input() public chipBackground: string;
   @Input() public chipColor: string;
@@ -175,7 +175,6 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   constructor(
     private _cdRef: ChangeDetectorRef,
     private _dialog: MatDialog,
-    private _elRef: ElementRef,
   ) {
     this.panelClass = '';
     if(!this.compareWith) {
@@ -237,8 +236,6 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   }
 
   public inputed(event): void {
-    // this.inputEl.setAttribute('size', ((this.inputEl.value.length || 1) * 1.2).toString());
-
     if (this.readonly || this.disabled) {
       return;
     }
@@ -261,8 +258,10 @@ implements OnInit, OnDestroy, ControlValueAccessor {
       } else {
         this._updateModel([]);
       }
-    } else if (event.code === 'Enter' && !this.multiple) {
-      this.unfocus();
+    } else if (event.code === 'Enter') {
+      if(!this.allowText) {
+        this.unfocus();
+      }
 
       return;
     }
@@ -301,17 +300,14 @@ implements OnInit, OnDestroy, ControlValueAccessor {
     if (!this.disabled) {
       this.inited = true;
       this._cdRef.markForCheck();
-    }
-
-    this.inputEl.focus();
+      this.inputEl.focus();
+    }    
   }
 
   public unfocus() {
-    // setTimeout(() => {
-    //   if (this.dummyInput) {
-    //     this.dummyInput.nativeElement.focus();
-    //   }
-    // });
+    if((document as any).activeElement?.blur) {  
+      (document as any).activeElement.blur();
+    }
   }
 
   public clearClick(): void {
@@ -349,7 +345,6 @@ implements OnInit, OnDestroy, ControlValueAccessor {
       }
 
       if (this.initOnClick) {
-        // Wait for keyDown() to fire to process
         this.inited = false;
         this._cdRef.markForCheck();
       }
@@ -410,15 +405,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
     event.stopPropagation();
     event.preventDefault();
 
-    if (this.multiple) {
-      this._select(value, { fetch: !this.fetchOnFocus });
-      this._clearInput();
-    } else {
-      this._clearInput();
-      this._select(value, { fetch: false });
-      this._close();
-      this.closePanel();
-    }
+    this._select(value);
   }
 
   public optionSelected(event: MatAutocompleteSelectedEvent): void {
@@ -426,19 +413,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
       return;
     }
 
-    if (this.allowText || !this.multiple) {
-      this._clearData();
-      this._clearInput();
-    }
-    
-    // TODO make this work again
-    // setTimeout(() => {
-    //   const width = this._elRef.nativeElement.getBoundingClientRect().width;
-    //   const panel = this.autocomplete.panel?.nativeElement;
-    //   if (panel) {
-    //     panel.style.minWidth = `${width}px`;
-    //   }
-    // });
+    this._select(event.option.value);
   }
 
   public writeValue(value: any): void {
@@ -527,15 +502,25 @@ implements OnInit, OnDestroy, ControlValueAccessor {
       }
     }
 
-    if (options.fetch) {
-      this._fetch();
+    if (this.multiple) {
+      this._clearInput();
 
-      setTimeout(() => {
-        if (this.autocompleteTrigger) {
-          this.autocompleteTrigger.updatePosition();
-        }
-      });
+      if (options.fetch) {
+        this._fetch();
+  
+        setTimeout(() => {
+          if (this.autocompleteTrigger) {
+            this.autocompleteTrigger.updatePosition();
+          }
+        });
+      }
+    } else {
+      this._clearInput();
+      this._close();
+      this.closePanel();
     }
+
+
   }
 
   private _createTextItem(data, valid: boolean): IAutocompleteItem {
