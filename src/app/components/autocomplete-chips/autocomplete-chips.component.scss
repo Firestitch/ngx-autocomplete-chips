@@ -28,7 +28,7 @@
         min-width: 50px;
       }
 
-      &:not(.mat-focused) {
+      &:not(.mat-focused):not(.float-label-always) {
         input {
           opacity: 0;
         }
