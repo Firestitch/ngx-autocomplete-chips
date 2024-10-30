@@ -117,6 +117,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   @Input() public color = '';
   @Input() public background = '';
   @Input() public orderable = false;
+  @Input() public paddless = false;
   @Input() public limit = 0;
   @Input() public initOnClick = false;
   @Input() public fetchOnFocus = true;
