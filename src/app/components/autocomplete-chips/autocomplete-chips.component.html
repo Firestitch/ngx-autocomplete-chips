@@ -164,7 +164,7 @@
     let-removable="removable"
     let-selecting="selecting">
   <fs-chip
-      [removable]="removable"
+      [removable]="removable && (!initOnClick || inited)"
       [size]="size"
       (removed)="chipRemoved(item)"
       [image]="item.image"
