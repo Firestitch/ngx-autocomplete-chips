@@ -67,6 +67,7 @@
       width: unset;
       display: flex;
       flex-wrap: wrap;
+      gap: 5px;
 
       input {
         cursor: pointer;
@@ -82,9 +83,6 @@
   }
 
   fs-chip {
-    margin-right: 5px;
-    margin-top: 0 !important;
-
     .chip-content {
       display: flex;
       align-items: center;
