@@ -124,7 +124,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   @Input() public multiple = true;
   @Input() public confirm = false;
   @Input() public disabled = false;
-  @Input() public groupBy: (item: IAutocompleteItem) => string;
+  @Input() public groupBy: (item: any) => string;
   @Input() public panelWidth: string | number;
   @Input() public set panelClass(value) {
     this.panelClasses = [
@@ -485,6 +485,10 @@ implements OnInit, OnDestroy, ControlValueAccessor {
       if (index !== -1) {
         this.data.splice(index, 1);
       }
+
+      if(this.groupBy) {
+        this._groupBy();
+      }
     }
 
     if (!this.multiple) {
@@ -695,24 +699,27 @@ implements OnInit, OnDestroy, ControlValueAccessor {
           }
 
           if(this.groupBy) {
-            this.groupData = Object.values(this.data
-              .reduce((acc, item) => {
-                const label = this.groupBy(item);
-                acc[label] = {
-                  label,
-                  data: [
-                    ...(acc[label]?.data || []),
-                    item,
-                  ],
-                };
-
-                return acc;
-              }, []));
+            this._groupBy();
           }
 
           this.noResults = !this.data.length;
         }),
       );
+  }
+  private _groupBy() {
+    this.groupData = Object.values(this.data
+      .reduce((acc, item) => {
+        const label = this.groupBy(item.data);
+        acc[label] = {
+          label,
+          data: [
+            ...(acc[label]?.data || []),
+            item,
+          ],
+        };
+
+        return acc;
+      }, []));
   }
 
 }

@@ -5,7 +5,6 @@ import { FsMessage } from '@firestitch/message';
 
 import { delay, map } from 'rxjs/operators';
 
-import { isEqual } from 'lodash-es';
 import { ExampleService } from 'playground/app/services/example.service';
 
 import { FsAutocompleteChipsComponent } from './../../../../src/app/components/autocomplete-chips/autocomplete-chips.component';
@@ -53,7 +52,7 @@ export class AutocompleteChipsExampleComponent implements OnInit {
   };
 
   public compareWith = (o1, o2) => {
-    return isEqual(o1, o2);
+    return o1.firstName === o2.firstName && o1.lastName === o2.lastName;
   };
 
   public validateText = (keyword) => {
@@ -70,7 +69,7 @@ export class AutocompleteChipsExampleComponent implements OnInit {
   }
 
   public groupBy = (item) => {
-    return 'Hello';  
+    return item.gender;  
   };
 
   public fetch = (keyword) => {

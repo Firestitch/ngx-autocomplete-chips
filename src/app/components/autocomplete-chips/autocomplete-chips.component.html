@@ -84,14 +84,18 @@
       <ng-container *ngFor="let group of groupData">
         <mat-optgroup [label]="group.label">
           <ng-container *ngFor="let item of group.data; let index = index">
-            <ng-container [ngTemplateOutlet]="optionTemplate" [ngTemplateOutletContext]="{ item: item, index: index }">
+            <ng-container 
+              [ngTemplateOutlet]="optionTemplate" 
+              [ngTemplateOutletContext]="{ item: item, index: index }">
             </ng-container>
           </ng-container>
         </mat-optgroup>
       </ng-container>
     } @else {
       <ng-container *ngFor="let item of data; let index = index">
-        <ng-container [ngTemplateOutlet]="optionTemplate" [ngTemplateOutletContext]="{ item: item, index: index }">
+        <ng-container 
+          [ngTemplateOutlet]="optionTemplate" 
+          [ngTemplateOutletContext]="{ item: item, index: index }">
         </ng-container>
       </ng-container>
     }
