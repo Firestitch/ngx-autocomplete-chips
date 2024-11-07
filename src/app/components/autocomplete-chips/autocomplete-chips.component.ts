@@ -124,6 +124,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   @Input() public multiple = true;
   @Input() public confirm = false;
   @Input() public disabled = false;
+  @Input() public groupBy: (item: IAutocompleteItem) => string;
   @Input() public panelWidth: string | number;
   @Input() public set panelClass(value) {
     this.panelClasses = [
@@ -151,6 +152,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   public name = 'autocomplete_'.concat(random(1, 9999999));
   public _model: any[] = [];
   public inited = false;
+  public groupData: { label: string, data: IAutocompleteItem[] }[] = [];
   public panelClasses: string[];
 
   private _keyword$ = new Subject<InputEvent>();
@@ -463,6 +465,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
 
   private _clearData(): void {
     this.data = null;
+    this.groupData = [];
   }
 
   private _clearInput(): void {
@@ -689,6 +692,22 @@ implements OnInit, OnDestroy, ControlValueAccessor {
             if (selected) {
               selected.selected = true;
             }
+          }
+
+          if(this.groupBy) {
+            this.groupData = Object.values(this.data
+              .reduce((acc, item) => {
+                const label = this.groupBy(item);
+                acc[label] = {
+                  label,
+                  data: [
+                    ...(acc[label]?.data || []),
+                    item,
+                  ],
+                };
+
+                return acc;
+              }, []));
           }
 
           this.noResults = !this.data.length;

@@ -69,6 +69,10 @@ export class AutocompleteChipsExampleComponent implements OnInit {
     console.log('chipsSuffixClick clicked');
   }
 
+  public groupBy = (item) => {
+    return 'Hello';  
+  };
+
   public fetch = (keyword) => {
     console.log('Fetch', keyword);
 
