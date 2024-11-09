@@ -118,7 +118,6 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   @Input() public background = '';
   @Input() public orderable = false;
   @Input() public paddless = false;
-  @Input() public limit = 0;
   @Input() public initOnClick = false;
   @Input() public fetchOnFocus = true;
   @Input() public multiple = true;
@@ -404,6 +403,15 @@ implements OnInit, OnDestroy, ControlValueAccessor {
     }
   }
 
+  public optionTextClick(event: UIEvent, value: any): void {
+    this.optionClick(event, value);
+    this._clearData();
+  }
+
+  public optionObjectClick(event: UIEvent, value: any): void {
+    this.optionClick(event, value);
+  }
+
   public optionClick(event: UIEvent, value: any): void {
     event.stopImmediatePropagation();
     event.stopPropagation();
@@ -479,7 +487,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
     this._cdRef.markForCheck();
   }
 
-  private _select(selected, options: { fetch?: boolean } = {}): void {
+  private _select(selected): void {
     if (this.data) {
       const index = this.data.indexOf(selected);
 
@@ -513,16 +521,11 @@ implements OnInit, OnDestroy, ControlValueAccessor {
 
     if (this.multiple) {
       this._clearInput();
-
-      if (options.fetch) {
-        this._fetch();
-  
-        setTimeout(() => {
-          if (this.autocompleteTrigger) {
-            this.autocompleteTrigger.updatePosition();
-          }
-        });
-      }
+      setTimeout(() => {
+        if (this.autocompleteTrigger) {
+          this.autocompleteTrigger.updatePosition();
+        }
+      });
     } else {
       this._clearInput();
       this._close();

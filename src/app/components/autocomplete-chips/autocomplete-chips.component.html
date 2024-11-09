@@ -68,7 +68,7 @@
             [ngClass]="{ valid: textData.valid }">
           <div
               class="option-chip"
-              (click)="optionClick($event, textData)">
+              (click)="optionTextClick($event, textData)">
             <ng-container
               [ngTemplateOutlet]="itemTemplate"
               [ngTemplateOutletContext]="{ item: textData }">
@@ -116,7 +116,7 @@
           [value]="item">
         <div
             class="option-chip"
-            (click)="optionClick($event, item)">
+            (click)="optionObjectClick($event, item)">
           <ng-container
             [ngTemplateOutlet]="chipTemplate"
             [ngTemplateOutletContext]="{ 
