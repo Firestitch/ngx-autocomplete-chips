@@ -11,9 +11,11 @@
       'has-keyword': !!keyword
     }"
     (click)="focus()">
-  <mat-label>{{label || placeholder}}</mat-label>
+  <mat-label>
+    {{ label || placeholder }}
+  </mat-label>
   <ng-container *ngFor="let item of model; let index = index">
-    <ng-container 
+    <ng-container
       [ngTemplateOutlet]="chipTemplate"
       [ngTemplateOutletContext]="{ 
         item: item, 
@@ -23,32 +25,33 @@
       }">
     </ng-container>
   </ng-container>
-  <input 
-      matInput 
-      (input)="inputed($event)"
-      (cleared)="clearClick()"
-      type="text"
-      [disabled]="disabled"
-      autoSizeInput 
-      [minWidth]="5"
-      autocomplete="off"
-      [readonly]="readonly"
-      (keydown)="keyDown($event)"
-      (focus)="focused()"
-      (blur)="blured()"
-      [name]="name"
-      [matAutocomplete]="autocompleteSearch"
-      [placeholder]="model.length === 0 ? 'None' : ''"
-      [(ngModel)]="keyword"
-      [fsClear]="!disabled && allowClear && inited"
-      [visible]="model.length !== 0">
-    <span *ngIf="chipsSuffixTemplate" matSuffix>
-      <ng-container 
-        [ngTemplateOutlet]="chipsSuffixTemplate"
-        [ngTemplateOutletContext]="{ open: autocompleteSearch.isOpen }">
-      </ng-container>
-    </span>
-
+  <input
+    matInput
+    (input)="inputed($event)"
+    (cleared)="clearClick()"
+    type="text"
+    [disabled]="disabled"
+    autoSizeInput
+    [minWidth]="5"
+    autocomplete="off"
+    [readonly]="readonly"
+    (keydown)="keyDown($event)"
+    (focus)="focused()"
+    (blur)="blured()"
+    [name]="name"
+    [matAutocomplete]="autocompleteSearch"
+    [placeholder]="model.length === 0 ? 'None' : ''"
+    [(ngModel)]="keyword"
+    [fsClear]="!disabled && allowClear && inited"
+    [visible]="model.length !== 0">
+  <span
+      *ngIf="chipsSuffixTemplate"
+      matSuffix>
+    <ng-container
+      [ngTemplateOutlet]="chipsSuffixTemplate"
+      [ngTemplateOutletContext]="{ open: autocompleteSearch.isOpen }">
+    </ng-container>
+  </span>
   <mat-autocomplete
       #autocompleteSearch="matAutocomplete"
       [class]="panelClasses"
@@ -58,34 +61,38 @@
       [panelWidth]="panelWidth"
       [autoActiveFirstOption]="true">
     <ng-container *ngIf="keyword && allowText">
-      <mat-option 
-          class="option-text"
-          *ngIf="textData.type===dataType.Text" 
-          [value]="textData"
-          [ngClass]="{ valid: textData.valid }">
-        <ng-container
-          [ngTemplateOutlet]="itemTemplate"
-          [ngTemplateOutletContext]="{ item: textData }">
-        </ng-container>
-        <span class="check">
-          <ng-container 
-            *ngIf="textValidIndicatorTemplate; else textValidIndicator"
-            [ngTemplateOutlet]="textValidIndicatorTemplate"
-            [ngTemplateOutletContext]="{ valid: textData.valid }">
-          </ng-container>
-          <ng-template #textValidIndicator>
-            {{ textData.valid ? 'Valid' : 'Invalid' }}
-          </ng-template>
-        </span>
-      </mat-option>
+      @if (textData.type === dataType.Text) {
+        <mat-option
+            class="option option-text"
+            [value]="textData"
+            [ngClass]="{ valid: textData.valid }">
+          <div
+              class="option-chip"
+              (click)="optionClick($event, textData)">
+            <ng-container
+              [ngTemplateOutlet]="itemTemplate"
+              [ngTemplateOutletContext]="{ item: textData }">
+            </ng-container>
+            <span class="check">
+              <ng-container
+                *ngIf="textValidIndicatorTemplate; else textValidIndicator"
+                [ngTemplateOutlet]="textValidIndicatorTemplate"
+                [ngTemplateOutletContext]="{ valid: textData.valid }">
+              </ng-container>
+              <ng-template #textValidIndicator>
+                {{ textData.valid ? 'Valid' : 'Invalid' }}
+              </ng-template>
+            </span>
+          </div>
+        </mat-option>
+      }
     </ng-container>
-
-    @if(groupBy) {
+    @if (groupBy) {
       <ng-container *ngFor="let group of groupData">
         <mat-optgroup [label]="group.label">
           <ng-container *ngFor="let item of group.data; let index = index">
-            <ng-container 
-              [ngTemplateOutlet]="optionTemplate" 
+            <ng-container
+              [ngTemplateOutlet]="optionTemplate"
               [ngTemplateOutletContext]="{ item: item, index: index }">
             </ng-container>
           </ng-container>
@@ -93,47 +100,52 @@
       </ng-container>
     } @else {
       <ng-container *ngFor="let item of data; let index = index">
-        <ng-container 
-          [ngTemplateOutlet]="optionTemplate" 
+        <ng-container
+          [ngTemplateOutlet]="optionTemplate"
           [ngTemplateOutletContext]="{ item: item, index: index }">
         </ng-container>
       </ng-container>
     }
-
-    <ng-template let-item="item" let-index="index" #optionTemplate>
+    <ng-template
+        #optionTemplate
+        let-item="item"
+        let-index="index">
       <mat-option
-            [ngClass]="{ multiple: multiple }"
-            class="option"        
-            [value]="item">
-          <div 
-              class="option-chip"
-              (click)="optionClick($event, item)">
-            <ng-container 
-              [ngTemplateOutlet]="chipTemplate"
-              [ngTemplateOutletContext]="{ 
+          [ngClass]="{ multiple: multiple }"
+          class="option"
+          [value]="item">
+        <div
+            class="option-chip"
+            (click)="optionClick($event, item)">
+          <ng-container
+            [ngTemplateOutlet]="chipTemplate"
+            [ngTemplateOutletContext]="{ 
                 item: item, 
                 index: index,
                 removable: false,
                 selecting: true 
               }">
-            </ng-container>
-          </div>
-        </mat-option>
+          </ng-container>
+        </div>
+      </mat-option>
     </ng-template>
-
-    <ng-container *ngIf="noResults !== false">
-      <mat-option disabled class="no-results">
+    @if (noResults !== false) {
+      <mat-option
+          disabled
+          class="no-results">
         <ng-template
           *ngIf="noResultsTemplate; else noResultsOption"
           [ngTemplateOutlet]="noResultsTemplate"
           [ngTemplateOutletContext]="{ keyword: keyword }">
         </ng-template>
         <ng-template #noResultsOption>
-            No results <ng-container *ngIf="keyword">for "{{keyword}}"</ng-container>
+          No results
+          <ng-container *ngIf="keyword">
+            for "{{ keyword }}"
+          </ng-container>
         </ng-template>
       </mat-option>
-    </ng-container>
-
+    }
     <ng-container *ngIf="staticDirectives.length">
       <div class="static-templates">
         <ng-container *ngFor="let staticDirective of staticDirectives; let i = index">
@@ -148,26 +160,31 @@
         </ng-container>
       </div>
     </ng-container>
-
-    <mat-option disabled class="blank-placeholder"></mat-option>
   </mat-autocomplete>
-  <mat-hint *ngIf="hint">{{ hint }}</mat-hint>
+  <mat-hint *ngIf="hint">
+    {{ hint }}
+  </mat-hint>
 </mat-form-field>
-
-<ng-template #itemTemplate let-item="item" let-selecting="selecting">
-  <ng-container *ngIf="item.type===dataType.Object" class="item">
+<ng-template
+    #itemTemplate
+    let-item="item"
+    let-selecting="selecting">
+  <ng-container
+      *ngIf="item.type===dataType.Object"
+      class="item">
     <ng-template
       [ngTemplateOutlet]="objectTemplate"
       [ngTemplateOutletContext]="{ object: item.data, selecting: selecting }">
     </ng-template>
   </ng-container>
-
   <ng-container *ngIf="item.type===dataType.Text">
-    {{item.data}}
+    {{ item.data }}
   </ng-container>
 </ng-template>
-
-<ng-template #itemSuffixTemplate let-item="item" let-selecting="selecting">
+<ng-template
+    #itemSuffixTemplate
+    let-item="item"
+    let-selecting="selecting">
   <div class="item-suffix">
     <ng-container
       *ngIf="chipSuffixTemplate"
@@ -176,11 +193,10 @@
     </ng-container>
   </div>
 </ng-template>
-
-<ng-template  
-    #chipTemplate 
-    let-item="item" 
-    let-index="index" 
+<ng-template
+    #chipTemplate
+    let-item="item"
+    let-index="index"
     let-removable="removable"
     let-selecting="selecting">
   <fs-chip

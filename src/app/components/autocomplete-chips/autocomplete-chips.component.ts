@@ -357,39 +357,40 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   }
 
   public blured(): void {  
-    this._focused = false;
-    this.keyword = '';
-    
     setTimeout(() => {
-      this.autoSizeInput.updateWidth();
-    }, 100);
+
+      this._focused = false;
+      this.keyword = '';
     
-    of(true)
-      .pipe(
-        filter(() => this.confirm),
-        delay(100),
-        filter(() => !!this.keyword),
-        switchMap(() => this._dialog.open(ConfirmComponent, {
-          disableClose: true,
-        })
-          .afterClosed(),
-        ),
-        take(1),
-        takeUntil(this._destroy$),
-      )
-      .subscribe((result) => {
-        this._focused = true;
-        switch (result) {
-          case 'review':
-            this.inputEl.focus();
+      this.autoSizeInput.updateWidth();
+    
+      of(true)
+        .pipe(
+          filter(() => this.confirm),
+          delay(100),
+          filter(() => !!this.keyword),
+          switchMap(() => this._dialog.open(ConfirmComponent, {
+            disableClose: true,
+          })
+            .afterClosed(),
+          ),
+          take(1),
+          takeUntil(this._destroy$),
+        )
+        .subscribe((result) => {
+          this._focused = true;
+          switch (result) {
+            case 'review':
+              this.inputEl.focus();
 
-            break;
+              break;
 
-          case 'discard':
-            this._clearInput();
-            break;
-        }
-      });
+            case 'discard':
+              this._clearInput();
+              break;
+          }
+        });
+    },100);
   }
 
   public focused(): void {
