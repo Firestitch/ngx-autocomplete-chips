@@ -37,14 +37,14 @@
           border-top-width: 1px;
           border-top-style: solid;
           width: auto !important;
-    
+
           label {
             transform: none !important;
             top: 0 !important;
             height: 100%;
             display: flex;
             align-items: center;
-          }      
+          }
         }
       }
     }
@@ -62,7 +62,7 @@
         cursor: pointer;
       }
     }
-    
+
     .mat-mdc-form-field-infix {
       width: unset;
       display: flex;
@@ -90,7 +90,17 @@
   }
 }
 
+.fs-autocomplete-chip {
+  max-width: 100%;
+}
+
 ::ng-deep {
+  .fs-autocomplete-chip {
+    .fs-chip-content {
+      flex: 1;
+    }
+  }
+
   .fs-autocomplete-chips-panel {
     padding: 0 !important;
     min-width: 200px !important;
@@ -172,7 +182,7 @@
         fs-chip {
           cursor: pointer;
         }
-          
+
         &:hover {
           background-color: rgb(0 0 0 / 10%);
         }
