@@ -1,4 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
+
+import { MatDialog } from '@angular/material/dialog';
 
 import { email } from '@firestitch/common';
 import { FsMessage } from '@firestitch/message';
@@ -6,6 +8,8 @@ import { FsMessage } from '@firestitch/message';
 import { delay, map } from 'rxjs/operators';
 
 import { ExampleService } from 'playground/app/services/example.service';
+
+import { DialogComponent } from '../dialog';
 
 import { FsAutocompleteChipsComponent } from './../../../../src/app/components/autocomplete-chips/autocomplete-chips.component';
 
@@ -34,10 +38,9 @@ export class AutocompleteChipsExampleComponent implements OnInit {
     size: 'small',
   };
 
-  constructor(
-    private _exampleService: ExampleService,
-    private _message: FsMessage,
-  ) { }
+  private _dialog = inject(MatDialog);
+  private _exampleService = inject(ExampleService);
+  private _message = inject(FsMessage);
 
   public ngOnInit() {
     this.model = this.mapData([this._exampleService.people[0]]);
@@ -71,6 +74,10 @@ export class AutocompleteChipsExampleComponent implements OnInit {
   public groupBy = (item) => {
     return item.gender;  
   };
+
+  public openDialog() {
+    this._dialog.open(DialogComponent);
+  }
 
   public fetch = (keyword) => {
     console.log('Fetch', keyword);

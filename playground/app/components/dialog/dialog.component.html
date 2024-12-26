@@ -1,0 +1,29 @@
+<form fsForm>
+  <fs-dialog>
+    <h1 mat-dialog-title>
+      Select Account
+    </h1>
+    <mat-dialog-content>
+      <fs-autocomplete-chips
+          [fetch]="fetch"
+          [(ngModel)]="model"
+          label="Account"
+          name="model">
+        <ng-template
+            fsAutocompleteChipsTemplate
+            let-object="object"
+            let-selecting="selecting">
+          {{ object.firstName }} {{ object.lastName }}
+        </ng-template>
+      </fs-autocomplete-chips>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button
+          mat-button
+          type="button"
+          [mat-dialog-close]="undefined">
+        Cancel
+      </button>
+    </mat-dialog-actions>
+  </fs-dialog>
+</form>

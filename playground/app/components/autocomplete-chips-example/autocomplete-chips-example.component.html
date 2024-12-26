@@ -22,67 +22,97 @@
     [initOnClick]="config.initOnClick"
     (ngModelChange)="modelChange($event)"
     name="model">
-  <ng-template fsAutocompleteChipsTemplate let-object="object" let-selecting="selecting">
-    {{object.firstName}} {{object.lastName}}
+  <ng-template
+      fsAutocompleteChipsTemplate
+      let-object="object"
+      let-selecting="selecting">
+    {{ object.firstName }} {{ object.lastName }}
   </ng-template>
-
   <ng-template let-open="open">
-    <a (click)="chipsSuffixClick($event)" class="chips-suffix">
-      <mat-icon>tune</mat-icon>
+    <a
+        (click)="chipsSuffixClick($event)"
+        class="chips-suffix">
+      <mat-icon>
+        tune
+      </mat-icon>
     </a>
   </ng-template>
-
-  <ng-template fsAutocompleteChipsStatic (click)="selectAllClick($event)">
+  <ng-template
+      fsAutocompleteChipsStatic
+      (click)="selectAllClick($event)">
     Select All
   </ng-template>
-
-  <ng-template fsAutocompleteChipsStatic let-keyword="keyword" [show]="showKeyword" (selected)="selected($event)">
-    Sorry cannot find "{{keyword}}"
+  <ng-template
+      fsAutocompleteChipsStatic
+      let-keyword="keyword"
+      [show]="showKeyword"
+      (selected)="selected($event)">
+    Sorry cannot find "{{ keyword }}"
   </ng-template>
-
-  <ng-template fsAutocompleteChipsStatic let-keyword="keyword" (selected)="selected($event)">
+  <ng-template
+      fsAutocompleteChipsStatic
+      let-keyword="keyword"
+      (selected)="selected($event)">
     <ng-container *ngIf="keyword">
-      Create new "{{keyword}}"
+      Create new "{{ keyword }}"
     </ng-container>
     <ng-container *ngIf="!keyword">
       Start typing to create a new account
     </ng-container>
-    
   </ng-template>
-
   <ng-template fsAutocompleteChipsNoResults>
-    <div class="custom-results">Custom No Results</div>
+    <div class="custom-results">
+      Custom No Results
+    </div>
   </ng-template>
 </fs-autocomplete-chips>
-
 <br>
-
 <mat-tab-group mat-align-tabs="start">
   <mat-tab label="First">
     <div class="fs-column">
-      <mat-checkbox [(ngModel)]="config.multiple">Multiple</mat-checkbox>
-      <mat-checkbox [(ngModel)]="config.fetchOnFocus">Fetch On Focus</mat-checkbox>
-      <mat-checkbox [(ngModel)]="config.disabled">Disabled</mat-checkbox>
-      <mat-checkbox [(ngModel)]="config.removable">Removable</mat-checkbox>
-      <mat-checkbox [(ngModel)]="config.orderable">Orderable</mat-checkbox>
-      <mat-checkbox [(ngModel)]="config.image">Image</mat-checkbox>
-      <mat-checkbox [(ngModel)]="config.color">Color</mat-checkbox>
-      <mat-checkbox [(ngModel)]="config.icon">Icon</mat-checkbox>
-      <mat-checkbox [(ngModel)]="config.initOnClick">Init on click</mat-checkbox>
-
+      <mat-checkbox [(ngModel)]="config.multiple">
+        Multiple
+      </mat-checkbox>
+      <mat-checkbox [(ngModel)]="config.fetchOnFocus">
+        Fetch On Focus
+      </mat-checkbox>
+      <mat-checkbox [(ngModel)]="config.disabled">
+        Disabled
+      </mat-checkbox>
+      <mat-checkbox [(ngModel)]="config.removable">
+        Removable
+      </mat-checkbox>
+      <mat-checkbox [(ngModel)]="config.orderable">
+        Orderable
+      </mat-checkbox>
+      <mat-checkbox [(ngModel)]="config.image">
+        Image
+      </mat-checkbox>
+      <mat-checkbox [(ngModel)]="config.color">
+        Color
+      </mat-checkbox>
+      <mat-checkbox [(ngModel)]="config.icon">
+        Icon
+      </mat-checkbox>
+      <mat-checkbox [(ngModel)]="config.initOnClick">
+        Init on click
+      </mat-checkbox>
       <mat-radio-group [(ngModel)]="config.size">
         Size:&nbsp;
-        <mat-radio-button value="large">Large</mat-radio-button>
+        <mat-radio-button value="large">
+          Large
+        </mat-radio-button>
         &nbsp;&nbsp;
-        <mat-radio-button value="small">Small</mat-radio-button>
+        <mat-radio-button value="small">
+          Small
+        </mat-radio-button>
       </mat-radio-group>
     </div>
   </mat-tab>
   <mat-tab label="Data">
-    <pre>{{ model | json }}</pre>
+    <pre>
+      {{ model | json }}
+    </pre>
   </mat-tab>
 </mat-tab-group>
-
-
-
-{{model|json}}
+{{ model|json }}

@@ -23,6 +23,7 @@ import {
   StatusExampleComponent,
   TextExampleComponent,
 } from './components';
+import { DialogComponent } from './components/dialog';
 import { EmailExampleComponent } from './components/email-example';
 import { AppMaterialModule } from './material.module';
 import { ExampleService } from './services/example.service';
@@ -42,6 +43,7 @@ import { ExampleService } from './services/example.service';
     FsAutocompleteChipsModule.forRoot(),
     AppMaterialModule,
     RouterModule.forRoot([]),
+    DialogComponent,
   ],
   declarations: [
     AppComponent,
