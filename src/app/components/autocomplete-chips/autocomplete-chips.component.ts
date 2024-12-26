@@ -15,6 +15,7 @@ import {
   TemplateRef,
   ViewChild,
   forwardRef,
+  inject,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -157,6 +158,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   private _keyword$ = new Subject<InputEvent>();
   private _fetch$ = new Subject<string>();
   private _destroy$ = new Subject();
+  private _el = inject(ElementRef);
 
   public get model() {
     return this._model;
@@ -338,6 +340,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
 
   public opened(): void {
     this._updateStaticDirectives();
+    this.autocomplete.panel.nativeElement.style.width = `${2000}px`;
   }
 
   public closed(): void {

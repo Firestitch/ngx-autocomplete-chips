@@ -10,8 +10,10 @@ import {
   Renderer2,
 } from '@angular/core';
 import { NgControl, NgModel } from '@angular/forms';
+
 import { Subject } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
+
 import {
   AUTO_SIZE_INPUT_OPTIONS,
   AutoSizeInputOptions,
@@ -42,7 +44,7 @@ export class AutoSizeInputDirective implements AfterViewInit, OnDestroy {
     @Optional() private ngControl?: NgControl,
     @Optional()
     @Inject(AUTO_SIZE_INPUT_OPTIONS)
-    readonly options?: AutoSizeInputOptions
+    readonly options?: AutoSizeInputOptions,
   ) {
     const defaultOptions = this.options || DEFAULT_AUTO_SIZE_INPUT_OPTIONS;
     this.extraWidth = defaultOptions.extraWidth;
@@ -129,6 +131,7 @@ export class AutoSizeInputDirective implements AfterViewInit, OnDestroy {
     } else if (this.ngControl) {
       value = this.ngControl.value;
     }
+
     return value || this.value || '';
   }
 
@@ -138,6 +141,7 @@ export class AutoSizeInputDirective implements AfterViewInit, OnDestroy {
 
   private get textWidth() {
     const text = this.usePlaceholder ? this.placeholder : this.input;
+
     return (
       this.borderWidth +
       this.extraWidth +
@@ -168,9 +172,9 @@ export class AutoSizeInputDirective implements AfterViewInit, OnDestroy {
     const parent = this.renderer.parentNode(this.nativeElement);
 
     if (this.setParentWidth) {
-      this.renderer.setStyle(parent, 'width', width + 'px');
+      this.renderer.setStyle(parent, 'width', `${width  }px`);
     } else {
-      this.renderer.setStyle(this.nativeElement, 'width', width + 'px');
+      this.renderer.setStyle(this.nativeElement, 'width', `${width  }px`);
     }
   }
 
@@ -193,6 +197,7 @@ export class AutoSizeInputDirective implements AfterViewInit, OnDestroy {
 
     const width = context.measureText(value).width;
     element.remove();
+
     return width;
   }
 
@@ -210,7 +215,7 @@ export class AutoSizeInputDirective implements AfterViewInit, OnDestroy {
     return this.ngControl?.valueChanges
       ?.pipe(
         tap(() => this.updateWidth()),
-        takeUntil(this.destroyed$)
+        takeUntil(this.destroyed$),
       )
       .subscribe();
   }
@@ -219,7 +224,7 @@ export class AutoSizeInputDirective implements AfterViewInit, OnDestroy {
     return this.ngModel?.valueChanges
       ?.pipe(
         tap(() => this.updateWidth()),
-        takeUntil(this.destroyed$)
+        takeUntil(this.destroyed$),
       )
       .subscribe();
   }
@@ -228,6 +233,7 @@ export class AutoSizeInputDirective implements AfterViewInit, OnDestroy {
     return properties.reduce((sum, property) => {
       const value: string = this.style.getPropertyValue(property);
       const width: number = parseInt(value, 10);
+
       return sum + width;
     }, 0);
   }
