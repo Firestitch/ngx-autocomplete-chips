@@ -29,7 +29,7 @@ import { MatInput } from '@angular/material/input';
 
 import { KEY_BACKSPACE, KEY_DELETE } from '@firestitch/common';
 
-import { Observable, Subject, of, timer } from 'rxjs';
+import { Observable, Subject, interval, of, timer } from 'rxjs';
 import { debounce, delay, filter, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 
 import { isEqual, random } from 'lodash-es';
@@ -340,7 +340,22 @@ implements OnInit, OnDestroy, ControlValueAccessor {
 
   public opened(): void {
     this._updateStaticDirectives();
-    this.autocomplete.panel.nativeElement.style.width = `${2000}px`;
+
+    // Rezize panel to input width and do it a few times because of Mat dialog auto resize
+    interval(100)
+      .pipe(  
+        take(3),
+        takeUntil(this._destroy$),
+      )
+      .subscribe(() => {
+        const panel = document.getElementById(this.autocomplete.id)?.parentElement;
+        if(panel) {
+          const width = this._el.nativeElement.offsetWidth < 200 ? 
+            200 : 
+            this._el.nativeElement.offsetWidth;
+          panel.style.width = `${width}px`;
+        }
+      });
   }
 
   public closed(): void {
