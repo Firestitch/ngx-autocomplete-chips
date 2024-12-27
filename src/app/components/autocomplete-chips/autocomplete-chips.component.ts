@@ -29,7 +29,7 @@ import { MatInput } from '@angular/material/input';
 
 import { KEY_BACKSPACE, KEY_DELETE } from '@firestitch/common';
 
-import { Observable, Subject, interval, of, timer } from 'rxjs';
+import { Observable, Subject, of, timer } from 'rxjs';
 import { debounce, delay, filter, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 
 import { isEqual, random } from 'lodash-es';
@@ -342,7 +342,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
     this._updateStaticDirectives();
 
     // Rezize panel to input width and do it a few times because of Mat dialog auto resize
-    interval(100)
+    timer(0, 100)
       .pipe(  
         take(3),
         takeUntil(this._destroy$),
