@@ -160,32 +160,21 @@
         }
       }
 
+      &:hover {
+        background-color: #F5F5F5 !important;
+      }
+
       &.multiple .option-chip {
         padding-left: 8px;
       }
 
-      &.mat-active,
-      &:hover:not(.option-disabled),
-      &:focus:not(.option-disabled) {
-        background: none;
-      }
-
       .option-chip {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
         padding: 0 16px;
         align-items: center;
         display: flex;
 
         fs-chip {
           cursor: pointer;
-        }
-
-        &:hover {
-          background-color: rgb(0 0 0 / 10%);
         }
       }
     }
