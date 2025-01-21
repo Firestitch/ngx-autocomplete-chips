@@ -35,17 +35,16 @@ import { debounce, delay, filter, switchMap, take, takeUntil, tap } from 'rxjs/o
 import { isEqual, random } from 'lodash-es';
 
 import { FsAutocompleteChipsTextValidIndicatorDirective } from '../../directives';
-import { FsAutocompleteChipsNoResultsDirective } from '../../directives/autocomplete-no-results/autocomplete-no-results.directive';
-import { FsAutocompleteObjectDirective } from '../../directives/autocomplete-object/autocomplete-object.directive';
+import { FsAutocompleteChipsNoResultsDirective } from '../../directives/autocomplete-no-results.directive';
+import { FsAutocompleteObjectDirective } from '../../directives/autocomplete-object.directive';
+import { FsAutocompleteChipsSuffixDirective } from '../../directives/chips-suffix.directive';
+import { FsAutocompleteChipSelectedSuffixDirective } from '../../directives/selected-chip-suffix.directive';
+import { FsAutocompleteChipsStaticDirective } from '../../directives/static-template.directive';
 import { getObjectValue } from '../../helpers/get-object-value';
 import { IAutocompleteItem } from '../../interfaces/autocomplete-item.interface';
 import { DataType } from '../../interfaces/data-type';
 import { AutoSizeInputDirective } from '../../modules/ngx-autosize-input/src';
 import { ConfirmComponent } from '../confirm';
-
-import { FsAutocompleteChipSuffixDirective } from './../../directives/chip-suffix/chip-suffix.directive';
-import { FsAutocompleteChipsSuffixDirective } from './../../directives/chips-suffix/chips-suffix.directive';
-import { FsAutocompleteChipsStaticDirective } from './../../directives/static-template/static-template.directive';
 
 
 @Component({
@@ -80,8 +79,8 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   @ContentChild(FsAutocompleteObjectDirective, { read: TemplateRef })
   public objectTemplate: TemplateRef<FsAutocompleteObjectDirective> = null;
 
-  @ContentChild(FsAutocompleteChipSuffixDirective, { read: TemplateRef })
-  public chipSuffixTemplate: TemplateRef<FsAutocompleteChipSuffixDirective> = null;
+  @ContentChildren(FsAutocompleteChipSelectedSuffixDirective)
+  public chipSelectedSuffixes: QueryList<FsAutocompleteChipSelectedSuffixDirective>;
 
   @ContentChild(FsAutocompleteChipsSuffixDirective, { read: TemplateRef })
   public chipsSuffixTemplate: TemplateRef<FsAutocompleteChipsSuffixDirective> = null;

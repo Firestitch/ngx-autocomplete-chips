@@ -182,18 +182,6 @@
   </ng-container>
 </ng-template>
 <ng-template
-    #itemSuffixTemplate
-    let-item="item"
-    let-selecting="selecting">
-  <div class="item-suffix">
-    <ng-container
-      *ngIf="chipSuffixTemplate"
-      [ngTemplateOutlet]="chipSuffixTemplate"
-      [ngTemplateOutletContext]="{ object: item.data, selecting: selecting, disabled: disabled }">
-    </ng-container>
-  </div>
-</ng-template>
-<ng-template
     #chipTemplate
     let-item="item"
     let-index="index"
@@ -218,10 +206,17 @@
         [ngTemplateOutlet]="itemTemplate"
         [ngTemplateOutletContext]="{ item: item, selecting: selecting }">
       </ng-container>
-      <ng-container
-        [ngTemplateOutlet]="itemSuffixTemplate"
-        [ngTemplateOutletContext]="{ item: item, selecting: selecting, disabled: disabled }">
-      </ng-container>
     </div>
+    @for (chipSelectedSuffix of chipSelectedSuffixes; track chipSelectedSuffix) {
+      <ng-template
+        fsChipSuffix
+        [icon]="chipSelectedSuffix.icon"
+        [color]="chipSelectedSuffix.color"
+        [link]="chipSelectedSuffix.link"
+        [data]="item"
+        [linkTarget]="chipSelectedSuffix.linkTarget"
+        (click)="chipSelectedSuffix.click.emit($event)">
+      </ng-template>
+    }
   </fs-chip>
 </ng-template>

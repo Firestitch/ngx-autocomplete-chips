@@ -99,7 +99,18 @@
   .fs-autocomplete-chip {
     .fs-chip-content {
       flex: 1;
+
+      .chip-content {
+        display: flex;
+        align-items: center;
+
+        mat-icon {
+          display: flex;
+          margin: 0;
+        }
+      }
     }
+    
   }
 
   .fs-autocomplete-chips-panel {

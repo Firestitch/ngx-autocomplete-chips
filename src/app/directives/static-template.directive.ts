@@ -2,7 +2,7 @@ import { Directive, EventEmitter, Input, Output, TemplateRef } from '@angular/co
 
 
 @Directive({
-  selector: '[fsAutocompleteChipsStatic]'
+  selector: '[fsAutocompleteChipsStatic]',
 })
 export class FsAutocompleteChipsStaticDirective {
 
@@ -13,8 +13,8 @@ export class FsAutocompleteChipsStaticDirective {
 
   @Output() public selected = new EventEmitter<string>();
 
-  public constructor(
-    public templateRef: TemplateRef<any>
+  constructor(
+    public templateRef: TemplateRef<any>,
   ) { }
 
   public isShow = true;

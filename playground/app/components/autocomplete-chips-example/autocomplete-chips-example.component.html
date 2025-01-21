@@ -28,14 +28,11 @@
       let-selecting="selecting">
     {{ object.firstName }} {{ object.lastName }}
   </ng-template>
-  <ng-template let-open="open">
-    <a
-        (click)="chipsSuffixClick($event)"
-        class="chips-suffix">
-      <mat-icon>
-        tune
-      </mat-icon>
-    </a>
+  <ng-template
+    fsAutocompleteChipSelectedSuffix
+    (click)="chipsSuffixClick($event)"
+    [icon]="'tune'"
+    [color]="'#444'">
   </ng-template>
   <ng-template
       fsAutocompleteChipsStatic

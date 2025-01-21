@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
@@ -16,11 +17,11 @@ import { FsLabelModule } from '@firestitch/label';
 import { ConfirmComponent } from './components';
 import { FsAutocompleteChipsComponent } from './components/autocomplete-chips/autocomplete-chips.component';
 import { FsAutocompleteChipsTextValidIndicatorDirective } from './directives';
-import { FsAutocompleteChipsNoResultsDirective } from './directives/autocomplete-no-results/autocomplete-no-results.directive';
-import { FsAutocompleteObjectDirective } from './directives/autocomplete-object/autocomplete-object.directive';
-import { FsAutocompleteChipSuffixDirective } from './directives/chip-suffix/chip-suffix.directive';
-import { FsAutocompleteChipsSuffixDirective } from './directives/chips-suffix/chips-suffix.directive';
-import { FsAutocompleteChipsStaticDirective } from './directives/static-template/static-template.directive';
+import { FsAutocompleteChipsNoResultsDirective } from './directives/autocomplete-no-results.directive';
+import { FsAutocompleteObjectDirective } from './directives/autocomplete-object.directive';
+import { FsAutocompleteChipsSuffixDirective } from './directives/chips-suffix.directive';
+import { FsAutocompleteChipSelectedSuffixDirective } from './directives/selected-chip-suffix.directive';
+import { FsAutocompleteChipsStaticDirective } from './directives/static-template.directive';
 import { AutoSizeInputModule } from './modules/ngx-autosize-input/src';
 
 
@@ -34,6 +35,7 @@ import { AutoSizeInputModule } from './modules/ngx-autosize-input/src';
     MatIconModule,
     MatRadioModule,
     MatButtonModule,
+    MatDialogModule,
 
     FsLabelModule,
     FsDialogModule,
@@ -48,7 +50,7 @@ import { AutoSizeInputModule } from './modules/ngx-autosize-input/src';
     FsAutocompleteObjectDirective,
     FsAutocompleteChipsStaticDirective,
     FsAutocompleteChipsNoResultsDirective,
-    FsAutocompleteChipSuffixDirective,
+    FsAutocompleteChipSelectedSuffixDirective,
     FsAutocompleteChipsSuffixDirective,
     FsAutocompleteChipsTextValidIndicatorDirective,
   ],
@@ -57,7 +59,7 @@ import { AutoSizeInputModule } from './modules/ngx-autosize-input/src';
     FsAutocompleteChipsComponent,
     FsAutocompleteChipsStaticDirective,
     FsAutocompleteChipsNoResultsDirective,
-    FsAutocompleteChipSuffixDirective,
+    FsAutocompleteChipSelectedSuffixDirective,
     FsAutocompleteChipsSuffixDirective,
     FsAutocompleteChipsTextValidIndicatorDirective,
     ConfirmComponent,

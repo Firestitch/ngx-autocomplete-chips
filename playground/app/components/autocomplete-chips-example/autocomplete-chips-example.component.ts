@@ -66,9 +66,8 @@ export class AutocompleteChipsExampleComponent implements OnInit {
     this.autocomplete.selectAll();
   }
 
-  public chipsSuffixClick(event: UIEvent) {
-    event.stopImmediatePropagation();
-    console.log('chipsSuffixClick clicked');
+  public chipsSuffixClick(event) {
+    console.log('chipsSuffixClick clicked', event);
   }
 
   public groupBy = (item) => {
