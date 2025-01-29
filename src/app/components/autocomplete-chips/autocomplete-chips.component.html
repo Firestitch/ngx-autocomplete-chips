@@ -216,7 +216,7 @@
           [link]="chipSelectedSuffix.link"
           [data]="item.data"
           [linkTarget]="chipSelectedSuffix.linkTarget"
-          (click)="chipSelectedSuffix.click.emit($event)">
+          (click)="chipSelectedSuffix.click.emit({ event: $event, data: item.data })">
         </ng-template>
       }
     }

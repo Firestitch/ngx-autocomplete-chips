@@ -14,6 +14,6 @@ export class FsAutocompleteChipSelectedSuffixDirective {
 
   @Input() public color: string;
 
-  @Output() public click = new EventEmitter<{ event: MouseEvent, data: any }>();
+  @Output() public click = new EventEmitter<{ event: any, data: any }>();
 
 }

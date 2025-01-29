@@ -2,7 +2,7 @@ import { Directive } from '@angular/core';
 
 
 @Directive({
-  selector: '[fsAutocompleteChipsTextValidIndicator]'
+  selector: '[fsAutocompleteChipsTextValidIndicator]',
 })
 export class FsAutocompleteChipsTextValidIndicatorDirective {
 

@@ -62,7 +62,7 @@ export class AutocompleteChipsExampleComponent implements OnInit {
     return email(keyword);
   };
 
-  public selectAllClick(event) {
+  public selectAllClick() {
     this.autocomplete.selectAll();
   }
 
