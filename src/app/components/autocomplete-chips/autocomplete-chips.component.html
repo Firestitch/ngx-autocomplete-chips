@@ -168,13 +168,14 @@
 <ng-template
     #itemTemplate
     let-item="item"
-    let-selecting="selecting">
+    let-selecting="selecting"
+    let-index="index">
   <ng-container
       *ngIf="item.type===dataType.Object"
       class="item">
     <ng-template
       [ngTemplateOutlet]="objectTemplate"
-      [ngTemplateOutletContext]="{ object: item.data, selecting: selecting }">
+      [ngTemplateOutletContext]="{ object: item.data, selecting: selecting, index: index }">
     </ng-template>
   </ng-container>
   <ng-container *ngIf="item.type===dataType.Text">
@@ -204,7 +205,7 @@
     <div class="chip-content">
       <ng-container
         [ngTemplateOutlet]="itemTemplate"
-        [ngTemplateOutletContext]="{ item: item, selecting: selecting }">
+        [ngTemplateOutletContext]="{ item: item, selecting: selecting, index: index }">
       </ng-container>
     </div>
     @if (!selecting) {

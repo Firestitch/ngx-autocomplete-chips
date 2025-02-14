@@ -13,6 +13,7 @@ export class FsAutocompleteObjectDirective {
     $implicit: string;
     selecting: boolean;
     object: any;
+    index: number;
   } {
     return true;
   }

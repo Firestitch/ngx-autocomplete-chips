@@ -25,14 +25,15 @@
   <ng-template
       fsAutocompleteChipsTemplate
       let-object="object"
-      let-selecting="selecting">
+      let-selecting="selecting"
+      let-index="index">
     {{ object.firstName }} {{ object.lastName }}
   </ng-template>
   <ng-template
     fsAutocompleteChipSelectedSuffix
     (click)="chipsSuffixClick($event)"
     [icon]="'tune'"
-    [color]="'#444'"
+    [color]="'#fff'"
     [tooltip]="'Tooltip'"
     [show]="true">
   </ng-template>
@@ -51,6 +52,7 @@
   <ng-template
       fsAutocompleteChipsStatic
       let-keyword="keyword"
+      [show]="showKeyword"
       (selected)="selected($event)">
     <ng-container *ngIf="keyword">
       Create new "{{ keyword }}"
