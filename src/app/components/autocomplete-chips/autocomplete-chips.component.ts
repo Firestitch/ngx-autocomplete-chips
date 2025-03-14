@@ -34,15 +34,16 @@ import { debounce, delay, filter, switchMap, take, takeUntil, tap } from 'rxjs/o
 
 import { isEqual, random } from 'lodash-es';
 
-import { FsAutocompleteChipsTextValidIndicatorDirective } from '../../directives';
-import { FsAutocompleteChipsNoResultsDirective } from '../../directives/autocomplete-no-results.directive';
-import { FsAutocompleteObjectDirective } from '../../directives/autocomplete-object.directive';
-import { FsAutocompleteChipsSuffixDirective } from '../../directives/chips-suffix.directive';
-import { FsAutocompleteChipSelectedSuffixDirective } from '../../directives/selected-chip-suffix.directive';
-import { FsAutocompleteChipsStaticDirective } from '../../directives/static-template.directive';
+import {
+  FsAutocompleteChipSelectedSuffixDirective,
+  FsAutocompleteChipsNoResultsDirective,
+  FsAutocompleteChipsStaticDirective,
+  FsAutocompleteChipsSubtemplateDirective,
+  FsAutocompleteChipsSuffixDirective,
+  FsAutocompleteChipsTemplateDirective, FsAutocompleteChipsTextValidIndicatorDirective,
+} from '../../directives';
 import { getObjectValue } from '../../helpers/get-object-value';
-import { IAutocompleteItem } from '../../interfaces/autocomplete-item.interface';
-import { DataType } from '../../interfaces/data-type';
+import { DataType, IAutocompleteItem } from '../../interfaces';
 import { AutoSizeInputDirective } from '../../modules/ngx-autosize-input/src';
 import { ConfirmComponent } from '../confirm';
 
@@ -76,8 +77,11 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   @ViewChild(MatFormField, { read: ElementRef })
   public formField: ElementRef = null;
 
-  @ContentChild(FsAutocompleteObjectDirective, { read: TemplateRef })
-  public objectTemplate: TemplateRef<FsAutocompleteObjectDirective> = null;
+  @ContentChild(FsAutocompleteChipsTemplateDirective, { read: TemplateRef })
+  public objectTemplate: TemplateRef<FsAutocompleteChipsTemplateDirective> = null;
+
+  @ContentChild(FsAutocompleteChipsSubtemplateDirective, { read: TemplateRef })
+  public objectSubtemplate: TemplateRef<FsAutocompleteChipsSubtemplateDirective> = null;
 
   @ContentChildren(FsAutocompleteChipSelectedSuffixDirective)
   public chipSelectedSuffixes: QueryList<FsAutocompleteChipSelectedSuffixDirective>;
@@ -99,6 +103,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   @Input() public floatLabel: 'always' | 'auto';
   @Input() public readonly = false;
   @Input() public size: 'large' | 'small' = 'large';
+  @Input() public shape: 'round' | 'square' = 'round';
   @Input() public label: string;
   @Input() public placeholder;
   @Input() public chipImage = 'image';

@@ -1,13 +1,15 @@
 import { Directive } from '@angular/core';
 
+import { FsAutocompleteChipsTemplateDirective } from './autocomplete-chips-template.directive';
+
 
 @Directive({
-  selector: '[fsAutocompleteObject],[fsAutocompleteChipsTemplate]',
+  selector: '[fsAutocompleteChipsSubtemplate]',
 })
-export class FsAutocompleteObjectDirective {
+export class FsAutocompleteChipsSubtemplateDirective {
   
   public static ngTemplateContextGuard(
-    dir: FsAutocompleteObjectDirective,
+    dir: FsAutocompleteChipsTemplateDirective,
     ctx: unknown,
   ): ctx is  {
     $implicit: string;

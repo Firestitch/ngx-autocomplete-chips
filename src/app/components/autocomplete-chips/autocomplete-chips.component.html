@@ -44,14 +44,14 @@
     [(ngModel)]="keyword"
     [fsClear]="!disabled && allowClear && inited"
     [visible]="model.length !== 0">
-  <span
-      *ngIf="chipsSuffixTemplate"
-      matSuffix>
-    <ng-container
-      [ngTemplateOutlet]="chipsSuffixTemplate"
-      [ngTemplateOutletContext]="{ open: autocompleteSearch.isOpen }">
-    </ng-container>
-  </span>
+  @if (chipsSuffixTemplate) {
+    <span matSuffix>
+      <ng-container
+        [ngTemplateOutlet]="chipsSuffixTemplate"
+        [ngTemplateOutletContext]="{ open: autocompleteSearch.isOpen }">
+      </ng-container>
+    </span>
+  }
   <mat-autocomplete
       #autocompleteSearch="matAutocomplete"
       [class]="panelClasses"
@@ -60,7 +60,7 @@
       (opened)="opened()"
       [panelWidth]="panelWidth"
       [autoActiveFirstOption]="true">
-    <ng-container *ngIf="keyword && allowText">
+    @if (keyword && allowText) {
       @if (textData.type === dataType.Text) {
         <mat-option
             class="option option-text"
@@ -69,24 +69,20 @@
           <div
               class="option-chip"
               (click)="optionTextClick($event, textData)">
-            <ng-container
-              [ngTemplateOutlet]="itemTemplate"
-              [ngTemplateOutletContext]="{ item: textData }">
-            </ng-container>
             <span class="check">
-              <ng-container
-                *ngIf="textValidIndicatorTemplate; else textValidIndicator"
-                [ngTemplateOutlet]="textValidIndicatorTemplate"
-                [ngTemplateOutletContext]="{ valid: textData.valid }">
-              </ng-container>
-              <ng-template #textValidIndicator>
+              @if (textValidIndicatorTemplate) {
+                <ng-container
+                  [ngTemplateOutlet]="textValidIndicatorTemplate"
+                  [ngTemplateOutletContext]="{ valid: textData.valid }">
+                </ng-container>
+              } @else {
                 {{ textData.valid ? 'Valid' : 'Invalid' }}
-              </ng-template>
+              }
             </span>
           </div>
         </mat-option>
       }
-    </ng-container>
+    }
     @if (groupBy) {
       <ng-container *ngFor="let group of groupData">
         <mat-optgroup [label]="group.label">
@@ -133,55 +129,40 @@
       <mat-option
           disabled
           class="no-results">
-        <ng-template
-          *ngIf="noResultsTemplate; else noResultsOption"
-          [ngTemplateOutlet]="noResultsTemplate"
-          [ngTemplateOutletContext]="{ keyword: keyword }">
-        </ng-template>
-        <ng-template #noResultsOption>
+        @if (noResultsTemplate) {
+          <ng-template
+            [ngTemplateOutlet]="noResultsTemplate"
+            [ngTemplateOutletContext]="{ keyword: keyword }">
+          </ng-template>
+        } @else {
           No results
-          <ng-container *ngIf="keyword">
+          @if (keyword) {
             for "{{ keyword }}"
-          </ng-container>
-        </ng-template>
+          }
+        }
       </mat-option>
     }
-    <ng-container *ngIf="staticDirectives.length">
+    @if (staticDirectives.length) {
       <div class="static-templates">
         <ng-container *ngFor="let staticDirective of staticDirectives; let i = index">
-          <ng-container *ngIf="staticDirective.isShow">
+          @if (staticDirective.isShow) {
             <mat-option
                 class="static-option"
                 [disabled]="staticDirective.isDisabled"
                 (click)="staticClick($event, i)">
               <ng-template *ngTemplateOutlet="staticDirective.templateRef;context: { keyword: keyword }"></ng-template>
             </mat-option>
-          </ng-container>
+          }
         </ng-container>
       </div>
-    </ng-container>
+    }
   </mat-autocomplete>
-  <mat-hint *ngIf="hint">
-    {{ hint }}
-  </mat-hint>
+  @if (hint) {
+    <mat-hint>
+      {{ hint }}
+    </mat-hint>
+  }
 </mat-form-field>
-<ng-template
-    #itemTemplate
-    let-item="item"
-    let-selecting="selecting"
-    let-index="index">
-  <ng-container
-      *ngIf="item.type===dataType.Object"
-      class="item">
-    <ng-template
-      [ngTemplateOutlet]="objectTemplate"
-      [ngTemplateOutletContext]="{ object: item.data, selecting: selecting, index: index }">
-    </ng-template>
-  </ng-container>
-  <ng-container *ngIf="item.type===dataType.Text">
-    {{ item.data }}
-  </ng-container>
-</ng-template>
 <ng-template
     #chipTemplate
     let-item="item"
@@ -191,6 +172,7 @@
   <fs-chip
       [removable]="removable && (!initOnClick || inited)"
       [size]="size"
+      [shape]="shape"
       (removed)="chipRemoved(item)"
       [image]="item.image"
       [icon]="item.icon"
@@ -198,15 +180,26 @@
       [backgroundColor]="item.background || background"
       [color]="item.color || color"
       [ngClass]="{
-        imaged: item.image,
-        'last-chip': model.length - 1 === index
+        subtemplated: !!objectSubtemplate
       }"
       tabindex="-1">
     <div class="chip-content">
-      <ng-container
-        [ngTemplateOutlet]="itemTemplate"
-        [ngTemplateOutletContext]="{ item: item, selecting: selecting, index: index }">
-      </ng-container>
+      @if (item.type===dataType.Object) {
+        <ng-template
+          [ngTemplateOutlet]="objectTemplate"
+          [ngTemplateOutletContext]="{ object: item.data, selecting: selecting, index: index }">
+        </ng-template>
+        @if (!!objectSubtemplate) {
+          <ng-template fsChipSubcontent>
+            <ng-template
+              [ngTemplateOutlet]="objectSubtemplate"
+              [ngTemplateOutletContext]="{ object: item.data, selecting: selecting, index: index }">
+            </ng-template>
+          </ng-template>
+        }
+      } @else {
+        {{ item.data }}
+      }
     </div>
     @if (!selecting) {
       @for (chipSelectedSuffix of chipSelectedSuffixes; track chipSelectedSuffix) {

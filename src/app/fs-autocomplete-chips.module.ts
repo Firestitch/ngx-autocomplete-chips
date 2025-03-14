@@ -16,12 +16,14 @@ import { FsLabelModule } from '@firestitch/label';
 
 import { ConfirmComponent } from './components';
 import { FsAutocompleteChipsComponent } from './components/autocomplete-chips/autocomplete-chips.component';
-import { FsAutocompleteChipsTextValidIndicatorDirective } from './directives';
-import { FsAutocompleteChipsNoResultsDirective } from './directives/autocomplete-no-results.directive';
-import { FsAutocompleteObjectDirective } from './directives/autocomplete-object.directive';
-import { FsAutocompleteChipsSuffixDirective } from './directives/chips-suffix.directive';
-import { FsAutocompleteChipSelectedSuffixDirective } from './directives/selected-chip-suffix.directive';
-import { FsAutocompleteChipsStaticDirective } from './directives/static-template.directive';
+import {
+  FsAutocompleteChipSelectedSuffixDirective,
+  FsAutocompleteChipsNoResultsDirective,
+  FsAutocompleteChipsStaticDirective,
+  FsAutocompleteChipsSubtemplateDirective,
+  FsAutocompleteChipsSuffixDirective,
+  FsAutocompleteChipsTemplateDirective, FsAutocompleteChipsTextValidIndicatorDirective,
+} from './directives';
 import { AutoSizeInputModule } from './modules/ngx-autosize-input/src';
 
 
@@ -47,21 +49,23 @@ import { AutoSizeInputModule } from './modules/ngx-autosize-input/src';
   ],
   exports: [
     FsAutocompleteChipsComponent,
-    FsAutocompleteObjectDirective,
+    FsAutocompleteChipsTemplateDirective,
     FsAutocompleteChipsStaticDirective,
     FsAutocompleteChipsNoResultsDirective,
     FsAutocompleteChipSelectedSuffixDirective,
     FsAutocompleteChipsSuffixDirective,
     FsAutocompleteChipsTextValidIndicatorDirective,
+    FsAutocompleteChipsSubtemplateDirective,
   ],
   declarations: [
-    FsAutocompleteObjectDirective,
+    FsAutocompleteChipsTemplateDirective,
     FsAutocompleteChipsComponent,
     FsAutocompleteChipsStaticDirective,
     FsAutocompleteChipsNoResultsDirective,
     FsAutocompleteChipSelectedSuffixDirective,
     FsAutocompleteChipsSuffixDirective,
     FsAutocompleteChipsTextValidIndicatorDirective,
+    FsAutocompleteChipsSubtemplateDirective,
     ConfirmComponent,
   ],
 })
