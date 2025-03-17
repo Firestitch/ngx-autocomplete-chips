@@ -34,14 +34,13 @@ import { debounce, delay, filter, switchMap, take, takeUntil, tap } from 'rxjs/o
 
 import { isEqual, random } from 'lodash-es';
 
-import {
-  FsAutocompleteChipSelectedSuffixDirective,
-  FsAutocompleteChipsNoResultsDirective,
-  FsAutocompleteChipsStaticDirective,
-  FsAutocompleteChipsSubtemplateDirective,
-  FsAutocompleteChipsSuffixDirective,
-  FsAutocompleteChipsTemplateDirective, FsAutocompleteChipsTextValidIndicatorDirective,
-} from '../../directives';
+import { FsAutocompleteChipsNoResultsDirective } from '../../directives/autocomplete-chips-no-results.directive';
+import { FsAutocompleteChipsSubtemplateDirective } from '../../directives/autocomplete-chips-subtemplate.directive';
+import { FsAutocompleteChipsTemplateDirective } from '../../directives/autocomplete-chips-template.directive';
+import { FsAutocompleteChipsSuffixDirective } from '../../directives/chips-suffix.directive';
+import { FsAutocompleteChipSelectedSuffixDirective } from '../../directives/selected-chip-suffix.directive';
+import { FsAutocompleteChipsStaticDirective } from '../../directives/static-template.directive';
+import { FsAutocompleteChipsTextValidIndicatorDirective } from '../../directives/text-valid-indicator.directive';
 import { getObjectValue } from '../../helpers/get-object-value';
 import { DataType, IAutocompleteItem } from '../../interfaces';
 import { AutoSizeInputDirective } from '../../modules/ngx-autosize-input/src';
