@@ -42,7 +42,8 @@ import { FsAutocompleteChipSelectedSuffixDirective } from '../../directives/sele
 import { FsAutocompleteChipsStaticDirective } from '../../directives/static-template.directive';
 import { FsAutocompleteChipsTextValidIndicatorDirective } from '../../directives/text-valid-indicator.directive';
 import { getObjectValue } from '../../helpers/get-object-value';
-import { DataType, IAutocompleteItem } from '../../interfaces';
+import { IAutocompleteItem } from '../../interfaces/autocomplete-item';
+import { DataType } from '../../interfaces/data-type';
 import { AutoSizeInputDirective } from '../../modules/ngx-autosize-input/src';
 import { ConfirmComponent } from '../confirm';
 

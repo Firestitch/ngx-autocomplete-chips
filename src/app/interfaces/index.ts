@@ -1,3 +1,4 @@
 export * from './autocomplete-group';
-export * from './autocomplete-item.interface';
+export * from './autocomplete-item';
 export * from './data-type';
+
