@@ -16,14 +16,13 @@ import { FsLabelModule } from '@firestitch/label';
 
 import { ConfirmComponent } from './components';
 import { FsAutocompleteChipsComponent } from './components/autocomplete-chips/autocomplete-chips.component';
-import {
-  FsAutocompleteChipSelectedSuffixDirective,
-  FsAutocompleteChipsNoResultsDirective,
-  FsAutocompleteChipsStaticDirective,
-  FsAutocompleteChipsSubtemplateDirective,
-  FsAutocompleteChipsSuffixDirective,
-  FsAutocompleteChipsTemplateDirective, FsAutocompleteChipsTextValidIndicatorDirective,
-} from './directives';
+import { FsAutocompleteChipsNoResultsDirective } from './directives/autocomplete-chips-no-results.directive';
+import { FsAutocompleteChipsSubtemplateDirective } from './directives/autocomplete-chips-subtemplate.directive';
+import { FsAutocompleteChipsTemplateDirective } from './directives/autocomplete-chips-template.directive';
+import { FsAutocompleteChipsSuffixDirective } from './directives/chips-suffix.directive';
+import { FsAutocompleteChipSelectedSuffixDirective } from './directives/selected-chip-suffix.directive';
+import { FsAutocompleteChipsStaticDirective } from './directives/static-template.directive';
+import { FsAutocompleteChipsTextValidIndicatorDirective } from './directives/text-valid-indicator.directive';
 import { AutoSizeInputModule } from './modules/ngx-autosize-input/src';
 
 
