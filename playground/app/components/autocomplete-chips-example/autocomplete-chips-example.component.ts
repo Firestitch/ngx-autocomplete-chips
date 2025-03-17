@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, ViewChild } from '@angular/core';
 
 import { MatDialog } from '@angular/material/dialog';
 
@@ -18,6 +18,7 @@ import { FsAutocompleteChipsComponent } from './../../../../src/app/components/a
   selector: 'autocomplete-chips-example',
   styleUrls: ['./autocomplete-chips-example.component.scss'],
   templateUrl: './autocomplete-chips-example.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AutocompleteChipsExampleComponent implements OnInit {
 
