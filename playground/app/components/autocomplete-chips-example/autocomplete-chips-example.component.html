@@ -7,6 +7,7 @@
     [chipColor]="config.color ? '#fff' : ''"
     [chipBackground]="config.color ? 'background' : ''"
     [chipIcon]="config.icon ? 'icon' : ''"
+    [shape]="config.shape"
     chipIconColor="#444"
     [shape]="config.shape"
     chipClass="gender"
@@ -30,6 +31,15 @@
       let-index="index">
     {{ object.firstName }} {{ object.lastName }}
   </ng-template>
+  @if (config.subtemplate) {
+    <ng-template
+        fsAutocompleteChipsSubtemplate
+        let-object="object"
+        let-selecting="selecting"
+        let-index="index">
+      Small text
+    </ng-template>
+  }
   <ng-template
     fsAutocompleteChipSelectedSuffix
     (click)="chipsSuffixClick($event)"
@@ -121,17 +131,17 @@
           Small
         </mat-radio-button>
       </mat-radio-group>
+      <mat-radio-group [(ngModel)]="config.shape">
+        Shape:&nbsp;
+        <mat-radio-button value="round">
+          Round
+        </mat-radio-button>
+        &nbsp;&nbsp;
+        <mat-radio-button value="square">
+          Square
+        </mat-radio-button>
+      </mat-radio-group>
     </div>
-    <mat-radio-group [(ngModel)]="config.shape">
-      Shape:&nbsp;
-      <mat-radio-button value="round">
-        Round
-      </mat-radio-button>
-      &nbsp;&nbsp;
-      <mat-radio-button value="square">
-        Square
-      </mat-radio-button>
-    </mat-radio-group>
   </mat-tab>
   <mat-tab label="Data">
     <pre>

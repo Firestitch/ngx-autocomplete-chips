@@ -34,15 +34,15 @@ import { debounce, delay, filter, switchMap, take, takeUntil, tap } from 'rxjs/o
 
 import { isEqual, random } from 'lodash-es';
 
+import { FsAutocompleteChipsNoResultsDirective } from '../../directives/autocomplete-chips-no-results.directive';
 import { FsAutocompleteChipsSubtemplateDirective } from '../../directives/autocomplete-chips-subtemplate.directive';
-import { FsAutocompleteChipsNoResultsDirective } from '../../directives/autocomplete-no-results.directive';
-import { FsAutocompleteObjectDirective } from '../../directives/autocomplete-object.directive';
+import { FsAutocompleteChipsTemplateDirective } from '../../directives/autocomplete-chips-template.directive';
 import { FsAutocompleteChipsSuffixDirective } from '../../directives/chips-suffix.directive';
 import { FsAutocompleteChipSelectedSuffixDirective } from '../../directives/selected-chip-suffix.directive';
 import { FsAutocompleteChipsStaticDirective } from '../../directives/static-template.directive';
 import { FsAutocompleteChipsTextValidIndicatorDirective } from '../../directives/text-valid-indicator.directive';
 import { getObjectValue } from '../../helpers/get-object-value';
-import { IAutocompleteItem } from '../../interfaces/autocomplete-item.interface';
+import { IAutocompleteItem } from '../../interfaces/autocomplete-item';
 import { DataType } from '../../interfaces/data-type';
 import { AutoSizeInputDirective } from '../../modules/ngx-autosize-input/src';
 import { ConfirmComponent } from '../confirm';
@@ -77,8 +77,8 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   @ViewChild(MatFormField, { read: ElementRef })
   public formField: ElementRef = null;
 
-  @ContentChild(FsAutocompleteObjectDirective, { read: TemplateRef })
-  public objectTemplate: TemplateRef<FsAutocompleteObjectDirective> = null;
+  @ContentChild(FsAutocompleteChipsTemplateDirective, { read: TemplateRef })
+  public objectTemplate: TemplateRef<FsAutocompleteChipsTemplateDirective> = null;
 
   @ContentChildren(FsAutocompleteChipSelectedSuffixDirective)
   public chipSelectedSuffixes: QueryList<FsAutocompleteChipSelectedSuffixDirective>;
