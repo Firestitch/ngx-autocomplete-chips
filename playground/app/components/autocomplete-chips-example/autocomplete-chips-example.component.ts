@@ -36,6 +36,7 @@ export class AutocompleteChipsExampleComponent implements OnInit {
     color: true,
     orderable: true,
     size: 'small',
+    shape: 'round',
   };
 
   private _dialog = inject(MatDialog);

@@ -8,6 +8,7 @@
     [chipBackground]="config.color ? 'background' : ''"
     [chipIcon]="config.icon ? 'icon' : ''"
     chipIconColor="#444"
+    [shape]="config.shape"
     chipClass="gender"
     panelClass="custom-panel"
     [orderable]="config.orderable"
@@ -66,6 +67,15 @@
       Custom No Results
     </div>
   </ng-template>
+  @if (config.subtemplate) {
+    <ng-template
+        fsAutocompleteChipsSubtemplate
+        let-object="object"
+        let-selecting="selecting"
+        let-index="index">
+      Small text
+    </ng-template>
+  }
 </fs-autocomplete-chips>
 <br>
 <mat-tab-group mat-align-tabs="start">
@@ -98,6 +108,9 @@
       <mat-checkbox [(ngModel)]="config.initOnClick">
         Init on click
       </mat-checkbox>
+      <mat-checkbox [(ngModel)]="config.subtemplate">
+        Subtemplate
+      </mat-checkbox>
       <mat-radio-group [(ngModel)]="config.size">
         Size:&nbsp;
         <mat-radio-button value="large">
@@ -109,6 +122,16 @@
         </mat-radio-button>
       </mat-radio-group>
     </div>
+    <mat-radio-group [(ngModel)]="config.shape">
+      Shape:&nbsp;
+      <mat-radio-button value="round">
+        Round
+      </mat-radio-button>
+      &nbsp;&nbsp;
+      <mat-radio-button value="square">
+        Square
+      </mat-radio-button>
+    </mat-radio-group>
   </mat-tab>
   <mat-tab label="Data">
     <pre>

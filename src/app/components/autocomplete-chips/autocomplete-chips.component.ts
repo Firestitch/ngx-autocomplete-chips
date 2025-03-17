@@ -34,12 +34,13 @@ import { debounce, delay, filter, switchMap, take, takeUntil, tap } from 'rxjs/o
 
 import { isEqual, random } from 'lodash-es';
 
-import { FsAutocompleteChipsTextValidIndicatorDirective } from '../../directives';
+import { FsAutocompleteChipsSubtemplateDirective } from '../../directives/autocomplete-chips-subtemplate.directive';
 import { FsAutocompleteChipsNoResultsDirective } from '../../directives/autocomplete-no-results.directive';
 import { FsAutocompleteObjectDirective } from '../../directives/autocomplete-object.directive';
 import { FsAutocompleteChipsSuffixDirective } from '../../directives/chips-suffix.directive';
 import { FsAutocompleteChipSelectedSuffixDirective } from '../../directives/selected-chip-suffix.directive';
 import { FsAutocompleteChipsStaticDirective } from '../../directives/static-template.directive';
+import { FsAutocompleteChipsTextValidIndicatorDirective } from '../../directives/text-valid-indicator.directive';
 import { getObjectValue } from '../../helpers/get-object-value';
 import { IAutocompleteItem } from '../../interfaces/autocomplete-item.interface';
 import { DataType } from '../../interfaces/data-type';
@@ -94,6 +95,9 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   @ContentChildren(FsAutocompleteChipsStaticDirective)
   public staticDirectives: QueryList<FsAutocompleteChipsStaticDirective>;
 
+  @ContentChild(FsAutocompleteChipsSubtemplateDirective, { read: TemplateRef })
+  public objectSubtemplate: TemplateRef<FsAutocompleteChipsSubtemplateDirective> = null;
+
   @Input() public fetch = null;
   @Input() public appearance: MatFormFieldAppearance;
   @Input() public floatLabel: 'always' | 'auto';
@@ -107,6 +111,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   @Input() public chipIcon: string;
   @Input() public chipIconColor: string;
   @Input() public chipClass: string;
+  @Input() public shape: 'round' | 'square' = 'round';
   @Input() public hint: string;
   @Input() public allowText: boolean;
   @Input() public allowObject = true;

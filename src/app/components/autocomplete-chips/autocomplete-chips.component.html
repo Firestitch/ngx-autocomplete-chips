@@ -191,6 +191,7 @@
   <fs-chip
       [removable]="removable && (!initOnClick || inited)"
       [size]="size"
+      [shape]="shape"
       (removed)="chipRemoved(item)"
       [image]="item.image"
       [icon]="item.icon"
@@ -222,6 +223,14 @@
           (click)="chipSelectedSuffix.clicked($event)">
         </ng-template>
       }
+    }
+    @if (!!objectSubtemplate) {
+      <ng-template fsChipSubcontent>
+        <ng-template
+          [ngTemplateOutlet]="objectSubtemplate"
+          [ngTemplateOutletContext]="{ object: item.data, selecting: selecting, index: index }">
+        </ng-template>
+      </ng-template>
     }
   </fs-chip>
 </ng-template>
