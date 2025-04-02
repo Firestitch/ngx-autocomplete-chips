@@ -34,11 +34,18 @@
       } 
     }
 
+    &:not(.mat-focused) {
+      input {
+        width: 0 !important;
+        margin-left: -5px;
+      }
+    }
+
     &:not(.has-value) {
       input {
         min-width: 50px;
       }
-
+ 
       &:not(.mat-focused):not(.float-label-always) {
         input {
           opacity: 0;

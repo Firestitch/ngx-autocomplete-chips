@@ -111,7 +111,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   @Input() public chipIcon: string;
   @Input() public chipIconColor: string;
   @Input() public chipClass: string;
-  @Input() public shape: 'round' | 'square' = 'round';
+  @Input() public shape: 'roundChip' | 'squareChip' | 'none' = 'roundChip';
   @Input() public hint: string;
   @Input() public allowText: boolean;
   @Input() public allowObject = true;
