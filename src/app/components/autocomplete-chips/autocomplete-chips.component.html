@@ -42,7 +42,7 @@
     [matAutocomplete]="autocompleteSearch"
     [placeholder]="model.length === 0 ? 'None' : ''"
     [(ngModel)]="keyword"
-    [fsClear]="!disabled && allowClear && inited"
+    [fsClear]="removable && !disabled && allowClear && inited"
     [visible]="model.length !== 0">
   <span
       *ngIf="chipsSuffixTemplate"
