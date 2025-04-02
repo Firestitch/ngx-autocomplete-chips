@@ -40,7 +40,7 @@
     (blur)="blured()"
     [name]="name"
     [matAutocomplete]="autocompleteSearch"
-    [placeholder]="model.length === 0 ? 'None' : ''"
+    [placeholder]="model.length === 0 ? placeholder : ''"
     [(ngModel)]="keyword"
     [fsClear]="removable && !disabled && allowClear && inited"
     [visible]="model.length !== 0">
