@@ -104,7 +104,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   @Input() public readonly = false;
   @Input() public size: 'large' | 'small' = 'large';
   @Input() public label: string;
-  @Input() public placeholder = 'None';
+  @Input() public placeholder: string;
   @Input() public chipImage = 'image';
   @Input() public chipBackground: string;
   @Input() public chipColor: string;
@@ -232,7 +232,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   }
 
   public selectAll(): void {
-    this.data.forEach((selected) => {
+    this.data?.forEach((selected) => {
       if (selected.type === DataType.Object) {
         this._addObject(selected);
       }
@@ -448,6 +448,9 @@ implements OnInit, OnDestroy, ControlValueAccessor {
     }
 
     this._select(event.option.value);
+    setTimeout(() => {
+      this.unfocus();
+    });
   }
 
   public writeValue(value: any): void {
@@ -522,10 +525,6 @@ implements OnInit, OnDestroy, ControlValueAccessor {
       }
     }
 
-    if (!this.multiple) {
-      this._model = [];
-    }
-
     const value = this.allowObject && this.allowText ? selected : selected.data;
     if (!this._model.includes(value)) {
       switch (selected.type) {
@@ -594,7 +593,11 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   }
 
   private _addObject(object): void {
-    this._updateModel([...this._model, object]);
+    if(!this.multiple) {
+      this._updateModel([object]);
+    } else {
+      this._updateModel([...this._model, object]);
+    }
   }
 
   private _addText(text): void {

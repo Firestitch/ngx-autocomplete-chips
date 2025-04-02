@@ -12,7 +12,7 @@
     }"
     (click)="focus()">
   <mat-label>
-    {{ label || placeholder }}
+    {{ label }}
   </mat-label>
   @for (item of model; track item; let index = $index) {
     <ng-container
@@ -40,7 +40,7 @@
     (blur)="blured()"
     [name]="name"
     [matAutocomplete]="autocompleteSearch"
-    [placeholder]="model.length === 0 ? placeholder : ''"
+    [placeholder]="model.length === 0 ? (floatLabel === 'always' ? 'None' : placeholder) : ''"
     [(ngModel)]="keyword"
     [fsClear]="removable && !disabled && allowClear && inited"
     [visible]="model.length !== 0">
@@ -188,58 +188,60 @@
     let-index="index"
     let-removable="removable"
     let-selecting="selecting">
-  @if (shape === 'none') {
-    <div class="chip-content">
-      <ng-container
-        [ngTemplateOutlet]="itemTemplate"
-        [ngTemplateOutletContext]="{ item: item, selecting: selecting, index: index }">
-      </ng-container>
-    </div>
-  } @else {
-    <fs-chip
-        [removable]="removable && (!initOnClick || inited)"
-        [size]="size"
-        [shape]="shape === 'roundChip' ? 'round' : 'square'"
-        (removed)="chipRemoved(item)"
-        [image]="item.image"
-        [icon]="item.icon"
-        [class]="'fs-autocomplete-chip ' + item.class"
-        [backgroundColor]="item.background || background"
-        [color]="item.color || color"
-        [ngClass]="{
-        imaged: item.image,
-        'last-chip': model.length - 1 === index
-      }"
-        tabindex="-1">
-      <div class="chip-content">
+  <div class="item-container">
+    @if (shape === 'none') {
+      <div class="item-content">
         <ng-container
           [ngTemplateOutlet]="itemTemplate"
           [ngTemplateOutletContext]="{ item: item, selecting: selecting, index: index }">
         </ng-container>
       </div>
-      @if (!selecting) {
-        @for (chipSelectedSuffix of chipSelectedSuffixes; track chipSelectedSuffix) {
-          <ng-template
-            fsChipSuffix
-            [icon]="chipSelectedSuffix.icon"
-            [color]="chipSelectedSuffix.color"
-            [link]="chipSelectedSuffix.link"
-            [tooltip]="chipSelectedSuffix.tooltip"
-            [show]="chipSelectedSuffix.show"
-            [data]="item.data"
-            [linkTarget]="chipSelectedSuffix.linkTarget"
-            (click)="chipSelectedSuffix.clicked($event)">
+    } @else {
+      <fs-chip
+          [removable]="removable && (!initOnClick || inited)"
+          [size]="size"
+          [shape]="shape === 'roundChip' ? 'round' : 'square'"
+          (removed)="chipRemoved(item)"
+          [image]="item.image"
+          [icon]="item.icon"
+          [class]="'fs-autocomplete-chip ' + item.class"
+          [backgroundColor]="item.background || background"
+          [color]="item.color || color"
+          [ngClass]="{
+        imaged: item.image,
+        'last-chip': model.length - 1 === index
+      }"
+          tabindex="-1">
+        <div class="item-content">
+          <ng-container
+            [ngTemplateOutlet]="itemTemplate"
+            [ngTemplateOutletContext]="{ item: item, selecting: selecting, index: index }">
+          </ng-container>
+        </div>
+        @if (!selecting) {
+          @for (chipSelectedSuffix of chipSelectedSuffixes; track chipSelectedSuffix) {
+            <ng-template
+              fsChipSuffix
+              [icon]="chipSelectedSuffix.icon"
+              [color]="chipSelectedSuffix.color"
+              [link]="chipSelectedSuffix.link"
+              [tooltip]="chipSelectedSuffix.tooltip"
+              [show]="chipSelectedSuffix.show"
+              [data]="item.data"
+              [linkTarget]="chipSelectedSuffix.linkTarget"
+              (click)="chipSelectedSuffix.clicked($event)">
+            </ng-template>
+          }
+        }
+        @if (!!objectSubtemplate) {
+          <ng-template fsChipSubcontent>
+            <ng-template
+              [ngTemplateOutlet]="objectSubtemplate"
+              [ngTemplateOutletContext]="{ object: item.data, selecting: selecting, index: index }">
+            </ng-template>
           </ng-template>
         }
-      }
-      @if (!!objectSubtemplate) {
-        <ng-template fsChipSubcontent>
-          <ng-template
-            [ngTemplateOutlet]="objectSubtemplate"
-            [ngTemplateOutletContext]="{ object: item.data, selecting: selecting, index: index }">
-          </ng-template>
-        </ng-template>
-      }
-    </fs-chip>
-  }
+      </fs-chip>
+    }
+  </div>
 </ng-template>

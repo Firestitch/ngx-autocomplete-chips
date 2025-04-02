@@ -18,6 +18,12 @@
       cursor: pointer;
     }
 
+    &.multiple {
+      .mat-mdc-form-field-infix {
+        flex-wrap: wrap;
+      }
+    }
+
     &:not(.inited) {
       fs-clear {
         display: none;
@@ -34,10 +40,17 @@
       } 
     }
 
-    &:not(.mat-focused) {
+    &:not(.multiple).mat-focused {
+      .item-container {
+        display: none;
+      }
+    }
+
+    &.has-value:not(.mat-focused) {
       input {
         width: 0 !important;
-        margin-left: -5px;
+        height: 0 !important;
+        margin-right: -5px !important;
       }
     }
 
@@ -84,7 +97,6 @@
     .mat-mdc-form-field-infix {
       width: unset;
       display: flex;
-      flex-wrap: wrap;
       gap: 5px;
 
       input {
@@ -101,10 +113,14 @@
   }
 
   fs-chip {
-    .chip-content {
+    .item-content {
       display: flex;
       align-items: center;
     }
+  }
+
+  .item-container {
+    min-width: 0;
   }
 }
 
@@ -114,10 +130,10 @@
 
 ::ng-deep {
   .fs-autocomplete-chip {
-    .fs-chip-content {
+    .fs-item-content {
       flex: 1;
 
-      .chip-content {
+      .item-content {
         display: flex;
         align-items: center;
 
@@ -200,10 +216,6 @@
         padding: 0 16px;
         align-items: center;
         display: flex;
-
-        fs-chip {
-          cursor: pointer;
-        }
       }
     }
   }
