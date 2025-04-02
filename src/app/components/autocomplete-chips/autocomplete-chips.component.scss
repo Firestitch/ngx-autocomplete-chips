@@ -121,6 +121,13 @@
 
   .item-container {
     min-width: 0;
+
+    .item-content {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      min-width: 0;
+    }
   }
 }
 
