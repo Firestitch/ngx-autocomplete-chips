@@ -212,6 +212,7 @@
           [shape]="shape === 'roundChip' ? 'round' : 'square'"
           (removed)="chipRemoved(item)"
           [image]="item.image"
+          [padding]="chipPadding"
           [icon]="item.icon"
           [class]="'fs-autocomplete-chip ' + item.class"
           [backgroundColor]="item.background || background"
