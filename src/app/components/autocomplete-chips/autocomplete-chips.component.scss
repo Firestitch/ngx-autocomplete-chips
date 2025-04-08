@@ -50,7 +50,6 @@
       input {
         width: 0 !important;
         height: 0 !important;
-        margin-right: -5px !important;
       }
     }
 
@@ -121,6 +120,8 @@
 
   .item-container {
     min-width: 0;
+    display: flex;
+    gap: 5px;
 
     .item-content {
       white-space: nowrap;
