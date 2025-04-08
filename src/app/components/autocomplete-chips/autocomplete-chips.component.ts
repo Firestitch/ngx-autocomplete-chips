@@ -120,7 +120,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   @Input() public removable = true;
   @Input() public allowClear = true;
   @Input() public color = '';
-  @Input() public background = '';
+  @Input() public background = '#E7E7E7';
   @Input() public orderable = false;
   @Input() public padless = false;
   @Input() public initOnClick = false;

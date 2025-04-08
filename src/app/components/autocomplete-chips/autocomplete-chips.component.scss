@@ -41,7 +41,7 @@
     }
 
     &:not(.multiple).mat-focused {
-      .item-container {
+      fs-chip {
         display: none;
       }
     }

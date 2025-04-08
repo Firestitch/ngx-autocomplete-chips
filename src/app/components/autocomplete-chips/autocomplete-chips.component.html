@@ -55,11 +55,6 @@
       [placeholder]="model.length === 0 ? (floatLabel === 'always' ? (placeholder === undefined ? 'None' : placeholder) : placeholder) : ''"
       [(ngModel)]="keyword">
   </ng-template>
-  <fs-clear
-    [visible]="true"
-    [show]="model.length !== 0 && removable && !disabled && allowClear && inited"
-    (clear)="clearClick()">
-  </fs-clear>
   <mat-autocomplete
       #autocompleteSearch="matAutocomplete"
       [class]="panelClasses"
@@ -169,6 +164,11 @@
       </div>
     </ng-container>
   </mat-autocomplete>
+  <fs-clear
+    [visible]="true"
+    [show]="model.length !== 0 && removable && !disabled && allowClear && inited"
+    (clear)="clearClick()">
+  </fs-clear>
   <mat-hint *ngIf="hint">
     {{ hint }}
   </mat-hint>
