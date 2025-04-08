@@ -107,9 +107,9 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   @Input() public placeholder: string;
   @Input() public chipImage = 'image';
   @Input() public chipBackground: string;
-  @Input() public chipColor: string = '#474747';
+  @Input() public chipColor: string;
   @Input() public chipIcon: string;
-  @Input() public chipIconColor: string = 'inherit';
+  @Input() public chipIconColor: string;
   @Input() public chipClass: string;
   @Input() public shape: 'roundChip' | 'squareChip' | 'none' = 'roundChip';
   @Input() public hint: string;
