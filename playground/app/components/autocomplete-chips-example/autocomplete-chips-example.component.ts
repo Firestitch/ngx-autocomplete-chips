@@ -85,7 +85,7 @@ export class AutocompleteChipsExampleComponent implements OnInit {
 
     return this._exampleService.fetch(keyword, 10, this.config.multiple)
       .pipe(
-        delay(100),
+        delay(70),
         map((items) => this.mapData(items)),
       );
   };

@@ -363,24 +363,8 @@ implements OnInit, OnDestroy, ControlValueAccessor {
       });
   }
 
-  public closed(): void {
-    setTimeout(() => {
-      if (!this.confirm) {
-        this._close();
-      }
-
-      if (this.initOnClick) {
-        this.inited = false;
-        this._cdRef.markForCheck();
-      }
-
-      this._clearData();
-    });
-  }
-
   public blured(): void {  
     setTimeout(() => {
-
       this._focused = false;
       this.keyword = '';
     
@@ -553,8 +537,6 @@ implements OnInit, OnDestroy, ControlValueAccessor {
       this._close();
       this.closePanel();
     }
-
-
   }
 
   private _createTextItem(data, valid: boolean): IAutocompleteItem {
@@ -610,10 +592,6 @@ implements OnInit, OnDestroy, ControlValueAccessor {
 
   private _close(): void {
     this._clearInput();
-  }
-
-  private _fetch(): void {
-    this._fetch$.next(null);
   }
 
   private _getKeyword() {
