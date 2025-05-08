@@ -40,11 +40,13 @@
       } 
     }
 
-    &:not(.multiple).mat-focused {
-      fs-chip {
-        display: none;
-      }
-    }
+    // SP-T4357 This style hide selected option if autocomplete is focused
+    // In this case width of selectors jumps and it is impossible to click on remove button
+    // &:not(.multiple).mat-focused {
+    //   fs-chip {
+    //     display: none;
+    //   }
+    // }
 
     &.has-value:not(.mat-focused) {
       input {
