@@ -117,6 +117,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   @Input() public allowText: boolean;
   @Input() public allowObject = true;
   @Input() public delay = 200;
+  @Input() public minPanelWidth = 200;
   @Input() public validateText: (text: string) => boolean;
   @Input() public removable = true;
   @Input() public allowClear = true;
