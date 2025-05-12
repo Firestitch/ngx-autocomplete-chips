@@ -356,8 +356,8 @@ implements OnInit, OnDestroy, ControlValueAccessor {
       .subscribe(() => {
         const panel = document.getElementById(this.autocomplete.id)?.parentElement;
         if(panel) {
-          const width = this._el.nativeElement.offsetWidth < 200 ? 
-            200 : 
+          const width = this._el.nativeElement.offsetWidth < this.minPanelWidth ? 
+            this.minPanelWidth : 
             this._el.nativeElement.offsetWidth;
           panel.style.width = `${width}px`;
         }
