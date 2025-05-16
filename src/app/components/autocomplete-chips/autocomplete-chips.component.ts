@@ -27,7 +27,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatFormField, MatFormFieldAppearance } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 
-import { KEY_BACKSPACE, KEY_DELETE } from '@firestitch/common';
 
 import { Observable, Subject, of, timer } from 'rxjs';
 import { debounce, delay, filter, switchMap, take, takeUntil, tap } from 'rxjs/operators';
@@ -259,7 +258,8 @@ implements OnInit, OnDestroy, ControlValueAccessor {
     }
     
     if(
-      (event.keyCode === KEY_BACKSPACE || event.keyCode === KEY_DELETE) &&
+      (event.code === 'Backspace' || event.code === 'Delete') &&
+      this.removable &&
       !this.keywordLength
     ) {
       if (this.multiple) {
