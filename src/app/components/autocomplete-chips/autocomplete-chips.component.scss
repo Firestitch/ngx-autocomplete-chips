@@ -37,7 +37,7 @@
         .mat-mdc-notch-piece {
           border-color: transparent;
         }
-      } 
+      }
     }
 
     // SP-T4357 This style hide selected option if autocomplete is focused
@@ -59,7 +59,7 @@
       input {
         min-width: 50px;
       }
- 
+
       &:not(.mat-focused):not(.float-label-always) {
         input {
           opacity: 0;
@@ -153,7 +153,7 @@
         }
       }
     }
-    
+
   }
 
   .fs-autocomplete-chips-panel {
@@ -179,7 +179,7 @@
 
     .static-templates {
       position: sticky;
-      bottom: 0;
+      bottom: -2; // CC-T2186 to remove 1px bottom lag
       width: 100%;
       background: #fff;
 
