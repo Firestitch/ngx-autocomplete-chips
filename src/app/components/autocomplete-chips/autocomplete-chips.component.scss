@@ -57,7 +57,7 @@
 
     &:not(.has-value) {
       input {
-        min-width: 50px;
+        width: 100% !important;
       }
 
       &:not(.mat-focused):not(.float-label-always) {
