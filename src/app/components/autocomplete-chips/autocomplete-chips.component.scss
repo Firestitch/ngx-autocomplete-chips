@@ -179,7 +179,7 @@
 
     .static-templates {
       position: sticky;
-      bottom: -2; // CC-T2186 to remove 1px bottom lag
+      bottom: 0;
       width: 100%;
       background: #fff;
 
