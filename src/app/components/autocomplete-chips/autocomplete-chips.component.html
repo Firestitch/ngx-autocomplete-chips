@@ -11,9 +11,11 @@
       'has-keyword': !!keyword
     }"
     (click)="focus()">
-  <mat-label>
-    {{ label }}
-  </mat-label>
+  @if (label) {
+    <mat-label>
+      {{ label }}
+    </mat-label>
+  }
   @for (item of model; track item; let index = $index; let last = $last) {
     <ng-container
       [ngTemplateOutlet]="chipTemplate"
