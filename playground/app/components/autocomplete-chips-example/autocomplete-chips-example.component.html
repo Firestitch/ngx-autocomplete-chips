@@ -16,7 +16,6 @@
     [compareWith]="compareWith"
     [multiple]="config.multiple"
     hint="Hint hint hint"
-    [initOnClick]="config.initOnClick"
     (ngModelChange)="modelChange($event)"
     name="model">
   <ng-template
@@ -102,9 +101,6 @@
       </mat-checkbox>
       <mat-checkbox [(ngModel)]="config.icon">
         Icon
-      </mat-checkbox>
-      <mat-checkbox [(ngModel)]="config.initOnClick">
-        Init on click
       </mat-checkbox>
       <mat-checkbox [(ngModel)]="config.subtemplate">
         Subtemplate

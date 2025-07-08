@@ -23,17 +23,19 @@
         flex-wrap: wrap;
       }
     }
+    
+    &.mat-form-field-disabled {
+      fs-chip {
+        opacity: .7;
+      }
+    }
 
     &:not(.inited) {
       fs-clear {
         display: none;
       }
-
+          
       &.mat-form-field-disabled {
-        fs-chip {
-          opacity: .7;
-        }
-
         .mat-mdc-notch-piece {
           border-color: transparent;
         }
