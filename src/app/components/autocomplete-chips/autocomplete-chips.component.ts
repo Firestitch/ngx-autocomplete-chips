@@ -272,8 +272,6 @@ implements OnInit, OnDestroy, ControlValueAccessor {
       if(!this.allowText) {
         this.unfocus();
       }
-
-      return;
     }
   }
 

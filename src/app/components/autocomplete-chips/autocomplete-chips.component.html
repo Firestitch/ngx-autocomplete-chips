@@ -24,13 +24,10 @@
         index: index,
         removable: removable && !disabled && multiple,
         selecting: false,
-        inputTemplate: last ? inputTemplate : null
       }">
     </ng-container>
   }
-  @if (model.length === 0) {
-    <ng-container [ngTemplateOutlet]="inputTemplate"></ng-container>
-  }
+  <ng-container [ngTemplateOutlet]="inputTemplate"></ng-container>
   <span
       *ngIf="chipsSuffixTemplate"
       matSuffix>
@@ -253,9 +250,6 @@
           </ng-template>
         }
       </fs-chip>
-    }
-    @if (inputTemplate) {
-      <ng-container [ngTemplateOutlet]="inputTemplate"></ng-container>
     }
   </div>
 </ng-template>
