@@ -7,6 +7,7 @@
     chipClass="gender"
     panelClass="custom-panel"
     [padless]="true"
+    [chipImage]="config.image ? 'image' : null"
     [orderable]="config.orderable"
     [removable]="config.removable"
     [size]="config.size"
@@ -37,9 +38,11 @@
       (click)="selectAllClick()">
     Select All
   </ng-template>
-  <ng-template fsAutocompleteChipsSubtemplate>
-    Subtemplate
-  </ng-template>
+  @if (config.subtemplate) {
+    <ng-template fsAutocompleteChipsSubtemplate>
+      Subtemplate
+    </ng-template>
+  }
   <ng-template
       fsAutocompleteChipsStatic
       let-keyword="keyword"
