@@ -104,6 +104,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   @Input() public size: 'large' | 'small' = 'large';
   @Input() public label: string;
   @Input() public placeholder: string;
+  @Input() public chipMargin = '5px';
   @Input() public chipImage = 'image';
   @Input() public chipBackground: string;
   @Input() public chipColor: string;
@@ -646,7 +647,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
       .subscribe(() => {
         this._fetch$.next(this.keyword);
       });
-  }
+  } 
 
   private _listenFetch(): void {
     this._fetch$

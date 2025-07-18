@@ -195,7 +195,10 @@
     let-removable="removable"
     let-selecting="selecting"
     let-inputTemplate="inputTemplate">
-  <div class="item-container">
+  <div
+      class="item-container"
+      [style.margin-top]="chipMargin"
+      [style.margin-bottom]="chipMargin">
     @if (shape === 'none') {
       <div class="item-content">
         <ng-container
