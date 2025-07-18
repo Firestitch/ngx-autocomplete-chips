@@ -99,10 +99,10 @@
 
     .mat-mdc-form-field-infix {
       width: unset;
-      display: flex;
-      gap: 5px;
-      align-items: center;
       padding: 0;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
 
       input {
         cursor: pointer;
@@ -111,30 +111,24 @@
         width: auto;
       }
     }
+
+    .chips-container {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+      flex-wrap: wrap;
+      min-width: 0;
+    }
   }
 
   fs-chips {
     display: inline-flex;
   }
 
-  fs-chip {
-    .item-content {
-      display: flex;
-      align-items: center;
-    }
-  }
-
   .item-container {
     min-width: 0;
     display: flex;
     gap: 5px;
-
-    .item-content {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      min-width: 0;
-    }
   }
 }
 
@@ -146,16 +140,6 @@
   .fs-autocomplete-chip {
     .fs-item-content {
       flex: 1;
-
-      .item-content {
-        display: flex;
-        align-items: center;
-
-        mat-icon {
-          display: flex;
-          margin: 0;
-        }
-      }
     }
 
   }

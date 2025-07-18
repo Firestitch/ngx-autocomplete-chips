@@ -16,18 +16,23 @@
       {{ label }}
     </mat-label>
   }
-  @for (item of model; track item; let index = $index; let last = $last) {
-    <ng-container
-      [ngTemplateOutlet]="chipTemplate"
-      [ngTemplateOutletContext]="{ 
+  <div
+      class="chips-container"
+      [style.margin-top]="chipMargin"
+      [style.margin-bottom]="chipMargin">
+    @for (item of model; track item; let index = $index; let last = $last) {
+      <ng-container
+        [ngTemplateOutlet]="chipTemplate"
+        [ngTemplateOutletContext]="{ 
         item: item, 
         index: index,
         removable: removable && !disabled && multiple,
         selecting: false,
       }">
-    </ng-container>
-  }
-  <ng-container [ngTemplateOutlet]="inputTemplate"></ng-container>
+      </ng-container>
+    }
+    <ng-container [ngTemplateOutlet]="inputTemplate"></ng-container>
+  </div>
   <span
       *ngIf="chipsSuffixTemplate"
       matSuffix>
@@ -195,10 +200,7 @@
     let-removable="removable"
     let-selecting="selecting"
     let-inputTemplate="inputTemplate">
-  <div
-      class="item-container"
-      [style.margin-top]="chipMargin"
-      [style.margin-bottom]="chipMargin">
+  <div class="item-container">
     @if (shape === 'none') {
       <div class="item-content">
         <ng-container
@@ -223,12 +225,10 @@
         'last-chip': model.length - 1 === index
       }"
           tabindex="-1">
-        <div class="item-content">
-          <ng-container
-            [ngTemplateOutlet]="itemTemplate"
-            [ngTemplateOutletContext]="{ item: item, selecting: selecting, index: index }">
-          </ng-container>
-        </div>
+        <ng-container
+          [ngTemplateOutlet]="itemTemplate"
+          [ngTemplateOutletContext]="{ item: item, selecting: selecting, index: index }">
+        </ng-container>
         @if (!selecting) {
           @for (chipSelectedSuffix of chipSelectedSuffixes; track chipSelectedSuffix) {
             <ng-template
