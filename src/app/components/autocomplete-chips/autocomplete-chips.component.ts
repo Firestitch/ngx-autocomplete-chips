@@ -128,6 +128,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   @Input() public initOnClick = false;
   @Input() public fetchOnFocus = true;
   @Input() public multiple = true;
+  @Input() public multipleAdd = true;
   @Input() public confirm = false;
   @Input() public disabled = false;
   @Input() public groupBy: (item: any) => string;
@@ -172,6 +173,13 @@ implements OnInit, OnDestroy, ControlValueAccessor {
 
   public get hasValue() {
     return !!(this.model || []).length;
+  }
+
+  public get placeholderText() {
+    return this.model.length === 0 ? 
+      (this.floatLabel === 'always' ? 
+        (this.placeholder === undefined ? 'None' : this.placeholder) : this.placeholder) : 
+      this.placeholder;
   }
 
   public get inputEl(): HTMLInputElement {
@@ -317,6 +325,14 @@ implements OnInit, OnDestroy, ControlValueAccessor {
     if((document as any).activeElement?.blur) {  
       (document as any).activeElement.blur();
     }
+  }
+
+  public multipleAddClick({ event }, item): void {
+    event.stopImmediatePropagation();
+    event.stopPropagation();
+    event.preventDefault();
+
+    this._select(item);  
   }
 
   public clearClick(): void {

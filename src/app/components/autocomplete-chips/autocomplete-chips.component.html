@@ -56,7 +56,7 @@
       (blur)="blured()"
       [name]="name"
       [matAutocomplete]="autocompleteSearch"
-      [placeholder]="model.length === 0 ? (floatLabel === 'always' ? (placeholder === undefined ? 'None' : placeholder) : placeholder) : ''"
+      [placeholder]="placeholderText"
       [(ngModel)]="keyword">
   </ng-template>
   <mat-autocomplete
@@ -229,6 +229,13 @@
           [ngTemplateOutlet]="itemTemplate"
           [ngTemplateOutletContext]="{ item: item, selecting: selecting, index: index }">
         </ng-container>
+        @if (selecting && multipleAdd) {
+          <ng-template
+            fsChipPrefix
+            [icon]="'add_circle_outline '"
+            (click)="multipleAddClick($event, item)">
+          </ng-template>
+        }
         @if (!selecting) {
           @for (chipSelectedSuffix of chipSelectedSuffixes; track chipSelectedSuffix) {
             <ng-template

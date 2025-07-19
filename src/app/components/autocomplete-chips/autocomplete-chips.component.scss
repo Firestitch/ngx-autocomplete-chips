@@ -188,6 +188,10 @@
       line-height: normal;
       padding: 0;
 
+      .mat-icon {
+        margin-right: 0;
+      }
+
       &.option-text {
         .check {
           margin-left: 5px;
