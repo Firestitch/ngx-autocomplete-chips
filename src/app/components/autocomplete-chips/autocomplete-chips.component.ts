@@ -104,7 +104,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   @Input() public size: 'large' | 'small' = 'large';
   @Input() public label: string;
   @Input() public placeholder: string;
-  @Input() public chipMargin = '5px';
+  @Input() public chipMargin = '8px';
   @Input() public chipImage = 'image';
   @Input() public chipBackground: string;
   @Input() public chipColor: string;
@@ -332,7 +332,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
     event.stopPropagation();
     event.preventDefault();
 
-    this._select(item);  
+    this._select(item, false);  
   }
 
   public clearClick(): void {
@@ -513,7 +513,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
     this._cdRef.markForCheck();
   }
 
-  private _select(selected): void {
+  private _select(selected, closePanel = true): void {
     if (this.data) {
       const index = this.data.indexOf(selected);
 
@@ -541,17 +541,17 @@ implements OnInit, OnDestroy, ControlValueAccessor {
       }
     }
 
-    if (this.multiple) {
+    if (closePanel) {
+      this._clearInput();
+      this._close();
+      this.closePanel();
+    } else {
       this._clearInput();
       setTimeout(() => {
         if (this.autocompleteTrigger) {
           this.autocompleteTrigger.updatePosition();
         }
       });
-    } else {
-      this._clearInput();
-      this._close();
-      this.closePanel();
     }
   }
 

@@ -3,12 +3,14 @@
     [(ngModel)]="model"
     [label]="'Select &amp; Order Accounts'"
     [orderable]="true"
-    [multiple]="false"    
+    [multiple]="true"
     [fetchOnFocus]="true"
     chipImage="image"
     name="model">
-  <ng-template fsAutocompleteObject let-object="object">
-    {{object.firstName}} {{object.lastName}}
+  <ng-template
+      fsAutocompleteObject
+      let-object="object">
+    {{ object.firstName }} {{ object.lastName }}
   </ng-template>
 </fs-autocomplete-chips>
 <fieldset>

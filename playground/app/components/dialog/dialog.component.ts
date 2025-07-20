@@ -42,7 +42,7 @@ export class DialogComponent {
   public fetch = (keyword) => {
     console.log('Fetch', keyword);
 
-    return this._exampleService.fetch(keyword, 10, true)
+    return this._exampleService.fetch(keyword, 10)
       .pipe(
         map((items) => items),
       );

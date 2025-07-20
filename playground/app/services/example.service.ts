@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 
-import { FsApi } from '@firestitch/api';
 
 import { of } from 'rxjs';
 
@@ -9,26 +8,7 @@ import { of } from 'rxjs';
 export class ExampleService {
 
   public names = [];
-
-  constructor(private fsApi: FsApi) {
-    this.people = this.people.map((item, index) => {
-      item.image = `https://randomuser.me/api/portraits/${item.gender}/${index}.jpg`;
-
-      return item;
-    });
-  }
-
-  public fetch(keyword, limit = 10, multiple = true) {
-    const people = this.people
-      .filter((item) => {
-        return !keyword ||
-          item.firstName.toLowerCase().indexOf(keyword) >= 0 || 
-          item.lastName.toLowerCase().indexOf(keyword) >= 0;
-      });
-
-    return of(people.splice(0, limit));
-  }
-
+  
   public people: any = [
     { firstName: 'Jessey', lastName: 'Wing', gender: 'men', icon: 'settings' },
     { firstName: 'Linn', lastName: 'Boyce', gender: 'men', icon: 'settings' },
@@ -128,7 +108,27 @@ export class ExampleService {
     { firstName: 'Ellary', lastName: 'Winspire', gender: 'men', icon: 'settings' },
     { firstName: 'Alisun', lastName: 'Clixby', gender: 'women', icon: 'settings' },
     { firstName: 'Sonnnie', lastName: 'Sukbhans', gender: 'women', icon: 'settings' },
-    { firstName: 'Wenda', lastName: 'Dolley', gender: 'women' },
+    { firstName: 'Wenda with a very very very very very long name', lastName: 'Dolley', gender: 'women' },
   ];
+
+  constructor() {
+    this.people = this.people.map((item, index) => {
+      item.image = `https://randomuser.me/api/portraits/${item.gender}/${index}.jpg`;
+
+      return item;
+    });
+  }
+
+  public fetch(keyword, limit = 10) {
+    const people = this.people
+      .filter((item) => {
+        return !keyword ||
+          item.firstName.toLowerCase().indexOf(keyword) >= 0 || 
+          item.lastName.toLowerCase().indexOf(keyword) >= 0;
+      });
+
+    return of(people.splice(0, limit));
+  }
+
 
 }

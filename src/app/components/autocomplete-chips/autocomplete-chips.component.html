@@ -229,7 +229,7 @@
           [ngTemplateOutlet]="itemTemplate"
           [ngTemplateOutletContext]="{ item: item, selecting: selecting, index: index }">
         </ng-container>
-        @if (selecting && multipleAdd) {
+        @if (selecting && multipleAdd && multiple) {
           <ng-template
             fsChipPrefix
             [icon]="'add_circle_outline '"
@@ -244,7 +244,6 @@
               [color]="chipSelectedSuffix.color"
               [link]="chipSelectedSuffix.link"
               [tooltip]="chipSelectedSuffix.tooltip"
-              [show]="chipSelectedSuffix.show"
               [data]="item.data"
               [linkTarget]="chipSelectedSuffix.linkTarget"
               (click)="chipSelectedSuffix.clicked($event)">

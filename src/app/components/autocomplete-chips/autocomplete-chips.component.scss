@@ -14,6 +14,10 @@
     margin-left: 0px;
     min-width: 80px;
 
+    .mdc-text-field {
+      padding-left: 12px;
+    }
+
     &.inited:not(.mat-form-field-disabled) {
       cursor: pointer;
     }
@@ -130,6 +134,7 @@
     min-width: 0;
     display: flex;
     gap: 5px;
+    min-width: 0;
   }
 }
 
@@ -190,6 +195,11 @@
 
       .mat-icon {
         margin-right: 0;
+      }
+
+      .item-container,
+      .mdc-list-item__primary-text {
+        min-width: 0;
       }
 
       &.option-text {

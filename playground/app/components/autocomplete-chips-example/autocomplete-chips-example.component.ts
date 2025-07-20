@@ -37,7 +37,7 @@ export class AutocompleteChipsExampleComponent implements OnInit {
     color: true,
     orderable: true,
     size: 'small',
-    shape: 'round',
+    shape: 'roundChip',
   };
 
   private _dialog = inject(MatDialog);
@@ -84,7 +84,7 @@ export class AutocompleteChipsExampleComponent implements OnInit {
     console.log('Fetch', keyword);
 
     return this._exampleService
-      .fetch(keyword, 10, this.config.multiple)
+      .fetch(keyword, 10)
       .pipe(
         delay(70),
         map((items) => this.mapData(items)),
