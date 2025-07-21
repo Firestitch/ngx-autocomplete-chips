@@ -43,7 +43,6 @@ import { FsAutocompleteChipsTextValidIndicatorDirective } from '../../directives
 import { getObjectValue } from '../../helpers/get-object-value';
 import { IAutocompleteItem } from '../../interfaces/autocomplete-item.interface';
 import { DataType } from '../../interfaces/data-type';
-import { AutoSizeInputDirective } from '../../modules/ngx-autosize-input/src';
 import { ConfirmComponent } from '../confirm';
 
 
@@ -60,9 +59,6 @@ import { ConfirmComponent } from '../confirm';
 })
 export class FsAutocompleteChipsComponent
 implements OnInit, OnDestroy, ControlValueAccessor {
-
-  @ViewChild(AutoSizeInputDirective)
-  public autoSizeInput: AutoSizeInputDirective;
 
   @ViewChild(MatInput, { read: ElementRef })
   public matInputEl: ElementRef;
@@ -383,8 +379,6 @@ implements OnInit, OnDestroy, ControlValueAccessor {
     setTimeout(() => {
       this._focused = false;
       this.keyword = '';
-    
-      this.autoSizeInput.updateWidth();
     
       of(true)
         .pipe(
