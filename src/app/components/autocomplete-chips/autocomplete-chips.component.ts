@@ -175,7 +175,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
     return this.model.length === 0 ? 
       (this.floatLabel === 'always' ? 
         (this.placeholder === undefined ? 'None' : this.placeholder) : this.placeholder) : 
-      this.placeholder;
+      '';
   }
 
   public get inputEl(): HTMLInputElement {
