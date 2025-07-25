@@ -31,7 +31,22 @@
       }">
       </ng-container>
     }
-    <ng-container [ngTemplateOutlet]="inputTemplate"></ng-container>
+    <div class="input-container">
+      <input
+        matInput
+        (input)="inputed($event)"
+        type="text"
+        [disabled]="disabled"
+        autocomplete="off"
+        [readonly]="readonly"
+        (keydown)="keyDown($event)"
+        (focus)="focused()"
+        (blur)="blured()"
+        [name]="name"
+        [matAutocomplete]="autocompleteSearch"
+        [placeholder]="placeholderText"
+        [(ngModel)]="keyword">
+    </div>
   </div>
   <span
       *ngIf="chipsSuffixTemplate"
@@ -41,22 +56,6 @@
       [ngTemplateOutletContext]="{ open: autocompleteSearch.isOpen }">
     </ng-container>
   </span>
-  <ng-template #inputTemplate>
-    <input
-      matInput
-      (input)="inputed($event)"
-      type="text"
-      [disabled]="disabled"
-      autocomplete="off"
-      [readonly]="readonly"
-      (keydown)="keyDown($event)"
-      (focus)="focused()"
-      (blur)="blured()"
-      [name]="name"
-      [matAutocomplete]="autocompleteSearch"
-      [placeholder]="placeholderText"
-      [(ngModel)]="keyword">
-  </ng-template>
   <mat-autocomplete
       #autocompleteSearch="matAutocomplete"
       [class]="panelClasses"
@@ -196,8 +195,7 @@
     let-item="item"
     let-index="index"
     let-removable="removable"
-    let-selecting="selecting"
-    let-inputTemplate="inputTemplate">
+    let-selecting="selecting">
   <div class="item-container">
     @if (shape === 'none') {
       <div class="item-content">

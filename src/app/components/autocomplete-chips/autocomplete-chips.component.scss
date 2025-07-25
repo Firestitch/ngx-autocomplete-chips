@@ -55,9 +55,14 @@
     // }
 
     &.has-value:not(.mat-focused) {
-      input {
-        width: 0 !important;
-        height: 0 !important;
+      .input-container {
+        width: 0;
+        height: 0;
+        
+        input {
+          width: 0 !important;
+          height: 0 !important;
+        }
       }
     }
 
@@ -121,11 +126,15 @@
 
     .chips-container {
       display: flex;
-      gap: 5px;
+      row-gap: 5px;
       align-items: center;
       flex-wrap: wrap;
       min-width: 0;
       flex: 1;
+
+      .item-container:not(:last-child) {
+        margin-right: 5px;
+      }
     }
   }
 
