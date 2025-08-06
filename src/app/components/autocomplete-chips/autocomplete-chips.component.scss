@@ -128,13 +128,18 @@
       display: flex;
       row-gap: 5px;
       align-items: center;
-      flex-wrap: wrap;
       min-width: 0;
       flex: 1;
 
       .item-container:not(:last-child) {
         margin-right: 5px;
       }
+    }
+  }
+
+  &.multiple {
+    .chips-container {
+      flex-wrap: wrap;
     }
   }
 
