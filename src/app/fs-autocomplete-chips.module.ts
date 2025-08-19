@@ -19,6 +19,7 @@ import { FsAutocompleteChipsComponent } from './components/autocomplete-chips/au
 import { FsAutocompleteChipsSubtemplateDirective } from './directives/autocomplete-chips-subtemplate.directive';
 import { FsAutocompleteChipsNoResultsDirective } from './directives/autocomplete-no-results.directive';
 import { FsAutocompleteObjectDirective } from './directives/autocomplete-object.directive';
+import { FsAutocompleteChipsPrefixDirective } from './directives/chips-prefix.directive';
 import { FsAutocompleteChipsSuffixDirective } from './directives/chips-suffix.directive';
 import { FsAutocompleteChipSelectedSuffixDirective } from './directives/selected-chip-suffix.directive';
 import { FsAutocompleteChipsStaticDirective } from './directives/static-template.directive';
@@ -49,6 +50,7 @@ import { FsAutocompleteChipsTextValidIndicatorDirective } from './directives/tex
     FsAutocompleteChipsStaticDirective,
     FsAutocompleteChipsNoResultsDirective,
     FsAutocompleteChipSelectedSuffixDirective,
+    FsAutocompleteChipsPrefixDirective,
     FsAutocompleteChipsSuffixDirective,
     FsAutocompleteChipsTextValidIndicatorDirective,
     FsAutocompleteChipsSubtemplateDirective,
@@ -59,6 +61,7 @@ import { FsAutocompleteChipsTextValidIndicatorDirective } from './directives/tex
     FsAutocompleteChipsStaticDirective,
     FsAutocompleteChipsNoResultsDirective,
     FsAutocompleteChipSelectedSuffixDirective,
+    FsAutocompleteChipsPrefixDirective,
     FsAutocompleteChipsSuffixDirective,
     FsAutocompleteChipsTextValidIndicatorDirective,
     FsAutocompleteChipsSubtemplateDirective,

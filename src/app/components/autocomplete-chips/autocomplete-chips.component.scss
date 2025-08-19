@@ -72,10 +72,6 @@
       }
 
       &:not(.mat-focused):not(.float-label-always) {
-        input {
-          opacity: 0;
-        }
-
         .mdc-notched-outline__notch {
           border-top-width: 1px;
           border-top-style: solid;

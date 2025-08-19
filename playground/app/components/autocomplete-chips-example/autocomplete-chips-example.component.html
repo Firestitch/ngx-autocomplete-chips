@@ -28,6 +28,10 @@
     {{ object.firstName }} {{ object.lastName }}
   </ng-template>
   <ng-template
+    fsAutocompleteChipsPrefix
+    [icon]="'notifications'">
+  </ng-template>
+  <ng-template
     fsAutocompleteChipSelectedSuffix
     (click)="chipsSuffixClick($event)"
     [icon]="'tune'"

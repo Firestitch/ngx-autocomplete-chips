@@ -33,6 +33,7 @@ import { debounce, delay, filter, switchMap, take, takeUntil, tap } from 'rxjs/o
 
 import { isEqual, random } from 'lodash-es';
 
+import { FsAutocompleteChipsPrefixDirective } from '../../directives';
 import { FsAutocompleteChipsSubtemplateDirective } from '../../directives/autocomplete-chips-subtemplate.directive';
 import { FsAutocompleteChipsNoResultsDirective } from '../../directives/autocomplete-no-results.directive';
 import { FsAutocompleteObjectDirective } from '../../directives/autocomplete-object.directive';
@@ -79,7 +80,10 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   public chipSelectedSuffixes: QueryList<FsAutocompleteChipSelectedSuffixDirective>;
 
   @ContentChild(FsAutocompleteChipsSuffixDirective, { read: TemplateRef })
-  public chipsSuffixTemplate: TemplateRef<FsAutocompleteChipsSuffixDirective> = null;
+  public chipsSuffixTemplate: TemplateRef<FsAutocompleteChipsSuffixDirective>;
+
+  @ContentChild(FsAutocompleteChipsPrefixDirective, { static: true })
+  public chipsPrefix: FsAutocompleteChipsPrefixDirective;
 
   @ContentChild(FsAutocompleteChipsTextValidIndicatorDirective, { read: TemplateRef })
   public textValidIndicatorTemplate: TemplateRef<FsAutocompleteChipsTextValidIndicatorDirective>;
