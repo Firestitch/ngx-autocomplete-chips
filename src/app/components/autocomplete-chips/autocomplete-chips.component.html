@@ -17,14 +17,14 @@
     </mat-label>
   }
   <span matIconPrefix>
-    @if (chipsPrefix.icon) {
+    @if (chipsPrefix?.icon) {
       <mat-icon class="prefix-icon">
         {{ chipsPrefix.icon }}
       </mat-icon>
     }
   </span>
   <span matTextPrefix>
-    @if (chipsPrefix.templateRef) {
+    @if (chipsPrefix?.templateRef) {
       <ng-container
         [ngTemplateOutlet]="chipsPrefix.templateRef"
         [ngTemplateOutletContext]="{ open: autocompleteSearch.isOpen }">
@@ -63,14 +63,14 @@
         [(ngModel)]="keyword">
     </div>
   </div>
-  @if (chipsSuffixTemplate) {
-    <span matSuffix>
+  <span matSuffix>
+    @if (chipsSuffixTemplate) {
       <ng-container
         [ngTemplateOutlet]="chipsSuffixTemplate"
         [ngTemplateOutletContext]="{ open: autocompleteSearch.isOpen }">
       </ng-container>
-    </span>
-  }
+    }
+  </span>
   <mat-autocomplete
       #autocompleteSearch="matAutocomplete"
       [class]="panelClasses"
