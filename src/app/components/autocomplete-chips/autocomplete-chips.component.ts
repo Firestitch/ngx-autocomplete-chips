@@ -194,12 +194,6 @@ implements OnInit, OnDestroy, ControlValueAccessor {
     private _cdRef: ChangeDetectorRef,
     private _dialog: MatDialog,
   ) {
-    this.panelClass = '';
-    if(!this.compareWith) {
-      this.compareWith = (o1: any, o2: any) => {
-        return isEqual(o1, o2);
-      };
-    }
   }
 
   public registerOnChange(fn: (value: any) => any): void {
@@ -220,7 +214,10 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   }
 
   public ngOnInit(): void {
+    this.compareWith = this.compareWith || ((o1: any, o2: any) => isEqual(o1, o2));
     this.inited = !this.initOnClick;
+    this.panelClass = '';
+
     this._listenFetch();
     this._listenKeywordChange();
   }
@@ -698,27 +695,15 @@ implements OnInit, OnDestroy, ControlValueAccessor {
             return;
           }
 
-          this.data = response.map((data) => {
-            return this._createObjectItem(data);
-          });
-
-          if (this.multiple) {
-            this.data = this.data.filter((item) => {
+          this.data = response
+            .map((data) => {
+              return this._createObjectItem(data);
+            })
+            .filter((item) => {
               return !this.model.some((model) => {
                 return this.compareWith(model.data, item.data);
               });
             });
-          } else {
-            const selected = this.data.find((item) => {
-              return this.model.some((model) => {
-                return this.compareWith(model.data, item.data);
-              });
-            });
-
-            if (selected) {
-              selected.selected = true;
-            }
-          }
 
           if(this.groupBy) {
             this._groupBy();
