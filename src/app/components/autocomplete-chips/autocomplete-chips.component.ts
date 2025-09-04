@@ -215,7 +215,9 @@ implements OnInit, OnDestroy, ControlValueAccessor {
 
   public ngOnInit(): void {
     this.compareWith = this.compareWith || ((o1: any, o2: any) =>  {
-      return isEqual(o1, o2) || o1?.id === o2?.id || o1?.guid === o2?.guid;
+      return isEqual(o1, o2) || 
+        (o1?.id && o2?.id && o1?.id === o2?.id ) || 
+        (o1?.guid && o2?.guid && o1?.guid === o2?.guid);
     });
     this.inited = !this.initOnClick;
     this.panelClass = '';
