@@ -46,7 +46,9 @@
       }">
       </ng-container>
     }
-    <div class="input-container">
+    <div
+        class="input-container"
+        [attr.data-keyword]="keyword">
       <input
         matInput
         (input)="inputed($event)"

@@ -35,10 +35,6 @@
     }
 
     &:not(.inited) {
-      fs-clear {
-        display: none;
-      }
-          
       &.mat-form-field-disabled {
         .mat-mdc-notch-piece {
           border-color: transparent;
@@ -46,23 +42,20 @@
       }
     }
 
-    // SP-T4357 This style hide selected option if autocomplete is focused
-    // In this case width of selectors jumps and it is impossible to click on remove button
-    // &:not(.multiple).mat-focused {
-    //   fs-chip {
-    //     display: none;
-    //   }
-    // }
+    .input-container {
+      position: relative;
+      flex: 1;
 
-    &.has-value:not(.mat-focused) {
-      .input-container {
-        width: 0;
-        height: 0;
-        
-        input {
-          width: 0 !important;
-          height: 0 !important;
-        }
+      &::after {
+        content: attr(data-keyword) " ";
+        visibility: hidden;
+        white-space: pre-wrap;
+      }
+
+      input {
+        position: absolute;
+        left: 0;
+        width: 100% !important;
       }
     }
 

@@ -280,6 +280,12 @@ implements OnInit, OnDestroy, ControlValueAccessor {
       if(!this.allowText) {
         this.unfocus();
       }
+    } else if (event.code === 'Tab') {
+      const activeOption = this.autocompleteTrigger.activeOption;
+
+      if(activeOption) {
+        this._select(activeOption.value);
+      }
     }
   }
 
@@ -379,10 +385,10 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   }
 
   public blured(): void {  
-    setTimeout(() => {
-      this._focused = false;
-      this.keyword = '';
-    
+    this._focused = false;
+    this.keyword = '';
+
+    setTimeout(() => {   
       of(true)
         .pipe(
           filter(() => this.confirm),
@@ -446,9 +452,11 @@ implements OnInit, OnDestroy, ControlValueAccessor {
     }
 
     this._select(event.option.value);
-    setTimeout(() => {
-      this.unfocus();
-    });
+    if(!this.allowText) {
+      setTimeout(() => {
+        this.unfocus();
+      });
+    }
   }
 
   public writeValue(value: any): void {
