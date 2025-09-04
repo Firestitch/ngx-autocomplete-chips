@@ -80,12 +80,12 @@
       (opened)="opened()"
       [panelWidth]="panelWidth"
       [autoActiveFirstOption]="true">
-    <ng-container *ngIf="keyword && allowText">
+    @if (allowText && !!keyword?.length) {
       @if (textData.type === dataType.Text) {
         <mat-option
             class="option option-text"
             [value]="textData"
-            [ngClass]="{ valid: textData.valid }">
+            [ngClass]="{ valid: textData.valid, 'has-keyword': !!keyword?.length }">
           <div
               class="option-chip"
               (click)="optionTextClick($event, textData)">
@@ -106,7 +106,7 @@
           </div>
         </mat-option>
       }
-    </ng-container>
+    }
     @if (groupBy) {
       <ng-container *ngFor="let group of groupData">
         <mat-optgroup [label]="group.label">

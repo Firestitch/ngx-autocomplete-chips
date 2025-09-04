@@ -385,37 +385,38 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   }
 
   public blured(): void {  
-    this._focused = false;
-    this.keyword = '';
+    of(true)
+      .pipe(
+        delay(100),
+        tap(() => {
+          this._focused = false;
+          this.keyword = '';
+          this._cdRef.detectChanges();
+        }),
+        filter(() => this.confirm),
+        delay(100),
+        filter(() => !!this.keyword),
+        switchMap(() => this._dialog.open(ConfirmComponent, {
+          disableClose: true,
+        })
+          .afterClosed(),
+        ),
+        take(1),
+        takeUntil(this._destroy$),
+      )
+      .subscribe((result) => {
+        this._focused = true;
+        switch (result) {
+          case 'review':
+            this.inputEl.focus();
 
-    setTimeout(() => {   
-      of(true)
-        .pipe(
-          filter(() => this.confirm),
-          delay(100),
-          filter(() => !!this.keyword),
-          switchMap(() => this._dialog.open(ConfirmComponent, {
-            disableClose: true,
-          })
-            .afterClosed(),
-          ),
-          take(1),
-          takeUntil(this._destroy$),
-        )
-        .subscribe((result) => {
-          this._focused = true;
-          switch (result) {
-            case 'review':
-              this.inputEl.focus();
+            break;
 
-              break;
-
-            case 'discard':
-              this._clearInput();
-              break;
-          }
-        });
-    },100);
+          case 'discard':
+            this._clearInput();
+            break;
+        }
+      });
   }
 
   public focused(): void {
@@ -452,11 +453,6 @@ implements OnInit, OnDestroy, ControlValueAccessor {
     }
 
     this._select(event.option.value);
-    if(!this.allowText) {
-      setTimeout(() => {
-        this.unfocus();
-      });
-    }
   }
 
   public writeValue(value: any): void {
