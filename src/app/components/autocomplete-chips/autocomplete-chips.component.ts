@@ -1,3 +1,4 @@
+import { DOCUMENT } from '@angular/common';
 import {
   ChangeDetectionStrategy, ChangeDetectorRef,
   Component,
@@ -12,6 +13,7 @@ import {
   OnInit,
   Output,
   QueryList,
+  Renderer2,
   TemplateRef,
   ViewChild,
   forwardRef,
@@ -27,6 +29,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatFormField, MatFormFieldAppearance } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 
+
+import { guid } from '@firestitch/common';
 
 import { Observable, Subject, of, timer } from 'rxjs';
 import { debounce, delay, filter, switchMap, take, takeUntil, tap } from 'rxjs/operators';
@@ -118,6 +122,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   @Input() public allowObject = true;
   @Input() public delay = 200;
   @Input() public minPanelWidth = 200;
+  @Input() public maxPanelHeight: string | number = 400;
   @Input() public validateText: (text: string) => boolean;
   @Input() public removable = true;
   @Input() public allowClear = true;
@@ -135,7 +140,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   @Input() public panelWidth: string | number;
   @Input() public set panelClass(value) {
     this.panelClasses = [
-      ...['fs-account-picker-autocomplete', 'fs-autocomplete-chips-panel'],
+      ...['fs-autocomplete-chips-panel', 'fs-autocomplete-chips-panel-'.concat(this.guid)],
       value,
     ];
   }
@@ -161,11 +166,15 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   public inited = false;
   public groupData: { label: string, data: IAutocompleteItem[] }[] = [];
   public panelClasses: string[];
+  public guid = guid();
 
   private _keyword$ = new Subject<InputEvent>();
   private _fetch$ = new Subject<string>();
   private _destroy$ = new Subject();
   private _el = inject(ElementRef);
+  private _styleElement: HTMLStyleElement;
+  private _renderer = inject(Renderer2);
+  private _document = inject(DOCUMENT);
 
   public get model() {
     return this._model;
@@ -224,6 +233,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
 
     this._listenFetch();
     this._listenKeywordChange();
+    this._initPanelHeight();
   }
 
   public drop(event: CdkDragDrop<{ index: number }>): void {
@@ -491,6 +501,11 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   public ngOnDestroy(): void {
     this._destroy$.next(null);
     this._destroy$.complete();
+
+    if(this._styleElement) {
+      this._renderer.removeChild(this._document.head, this._styleElement);
+      this._styleElement = null;
+    }
   }
 
   public validText(text): boolean {
@@ -622,6 +637,17 @@ implements OnInit, OnDestroy, ControlValueAccessor {
       staticDirective.isShow = staticDirective.show(this._getKeyword());
       staticDirective.isDisabled = staticDirective.disable(this._getKeyword());
     });
+  }
+
+  private _initPanelHeight(): void {
+    if(this.maxPanelHeight) {
+      this._styleElement = this._document.createElement('style');
+      const maxPanelHeight = String(this.maxPanelHeight).match(/^\d+$/) ? `${this.maxPanelHeight}px` : this.maxPanelHeight;
+    
+      const css = `.fs-autocomplete-chips-panel-${this.guid} { max-height: ${maxPanelHeight} !important; }`;
+      this._renderer.appendChild(this._styleElement, this._renderer.createText(css));
+      this._renderer.appendChild(this._document.head, this._styleElement);
+    }
   }
 
   private _listenKeywordChange(): void {
