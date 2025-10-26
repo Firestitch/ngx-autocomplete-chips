@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose } from '@angular/material/dialog';
 import { FsDialogModule } from '@firestitch/dialog';
@@ -22,10 +22,7 @@ import { MatButton } from '@angular/material/button';
     ],
 })
 export class ConfirmComponent {
-
-  constructor(
-    @Inject(MAT_DIALOG_DATA) private _data: any,
-    private _dialogRef: MatDialogRef<ConfirmComponent>
-  ) {}
+  private _data = inject(MAT_DIALOG_DATA);
+  private _dialogRef = inject<MatDialogRef<ConfirmComponent>>(MatDialogRef);
   
 }

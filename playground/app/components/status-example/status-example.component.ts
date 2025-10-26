@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 
 import { guid } from '@firestitch/common';
 
@@ -30,6 +25,8 @@ import { FsAutocompleteObjectDirective } from '../../../../src/app/directives/au
     ],
 })
 export class StatusExampleComponent implements OnInit {
+  private _cdRef = inject(ChangeDetectorRef);
+
 
   public width = '120px';
   public status: any;
@@ -40,10 +37,6 @@ export class StatusExampleComponent implements OnInit {
 
 
   public guid = guid();
-
-  constructor(
-    private _cdRef: ChangeDetectorRef,
-  ) { }
 
   public ngOnInit(): void {
     if (!this.status && this.assignDefaultStatus) {

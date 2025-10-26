@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ExampleService } from 'playground/app/services/example.service';
 import { FsAutocompleteChipsComponent } from '../../../../src/app/components/autocomplete-chips/autocomplete-chips.component';
 import { FormsModule } from '@angular/forms';
@@ -13,10 +13,10 @@ import { JsonPipe } from '@angular/common';
     imports: [FsAutocompleteChipsComponent, FormsModule, FsFormModule, JsonPipe]
 })
 export class LabelExampleComponent implements OnInit {
+  private exampleService = inject(ExampleService);
+
 
   public model = [];
-
-  constructor(private exampleService: ExampleService) { }
 
   ngOnInit() {
   }

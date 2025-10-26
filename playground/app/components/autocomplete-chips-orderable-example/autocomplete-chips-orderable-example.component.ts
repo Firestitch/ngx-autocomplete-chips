@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FsMessage } from '@firestitch/message';
 import { ExampleService } from 'playground/app/services/example.service';
 import { FsAutocompleteChipsComponent } from '../../../../src/app/components/autocomplete-chips/autocomplete-chips.component';
@@ -15,13 +15,11 @@ import { JsonPipe } from '@angular/common';
     imports: [FsAutocompleteChipsComponent, FormsModule, FsFormModule, FsAutocompleteObjectDirective, JsonPipe]
 })
 export class AutocompleteChipsOrderableExampleComponent implements OnInit {
+  private _exampleService = inject(ExampleService);
+  private _message = inject(FsMessage);
+
 
   public model = [];
-
-  constructor(
-    private _exampleService: ExampleService,
-    private _message: FsMessage,
-  ) { }
 
   public ngOnInit() {
     this._exampleService.fetch('', 3)

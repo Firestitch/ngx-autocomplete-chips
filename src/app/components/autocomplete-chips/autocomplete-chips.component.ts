@@ -87,6 +87,9 @@ import { FsChipModule } from '@firestitch/chip';
 })
 export class FsAutocompleteChipsComponent
 implements OnInit, OnDestroy, ControlValueAccessor {
+  private _cdRef = inject(ChangeDetectorRef);
+  private _dialog = inject(MatDialog);
+
 
   @ViewChild(MatInput, { read: ElementRef })
   public matInputEl: ElementRef;
@@ -221,12 +224,6 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   private _onTouched: () => void;
   private _onChange: (value: any) => void;
   private _focused = false;
-
-  constructor(
-    private _cdRef: ChangeDetectorRef,
-    private _dialog: MatDialog,
-  ) {
-  }
 
   public registerOnChange(fn: (value: any) => any): void {
     this._onChange = fn;
