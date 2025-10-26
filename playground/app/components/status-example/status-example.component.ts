@@ -10,13 +10,24 @@ import { guid } from '@firestitch/common';
 import { Observable, of } from 'rxjs';
 
 import { statusData } from './status-response.data';
+import { FsAutocompleteChipsComponent } from '../../../../src/app/components/autocomplete-chips/autocomplete-chips.component';
+import { FormsModule } from '@angular/forms';
+import { FsFormModule } from '@firestitch/form';
+import { FsAutocompleteObjectDirective } from '../../../../src/app/directives/autocomplete-object.directive';
 
 
 @Component({
-  selector: 'status-example',
-  templateUrl: './status-example.component.html',
-  styleUrls: ['./status-example.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'status-example',
+    templateUrl: './status-example.component.html',
+    styleUrls: ['./status-example.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        FsAutocompleteChipsComponent,
+        FormsModule,
+        FsFormModule,
+        FsAutocompleteObjectDirective,
+    ],
 })
 export class StatusExampleComponent implements OnInit {
 

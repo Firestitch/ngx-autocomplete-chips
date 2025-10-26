@@ -2,7 +2,8 @@ import { Directive } from '@angular/core';
 
 
 @Directive({
-  selector: '[fsAutocompleteChipsSuffix]',
+    selector: '[fsAutocompleteChipsSuffix]',
+    standalone: true,
 })
 export class FsAutocompleteChipsSuffixDirective {
 

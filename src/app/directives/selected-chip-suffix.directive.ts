@@ -2,7 +2,8 @@ import { Directive, EventEmitter, Input, Output } from '@angular/core';
 
 
 @Directive({
-  selector: '[fsAutocompleteChipSelectedSuffix]',
+    selector: '[fsAutocompleteChipSelectedSuffix]',
+    standalone: true,
 })
 export class FsAutocompleteChipSelectedSuffixDirective {
   

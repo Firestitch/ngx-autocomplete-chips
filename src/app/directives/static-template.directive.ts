@@ -2,7 +2,8 @@ import { Directive, EventEmitter, Input, Output, TemplateRef } from '@angular/co
 
 
 @Directive({
-  selector: '[fsAutocompleteChipsStatic]',
+    selector: '[fsAutocompleteChipsStatic]',
+    standalone: true,
 })
 export class FsAutocompleteChipsStaticDirective {
 
