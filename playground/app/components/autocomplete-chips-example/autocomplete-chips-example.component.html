@@ -1,31 +1,31 @@
 <fs-autocomplete-chips
-    [fetch]="fetch"
-    [(ngModel)]="model"
-    label="Account"
-    [floatLabel]="'always'"
-    [shape]="config.shape"
-    chipClass="gender"
-    panelClass="custom-panel"
-    [placeholder]="'Start typing to search'"
-    [padless]="true"
-    [chipImage]="config.image ? 'image' : null"
-    [orderable]="config.orderable"
-    [initOnClick]="false"
-    [removable]="config.removable"
-    [size]="config.size"
-    [disabled]="config.disabled"
-    [groupBy]="groupBy"
-    [fetchOnFocus]="config.fetchOnFocus"
-    [compareWith]="compareWith"
-    [multiple]="config.multiple"
-    hint="Hint hint hint"
-    (ngModelChange)="modelChange($event)"
-    name="model">
+  [fetch]="fetch"
+  [(ngModel)]="model"
+  label="Account"
+  [floatLabel]="'always'"
+  [shape]="config.shape"
+  chipClass="gender"
+  panelClass="custom-panel"
+  [placeholder]="'Start typing to search'"
+  [padless]="true"
+  [chipImage]="config.image ? 'image' : null"
+  [orderable]="config.orderable"
+  [initOnClick]="false"
+  [removable]="config.removable"
+  [size]="config.size"
+  [disabled]="config.disabled"
+  [groupBy]="groupBy"
+  [fetchOnFocus]="config.fetchOnFocus"
+  [compareWith]="compareWith"
+  [multiple]="config.multiple"
+  hint="Hint hint hint"
+  (ngModelChange)="modelChange($event)"
+  name="model">
   <ng-template
-      fsAutocompleteChipsTemplate
-      let-object="object"
-      let-selecting="selecting"
-      let-index="index">
+    fsAutocompleteChipsTemplate
+    let-object="object"
+    let-selecting="selecting"
+    let-index="index">
     {{ object.firstName }} {{ object.lastName }}
   </ng-template>
   <ng-template
@@ -40,8 +40,8 @@
     [show]="true">
   </ng-template>
   <ng-template
-      fsAutocompleteChipsStatic
-      (click)="selectAllClick()">
+    fsAutocompleteChipsStatic
+    (click)="selectAllClick()">
     Select All
   </ng-template>
   @if (config.subtemplate) {
@@ -50,23 +50,23 @@
     </ng-template>
   }
   <ng-template
-      fsAutocompleteChipsStatic
-      let-keyword="keyword"
-      [show]="showKeyword"
-      (selected)="selected($event)">
+    fsAutocompleteChipsStatic
+    let-keyword="keyword"
+    [show]="showKeyword"
+    (selected)="selected($event)">
     Sorry cannot find "{{ keyword }}"
   </ng-template>
   <ng-template
-      fsAutocompleteChipsStatic
-      let-keyword="keyword"
-      [show]="showKeyword"
-      (selected)="selected($event)">
-    <ng-container *ngIf="keyword">
+    fsAutocompleteChipsStatic
+    let-keyword="keyword"
+    [show]="showKeyword"
+    (selected)="selected($event)">
+    @if (keyword) {
       Create new "{{ keyword }}"
-    </ng-container>
-    <ng-container *ngIf="!keyword">
+    }
+    @if (!keyword) {
       Start typing to create a new account
-    </ng-container>
+    }
   </ng-template>
   <ng-template fsAutocompleteChipsNoResults>
     <div class="custom-results">
@@ -75,78 +75,78 @@
   </ng-template>
   @if (config.subtemplate) {
     <ng-template
-        fsAutocompleteChipsSubtemplate
-        let-object="object"
-        let-selecting="selecting"
-        let-index="index">
+      fsAutocompleteChipsSubtemplate
+      let-object="object"
+      let-selecting="selecting"
+      let-index="index">
       Small text
     </ng-template>
   }
 </fs-autocomplete-chips>
 <br>
-<mat-tab-group mat-align-tabs="start">
-  <mat-tab label="First">
-    <div class="fs-column">
-      <mat-checkbox [(ngModel)]="config.multiple">
-        Multiple
-      </mat-checkbox>
-      <mat-checkbox [(ngModel)]="config.fetchOnFocus">
-        Fetch On Focus
-      </mat-checkbox>
-      <mat-checkbox [(ngModel)]="config.disabled">
-        Disabled
-      </mat-checkbox>
-      <mat-checkbox [(ngModel)]="config.removable">
-        Removable
-      </mat-checkbox>
-      <mat-checkbox [(ngModel)]="config.orderable">
-        Orderable
-      </mat-checkbox>
-      <mat-checkbox [(ngModel)]="config.image">
-        Image
-      </mat-checkbox>
-      <mat-checkbox [(ngModel)]="config.color">
-        Color
-      </mat-checkbox>
-      <mat-checkbox [(ngModel)]="config.icon">
-        Icon
-      </mat-checkbox>
-      <mat-checkbox [(ngModel)]="config.subtemplate">
-        Subtemplate
-      </mat-checkbox>
-      <mat-radio-group [(ngModel)]="config.size">
-        Size:&nbsp;
-        <mat-radio-button value="large">
-          Large
+  <mat-tab-group mat-align-tabs="start">
+    <mat-tab label="First">
+      <div class="fs-column">
+        <mat-checkbox [(ngModel)]="config.multiple">
+          Multiple
+        </mat-checkbox>
+        <mat-checkbox [(ngModel)]="config.fetchOnFocus">
+          Fetch On Focus
+        </mat-checkbox>
+        <mat-checkbox [(ngModel)]="config.disabled">
+          Disabled
+        </mat-checkbox>
+        <mat-checkbox [(ngModel)]="config.removable">
+          Removable
+        </mat-checkbox>
+        <mat-checkbox [(ngModel)]="config.orderable">
+          Orderable
+        </mat-checkbox>
+        <mat-checkbox [(ngModel)]="config.image">
+          Image
+        </mat-checkbox>
+        <mat-checkbox [(ngModel)]="config.color">
+          Color
+        </mat-checkbox>
+        <mat-checkbox [(ngModel)]="config.icon">
+          Icon
+        </mat-checkbox>
+        <mat-checkbox [(ngModel)]="config.subtemplate">
+          Subtemplate
+        </mat-checkbox>
+        <mat-radio-group [(ngModel)]="config.size">
+          Size:&nbsp;
+          <mat-radio-button value="large">
+            Large
+          </mat-radio-button>
+          &nbsp;&nbsp;
+          <mat-radio-button value="small">
+            Small
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <mat-radio-group [(ngModel)]="config.shape">
+        Shape:&nbsp;
+        <mat-radio-button value="roundChip">
+          Round
         </mat-radio-button>
         &nbsp;&nbsp;
-        <mat-radio-button value="small">
-          Small
+        <mat-radio-button value="squareChip">
+          Square
+        </mat-radio-button>
+        &nbsp;&nbsp;
+        <mat-radio-button value="none">
+          None
         </mat-radio-button>
       </mat-radio-group>
-    </div>
-    <mat-radio-group [(ngModel)]="config.shape">
-      Shape:&nbsp;
-      <mat-radio-button value="roundChip">
-        Round
-      </mat-radio-button>
-      &nbsp;&nbsp;
-      <mat-radio-button value="squareChip">
-        Square
-      </mat-radio-button>
-      &nbsp;&nbsp;
-      <mat-radio-button value="none">
-        None
-      </mat-radio-button>
-    </mat-radio-group>
-  </mat-tab>
-  <mat-tab label="Data">
-    <pre>
-      {{ model | json }}
-    </pre>
-  </mat-tab>
-</mat-tab-group>
-{{ model|json }}
-<a (click)="openDialog()">
-  Fetch
-</a>
+    </mat-tab>
+    <mat-tab label="Data">
+      <pre>
+        {{ model | json }}
+      </pre>
+    </mat-tab>
+  </mat-tab-group>
+  {{ model|json }}
+  <a (click)="openDialog()">
+    Fetch
+  </a>
