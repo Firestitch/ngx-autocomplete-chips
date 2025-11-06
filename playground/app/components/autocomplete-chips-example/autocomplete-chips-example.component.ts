@@ -12,13 +12,44 @@ import { ExampleService } from 'playground/app/services/example.service';
 import { DialogComponent } from '../dialog';
 
 import { FsAutocompleteChipsComponent } from './../../../../src/app/components/autocomplete-chips/autocomplete-chips.component';
+import { FsAutocompleteChipsComponent as FsAutocompleteChipsComponent_1 } from '../../../../src/app/components/autocomplete-chips/autocomplete-chips.component';
+import { FormsModule } from '@angular/forms';
+import { FsFormModule } from '@firestitch/form';
+import { FsAutocompleteObjectDirective } from '../../../../src/app/directives/autocomplete-object.directive';
+import { FsAutocompleteChipsPrefixDirective } from '../../../../src/app/directives/chips-prefix.directive';
+import { FsAutocompleteChipSelectedSuffixDirective } from '../../../../src/app/directives/selected-chip-suffix.directive';
+import { FsAutocompleteChipsStaticDirective } from '../../../../src/app/directives/static-template.directive';
+import { FsAutocompleteChipsSubtemplateDirective } from '../../../../src/app/directives/autocomplete-chips-subtemplate.directive';
+import { FsAutocompleteChipsNoResultsDirective } from '../../../../src/app/directives/autocomplete-no-results.directive';
+import { MatTabGroup, MatTab } from '@angular/material/tabs';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { MatRadioGroup, MatRadioButton } from '@angular/material/radio';
+import { JsonPipe } from '@angular/common';
 
 
 @Component({
-  selector: 'autocomplete-chips-example',
-  styleUrls: ['./autocomplete-chips-example.component.scss'],
-  templateUrl: './autocomplete-chips-example.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'autocomplete-chips-example',
+    styleUrls: ['./autocomplete-chips-example.component.scss'],
+    templateUrl: './autocomplete-chips-example.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        FsAutocompleteChipsComponent_1,
+        FormsModule,
+        FsFormModule,
+        FsAutocompleteObjectDirective,
+        FsAutocompleteChipsPrefixDirective,
+        FsAutocompleteChipSelectedSuffixDirective,
+        FsAutocompleteChipsStaticDirective,
+        FsAutocompleteChipsSubtemplateDirective,
+        FsAutocompleteChipsNoResultsDirective,
+        MatTabGroup,
+        MatTab,
+        MatCheckbox,
+        MatRadioGroup,
+        MatRadioButton,
+        JsonPipe,
+    ],
 })
 export class AutocompleteChipsExampleComponent implements OnInit {
 

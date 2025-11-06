@@ -1,4 +1,4 @@
-import { DOCUMENT } from '@angular/common';
+import { DOCUMENT, NgClass, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy, ChangeDetectorRef,
   Component,
@@ -19,14 +19,14 @@ import {
   forwardRef,
   inject,
 } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import {
   MatAutocomplete, MatAutocompleteSelectedEvent, MatAutocompleteTrigger,
 } from '@angular/material/autocomplete';
 import { MatDialog } from '@angular/material/dialog';
-import { MatFormField, MatFormFieldAppearance } from '@angular/material/form-field';
+import { MatFormField, MatFormFieldAppearance, MatLabel, MatPrefix, MatSuffix, MatHint } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 
 
@@ -49,21 +49,47 @@ import { getObjectValue } from '../../helpers/get-object-value';
 import { IAutocompleteItem } from '../../interfaces/autocomplete-item.interface';
 import { DataType } from '../../interfaces/data-type';
 import { ConfirmComponent } from '../confirm';
+import { MatIcon } from '@angular/material/icon';
+import { MatOption, MatOptgroup } from '@angular/material/core';
+import { FsClearModule } from '@firestitch/clear';
+import { FsChipModule } from '@firestitch/chip';
 
 
 @Component({
-  selector: 'fs-autocomplete-chips',
-  templateUrl: './autocomplete-chips.component.html',
-  styleUrls: ['./autocomplete-chips.component.scss'],
-  providers: [{
-    provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => FsAutocompleteChipsComponent),
-    multi: true,
-  }],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'fs-autocomplete-chips',
+    templateUrl: './autocomplete-chips.component.html',
+    styleUrls: ['./autocomplete-chips.component.scss'],
+    providers: [{
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => FsAutocompleteChipsComponent),
+            multi: true,
+        }],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        MatFormField,
+        NgClass,
+        MatLabel,
+        MatPrefix,
+        MatIcon,
+        NgTemplateOutlet,
+        MatInput,
+        MatAutocompleteTrigger,
+        FormsModule,
+        MatSuffix,
+        MatAutocomplete,
+        MatOption,
+        MatOptgroup,
+        FsClearModule,
+        MatHint,
+        FsChipModule,
+    ],
 })
 export class FsAutocompleteChipsComponent
 implements OnInit, OnDestroy, ControlValueAccessor {
+  private _cdRef = inject(ChangeDetectorRef);
+  private _dialog = inject(MatDialog);
+
 
   @ViewChild(MatInput, { read: ElementRef })
   public matInputEl: ElementRef;
@@ -198,12 +224,6 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   private _onTouched: () => void;
   private _onChange: (value: any) => void;
   private _focused = false;
-
-  constructor(
-    private _cdRef: ChangeDetectorRef,
-    private _dialog: MatDialog,
-  ) {
-  }
 
   public registerOnChange(fn: (value: any) => any): void {
     this._onChange = fn;

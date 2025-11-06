@@ -2,6 +2,7 @@ import { Directive } from '@angular/core';
 
 
 @Directive({
-  selector: '[fsAutocompleteChipsNoResults]'
+    selector: '[fsAutocompleteChipsNoResults]',
+    standalone: true
 })
 export class FsAutocompleteChipsNoResultsDirective {}

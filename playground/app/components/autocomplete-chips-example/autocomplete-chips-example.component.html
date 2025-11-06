@@ -62,12 +62,12 @@
       let-keyword="keyword"
       [show]="showKeyword"
       (selected)="selected($event)">
-    <ng-container *ngIf="keyword">
+    @if (keyword) {
       Create new "{{ keyword }}"
-    </ng-container>
-    <ng-container *ngIf="!keyword">
+    }
+    @if (!keyword) {
       Start typing to create a new account
-    </ng-container>
+    }
   </ng-template>
   <ng-template fsAutocompleteChipsNoResults>
     <div class="custom-results">

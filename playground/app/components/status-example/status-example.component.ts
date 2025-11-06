@@ -1,24 +1,32 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 
 import { guid } from '@firestitch/common';
 
 import { Observable, of } from 'rxjs';
 
 import { statusData } from './status-response.data';
+import { FsAutocompleteChipsComponent } from '../../../../src/app/components/autocomplete-chips/autocomplete-chips.component';
+import { FormsModule } from '@angular/forms';
+import { FsFormModule } from '@firestitch/form';
+import { FsAutocompleteObjectDirective } from '../../../../src/app/directives/autocomplete-object.directive';
 
 
 @Component({
-  selector: 'status-example',
-  templateUrl: './status-example.component.html',
-  styleUrls: ['./status-example.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'status-example',
+    templateUrl: './status-example.component.html',
+    styleUrls: ['./status-example.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        FsAutocompleteChipsComponent,
+        FormsModule,
+        FsFormModule,
+        FsAutocompleteObjectDirective,
+    ],
 })
 export class StatusExampleComponent implements OnInit {
+  private _cdRef = inject(ChangeDetectorRef);
+
 
   public width = '120px';
   public status: any;
@@ -29,10 +37,6 @@ export class StatusExampleComponent implements OnInit {
 
 
   public guid = guid();
-
-  constructor(
-    private _cdRef: ChangeDetectorRef,
-  ) { }
 
   public ngOnInit(): void {
     if (!this.status && this.assignDefaultStatus) {

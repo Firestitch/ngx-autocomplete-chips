@@ -2,7 +2,8 @@ import { Directive, inject, Input, TemplateRef } from '@angular/core';
 
 
 @Directive({
-  selector: '[fsAutocompleteChipsPrefix]',
+    selector: '[fsAutocompleteChipsPrefix]',
+    standalone: true,
 })
 export class FsAutocompleteChipsPrefixDirective {
 
