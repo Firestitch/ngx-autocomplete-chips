@@ -644,7 +644,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
       this._styleElement = this._document.createElement('style');
       const maxPanelHeight = String(this.maxPanelHeight).match(/^\d+$/) ? `${this.maxPanelHeight}px` : this.maxPanelHeight;
     
-      const css = `.fs-autocomplete-chips-panel-${this.guid} { max-height: ${maxPanelHeight} !important; }`;
+      const css = `.fs-autocomplete-chips-panel-${this.guid} { max-height:  min(50vh, ${maxPanelHeight}) !important; }`;
       this._renderer.appendChild(this._styleElement, this._renderer.createText(css));
       this._renderer.appendChild(this._document.head, this._styleElement);
     }
