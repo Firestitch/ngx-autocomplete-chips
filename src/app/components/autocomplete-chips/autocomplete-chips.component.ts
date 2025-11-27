@@ -19,23 +19,27 @@ import {
   forwardRef,
   inject,
 } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
+import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import {
   MatAutocomplete, MatAutocompleteSelectedEvent, MatAutocompleteTrigger,
 } from '@angular/material/autocomplete';
+import { MatOptgroup, MatOption } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatFormField, MatFormFieldAppearance, MatLabel, MatPrefix, MatSuffix, MatHint } from '@angular/material/form-field';
+import { MatFormField, MatFormFieldAppearance, MatHint, MatLabel, MatPrefix, MatSuffix } from '@angular/material/form-field';
+import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
 
-
+import { FsChipModule } from '@firestitch/chip';
+import { FsClearModule } from '@firestitch/clear';
 import { guid } from '@firestitch/common';
 
 import { Observable, Subject, of, timer } from 'rxjs';
 import { debounce, delay, filter, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 
 import { isEqual, random } from 'lodash-es';
+
 
 import { FsAutocompleteChipsPrefixDirective } from '../../directives';
 import { FsAutocompleteChipsSubtemplateDirective } from '../../directives/autocomplete-chips-subtemplate.directive';
@@ -49,47 +53,40 @@ import { getObjectValue } from '../../helpers/get-object-value';
 import { IAutocompleteItem } from '../../interfaces/autocomplete-item.interface';
 import { DataType } from '../../interfaces/data-type';
 import { ConfirmComponent } from '../confirm';
-import { MatIcon } from '@angular/material/icon';
-import { MatOption, MatOptgroup } from '@angular/material/core';
-import { FsClearModule } from '@firestitch/clear';
-import { FsChipModule } from '@firestitch/chip';
 
 
 @Component({
-    selector: 'fs-autocomplete-chips',
-    templateUrl: './autocomplete-chips.component.html',
-    styleUrls: ['./autocomplete-chips.component.scss'],
-    providers: [{
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => FsAutocompleteChipsComponent),
-            multi: true,
-        }],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        MatFormField,
-        NgClass,
-        MatLabel,
-        MatPrefix,
-        MatIcon,
-        NgTemplateOutlet,
-        MatInput,
-        MatAutocompleteTrigger,
-        FormsModule,
-        MatSuffix,
-        MatAutocomplete,
-        MatOption,
-        MatOptgroup,
-        FsClearModule,
-        MatHint,
-        FsChipModule,
-    ],
+  selector: 'fs-autocomplete-chips',
+  templateUrl: './autocomplete-chips.component.html',
+  styleUrls: ['./autocomplete-chips.component.scss'],
+  providers: [{
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: forwardRef(() => FsAutocompleteChipsComponent),
+    multi: true,
+  }],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    MatFormField,
+    NgClass,
+    MatLabel,
+    MatPrefix,
+    MatIcon,
+    NgTemplateOutlet,
+    MatInput,
+    MatAutocompleteTrigger,
+    FormsModule,
+    MatSuffix,
+    MatAutocomplete,
+    MatOption,
+    MatOptgroup,
+    FsClearModule,
+    MatHint,
+    FsChipModule,
+  ],
 })
 export class FsAutocompleteChipsComponent
 implements OnInit, OnDestroy, ControlValueAccessor {
-  private _cdRef = inject(ChangeDetectorRef);
-  private _dialog = inject(MatDialog);
-
 
   @ViewChild(MatInput, { read: ElementRef })
   public matInputEl: ElementRef;
@@ -178,6 +175,8 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   @Output() public removed = new EventEmitter();
   @Output() public reordered = new EventEmitter();
   @Output('clear') public clearEvent = new EventEmitter();
+  @Output() public panelOpened = new EventEmitter<void>();
+  @Output() public panelClosed = new EventEmitter<void>();
 
   @HostBinding('class.fs-form-wrapper')
   public formWrapper = true;
@@ -200,7 +199,9 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   private _el = inject(ElementRef);
   private _styleElement: HTMLStyleElement;
   private _renderer = inject(Renderer2);
-  private _document = inject(DOCUMENT);
+  private _document = inject(DOCUMENT);  
+  private _cdRef = inject(ChangeDetectorRef);
+  private _dialog = inject(MatDialog);
 
   public get model() {
     return this._model;
@@ -396,7 +397,12 @@ implements OnInit, OnDestroy, ControlValueAccessor {
     this.autocompleteTrigger?.openPanel();
   }
 
+  public closed(): void {
+    this.panelClosed.emit();
+  }
+
   public opened(): void {
+    this.panelOpened.emit();
     this._updateStaticDirectives();
 
     // Rezize panel to input width and do it a few times because of Mat dialog auto resize
