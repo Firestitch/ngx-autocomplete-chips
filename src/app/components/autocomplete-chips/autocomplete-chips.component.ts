@@ -171,7 +171,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   @Input()
   public compareWith: (o1: any, o2: any) => boolean;
 
-  @Output() public selected = new EventEmitter();
+  @Output() public selected = new EventEmitter<{ data: any, type: 'multiple' | 'single' }>();
   @Output() public removed = new EventEmitter();
   @Output() public reordered = new EventEmitter();
   @Output('clear') public clearEvent = new EventEmitter();
@@ -575,12 +575,12 @@ implements OnInit, OnDestroy, ControlValueAccessor {
       switch (selected.type) {
         case DataType.Object:
           this._addObject(selected);
-          this.selected.emit(selected);
+          this.selected.emit({ data: selected, type: closePanel ? 'single' : 'multiple' });
           break;
 
         case DataType.Text:
           this._addText(selected.data);
-          this.selected.emit(selected.data);
+          this.selected.emit({ data: selected.data, type: closePanel ? 'single' : 'multiple' });
           break;
       }
     }

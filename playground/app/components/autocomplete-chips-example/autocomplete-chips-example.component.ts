@@ -1,55 +1,55 @@
+import { JsonPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, OnInit, ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
+import { MatCheckbox } from '@angular/material/checkbox';
 import { MatDialog } from '@angular/material/dialog';
+import { MatRadioButton, MatRadioGroup } from '@angular/material/radio';
+import { MatTab, MatTabGroup } from '@angular/material/tabs';
 
 import { email } from '@firestitch/common';
+import { FsFormModule } from '@firestitch/form';
 import { FsMessage } from '@firestitch/message';
 
 import { delay, map } from 'rxjs/operators';
 
 import { ExampleService } from 'playground/app/services/example.service';
 
-import { DialogComponent } from '../dialog';
-
-import { FsAutocompleteChipsComponent } from './../../../../src/app/components/autocomplete-chips/autocomplete-chips.component';
 import { FsAutocompleteChipsComponent as FsAutocompleteChipsComponent_1 } from '../../../../src/app/components/autocomplete-chips/autocomplete-chips.component';
-import { FormsModule } from '@angular/forms';
-import { FsFormModule } from '@firestitch/form';
+import { FsAutocompleteChipsSubtemplateDirective } from '../../../../src/app/directives/autocomplete-chips-subtemplate.directive';
+import { FsAutocompleteChipsNoResultsDirective } from '../../../../src/app/directives/autocomplete-no-results.directive';
 import { FsAutocompleteObjectDirective } from '../../../../src/app/directives/autocomplete-object.directive';
 import { FsAutocompleteChipsPrefixDirective } from '../../../../src/app/directives/chips-prefix.directive';
 import { FsAutocompleteChipSelectedSuffixDirective } from '../../../../src/app/directives/selected-chip-suffix.directive';
 import { FsAutocompleteChipsStaticDirective } from '../../../../src/app/directives/static-template.directive';
-import { FsAutocompleteChipsSubtemplateDirective } from '../../../../src/app/directives/autocomplete-chips-subtemplate.directive';
-import { FsAutocompleteChipsNoResultsDirective } from '../../../../src/app/directives/autocomplete-no-results.directive';
-import { MatTabGroup, MatTab } from '@angular/material/tabs';
-import { MatCheckbox } from '@angular/material/checkbox';
-import { MatRadioGroup, MatRadioButton } from '@angular/material/radio';
-import { JsonPipe } from '@angular/common';
+import { DialogComponent } from '../dialog';
+
+import { FsAutocompleteChipsComponent } from './../../../../src/app/components/autocomplete-chips/autocomplete-chips.component';
 
 
 @Component({
-    selector: 'autocomplete-chips-example',
-    styleUrls: ['./autocomplete-chips-example.component.scss'],
-    templateUrl: './autocomplete-chips-example.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        FsAutocompleteChipsComponent_1,
-        FormsModule,
-        FsFormModule,
-        FsAutocompleteObjectDirective,
-        FsAutocompleteChipsPrefixDirective,
-        FsAutocompleteChipSelectedSuffixDirective,
-        FsAutocompleteChipsStaticDirective,
-        FsAutocompleteChipsSubtemplateDirective,
-        FsAutocompleteChipsNoResultsDirective,
-        MatTabGroup,
-        MatTab,
-        MatCheckbox,
-        MatRadioGroup,
-        MatRadioButton,
-        JsonPipe,
-    ],
+  selector: 'autocomplete-chips-example',
+  styleUrls: ['./autocomplete-chips-example.component.scss'],
+  templateUrl: './autocomplete-chips-example.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    FsAutocompleteChipsComponent_1,
+    FormsModule,
+    FsFormModule,
+    FsAutocompleteObjectDirective,
+    FsAutocompleteChipsPrefixDirective,
+    FsAutocompleteChipSelectedSuffixDirective,
+    FsAutocompleteChipsStaticDirective,
+    FsAutocompleteChipsSubtemplateDirective,
+    FsAutocompleteChipsNoResultsDirective,
+    MatTabGroup,
+    MatTab,
+    MatCheckbox,
+    MatRadioGroup,
+    MatRadioButton,
+    JsonPipe,
+  ],
 })
 export class AutocompleteChipsExampleComponent implements OnInit {
 
@@ -79,10 +79,6 @@ export class AutocompleteChipsExampleComponent implements OnInit {
     this.model = this.mapData([this._exampleService.people[0]]);
   }
 
-  public selected(keyword) {
-    console.log('Selected', keyword);
-  }
-
   public showKeyword = (keyword) => {
     return !!keyword;
   };
@@ -109,6 +105,14 @@ export class AutocompleteChipsExampleComponent implements OnInit {
 
   public openDialog() {
     this._dialog.open(DialogComponent);
+  }
+
+  public selected(event: { data: any, type: 'multiple' | 'single' }) {
+    console.log('Selected', event);
+  }
+
+  public selectedStatic(event) {
+    console.log('Selected Static', event);
   }
 
   public fetch = (keyword) => {

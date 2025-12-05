@@ -20,6 +20,7 @@
     [compareWith]="compareWith"
     [multiple]="config.multiple"
     hint="Hint hint hint"
+    (selected)="selected($event)"
     (ngModelChange)="modelChange($event)"
     name="model">
   <ng-template
@@ -54,14 +55,14 @@
       fsAutocompleteChipsStatic
       let-keyword="keyword"
       [show]="showKeyword"
-      (selected)="selected($event)">
+      (selected)="selectedStatic($event)">
     Sorry cannot find "{{ keyword }}"
   </ng-template>
   <ng-template
       fsAutocompleteChipsStatic
       let-keyword="keyword"
       [show]="showKeyword"
-      (selected)="selected($event)">
+      (selected)="selectedStatic($event)">
     @if (keyword) {
       Create new "{{ keyword }}"
     }

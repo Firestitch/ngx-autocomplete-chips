@@ -2,10 +2,11 @@ import { Directive, EventEmitter, Input, Output, TemplateRef, inject } from '@an
 
 
 @Directive({
-    selector: '[fsAutocompleteChipsStatic]',
-    standalone: true,
+  selector: '[fsAutocompleteChipsStatic]',
+  standalone: true,
 })
 export class FsAutocompleteChipsStaticDirective {
+  
   templateRef = inject<TemplateRef<any>>(TemplateRef);
 
 
