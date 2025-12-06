@@ -211,6 +211,10 @@ implements OnInit, OnDestroy, ControlValueAccessor {
     return !!(this.model || []).length;
   }
 
+  public get panelOpen(): boolean {
+    return this.autocomplete.isOpen;
+  }
+
   public get placeholderText() {
     return this.model.length === 0 ? 
       (this.floatLabel === 'always' ? 
