@@ -107,7 +107,7 @@ export class AutocompleteChipsExampleComponent implements OnInit {
     this._dialog.open(DialogComponent);
   }
 
-  public selected(event: { data: any, type: 'multiple' | 'single' }) {
+  public selected(event: { data: any, panelClosed: boolean }) {
     console.log('Selected', event);
   }
 
