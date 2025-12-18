@@ -128,7 +128,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   @Input() public appearance: MatFormFieldAppearance;
   @Input() public floatLabel: 'always' | 'auto';
   @Input() public readonly = false;
-  @Input() public size: 'large' | 'small' = 'large';
+  @Input() public size: 'large' | 'small' | 'medium' = 'medium';
   @Input() public label: string;
   @Input() public placeholder: string;
   @Input() public chipMargin = '8px';

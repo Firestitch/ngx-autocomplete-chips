@@ -67,7 +67,7 @@ export class AutocompleteChipsExampleComponent implements OnInit {
     image: true,
     color: true,
     orderable: true,
-    size: 'small',
+    size: 'medium',
     shape: 'roundChip',
   };
 
