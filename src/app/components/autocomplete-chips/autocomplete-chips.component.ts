@@ -635,7 +635,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
       return item;
     });
 
-    this._onChange(this.multiple ? model : model[0]);
+    this._onChange(this.multiple ? model : model[0] || null);
     this._onTouched();
   }
 
