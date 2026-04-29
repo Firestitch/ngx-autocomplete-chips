@@ -131,7 +131,6 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   @Input() public size: 'large' | 'small' | 'medium' = 'medium';
   @Input() public label: string;
   @Input() public placeholder: string;
-  @Input() public chipMargin = '8px';
   @Input() public chipImage = 'image';
   @Input() public chipBackground: string;
   @Input() public chipColor: string;
@@ -150,7 +149,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   @Input() public removable = true;
   @Input() public allowClear = true;
   @Input() public color = '';
-  @Input() public background = '#E7E7E7';
+  @Input() public background = '#ebebeb';
   @Input() public orderable = false;
   @Input() public padless = false;
   @Input() public initOnClick = false;

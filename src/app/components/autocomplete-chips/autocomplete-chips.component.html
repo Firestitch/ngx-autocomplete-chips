@@ -31,10 +31,7 @@
       </ng-container>
     }
   </span>
-  <div
-      class="chips-container"
-      [style.margin-top]="chipMargin"
-      [style.margin-bottom]="chipMargin">
+  <div class="chips-container">
     @for (item of model; track item; let index = $index; let last = $last) {
       <ng-container
         [ngTemplateOutlet]="chipTemplate"
@@ -231,8 +228,8 @@
           [shape]="shape === 'roundChip' ? 'round' : 'square'"
           (removed)="chipRemoved(item)"
           [image]="item.image"
-          [padding]="chipPadding"
           [icon]="item.icon"
+          [outlined]="true"
           [class]="'fs-autocomplete-chip ' + item.class"
           [backgroundColor]="item.background || background"
           [color]="item.color || color"
