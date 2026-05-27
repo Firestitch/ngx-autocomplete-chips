@@ -242,13 +242,6 @@
           [ngTemplateOutlet]="itemTemplate"
           [ngTemplateOutletContext]="{ item: item, selecting: selecting, index: index }">
         </ng-container>
-        @if (selecting && multipleAdd && multiple) {
-          <ng-template
-            fsChipPrefix
-            [icon]="'add_circle_outline '"
-            (click)="multipleAddClick($event, item)">
-          </ng-template>
-        }
         @if (!selecting) {
           @for (chipSelectedSuffix of chipSelectedSuffixes; track chipSelectedSuffix) {
             <ng-template

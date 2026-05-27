@@ -45,3 +45,4 @@ dist/*
 /docs
 /*.code-workspace
 /package
+/.specify

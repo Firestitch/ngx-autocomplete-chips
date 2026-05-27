@@ -205,6 +205,15 @@
       line-height: normal;
       padding: 0;
 
+      // Make the inner clickable content fill the whole row (width + height) so a
+      // click anywhere in the option is caught by .option-chip's handler (which
+      // stops propagation) instead of mat-option's own select, which closes the panel.
+      .mdc-list-item__primary-text {
+        align-self: stretch;
+        display: flex;
+        width: 100%;
+      }
+
       .mat-icon {
         margin-right: 0;
       }
@@ -238,9 +247,11 @@
       }
 
       .option-chip {
+        flex: 1;
         padding: 0 16px;
         align-items: center;
         display: flex;
+        box-sizing: border-box;
       }
     }
   }

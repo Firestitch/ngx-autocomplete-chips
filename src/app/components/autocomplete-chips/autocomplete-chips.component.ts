@@ -368,14 +368,6 @@ implements OnInit, OnDestroy, ControlValueAccessor {
     }
   }
 
-  public multipleAddClick({ event }, item): void {
-    event.stopImmediatePropagation();
-    event.stopPropagation();
-    event.preventDefault();
-
-    this._select(item, false);  
-  }
-
   public clearClick(): void {
     this.clear(true);
     this.clearEvent.emit();
@@ -471,21 +463,26 @@ implements OnInit, OnDestroy, ControlValueAccessor {
     }
   }
 
+  // In multi-select add mode, selecting an option adds it and keeps the panel open
+  private get _closePanelOnSelect(): boolean {
+    return !(this.multiple && this.multipleAdd);
+  }
+
   public optionTextClick(event: UIEvent, value: any): void {
-    this.optionClick(event, value);
+    this.optionClick(event, value, this._closePanelOnSelect);
     this._clearData();
   }
 
   public optionObjectClick(event: UIEvent, value: any): void {
-    this.optionClick(event, value);
+    this.optionClick(event, value, this._closePanelOnSelect);
   }
 
-  public optionClick(event: UIEvent, value: any): void {
+  public optionClick(event: UIEvent, value: any, closePanel = true): void {
     event.stopImmediatePropagation();
     event.stopPropagation();
     event.preventDefault();
 
-    this._select(value);
+    this._select(value, closePanel);
   }
 
   public optionSelected(event: MatAutocompleteSelectedEvent): void {
@@ -493,7 +490,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
       return;
     }
 
-    this._select(event.option.value);
+    this._select(event.option.value, this._closePanelOnSelect);
   }
 
   public writeValue(value: any): void {
