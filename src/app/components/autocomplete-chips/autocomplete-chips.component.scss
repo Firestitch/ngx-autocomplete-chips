@@ -22,6 +22,13 @@
       cursor: pointer;
     }
 
+    &.mat-form-field-appearance-outline {
+      .mat-mdc-form-field-infix {
+        padding-top: 8px;
+        padding-bottom: 8px;
+      }
+    }
+
     &.multiple {
       .mat-mdc-form-field-infix {
         flex-wrap: wrap;
@@ -100,8 +107,6 @@
       display: flex;
       align-items: center;
       flex-wrap: wrap;
-      padding-top: 8px;
-      padding-bottom: 8px;
 
       input {
         cursor: pointer;
