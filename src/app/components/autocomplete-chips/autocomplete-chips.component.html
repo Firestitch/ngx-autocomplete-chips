@@ -41,6 +41,7 @@
       <div
           class="chip-drag"
           cdkDrag
+          cdkDragPreviewContainer="parent"
           [cdkDragDisabled]="!orderable || disabled">
         <ng-container
           [ngTemplateOutlet]="chipTemplate"
