@@ -31,17 +31,27 @@
       </ng-container>
     }
   </span>
-  <div class="chips-container">
+  <div
+      class="chips-container"
+      cdkDropList
+      cdkDropListOrientation="mixed"
+      [cdkDropListDisabled]="!orderable || disabled"
+      (cdkDropListDropped)="drop($event)">
     @for (item of model; track item; let index = $index; let last = $last) {
-      <ng-container
-        [ngTemplateOutlet]="chipTemplate"
-        [ngTemplateOutletContext]="{ 
-        item: item, 
-        index: index,
-        removable: removable && !disabled && multiple,
-        selecting: false,
-      }">
-      </ng-container>
+      <div
+          class="chip-drag"
+          cdkDrag
+          [cdkDragDisabled]="!orderable || disabled">
+        <ng-container
+          [ngTemplateOutlet]="chipTemplate"
+          [ngTemplateOutletContext]="{
+          item: item,
+          index: index,
+          removable: removable && !disabled && multiple,
+          selecting: false,
+        }">
+        </ng-container>
+      </div>
     }
     <div
         class="input-container"
@@ -238,6 +248,14 @@
         'last-chip': model.length - 1 === index
       }"
           tabindex="-1">
+        @if (!selecting && orderable && !disabled) {
+          <span
+              class="chip-drag-handle"
+              cdkDragHandle
+              title="Drag to reorder">
+            <mat-icon>drag_indicator</mat-icon>
+          </span>
+        }
         <ng-container
           [ngTemplateOutlet]="itemTemplate"
           [ngTemplateOutletContext]="{ item: item, selecting: selecting, index: index }">

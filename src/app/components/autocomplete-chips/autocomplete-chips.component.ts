@@ -21,7 +21,7 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { CdkDrag, CdkDragDrop, CdkDragHandle, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
 import {
   MatAutocomplete, MatAutocompleteSelectedEvent, MatAutocompleteTrigger,
 } from '@angular/material/autocomplete';
@@ -83,6 +83,9 @@ import { ConfirmComponent } from '../confirm';
     FsClearModule,
     MatHint,
     FsChipModule,
+    CdkDropList,
+    CdkDrag,
+    CdkDragHandle,
   ],
 })
 export class FsAutocompleteChipsComponent
@@ -260,16 +263,19 @@ implements OnInit, OnDestroy, ControlValueAccessor {
     this._initPanelHeight();
   }
 
-  public drop(event: CdkDragDrop<{ index: number }>): void {
-    const previousIndex = event.previousContainer.data.index;
-    const index = event.container.data.index;
+  public drop(event: CdkDragDrop<unknown>): void {
+    const { previousIndex, currentIndex } = event;
 
-    moveItemInArray(this._model, previousIndex, index);
+    if (previousIndex === currentIndex) {
+      return;
+    }
+
+    moveItemInArray(this._model, previousIndex, currentIndex);
 
     this.reordered.emit({
-      item: this._model[index],
+      item: this._model[currentIndex],
       from: previousIndex,
-      to: index,
+      to: currentIndex,
       items: this._model,
     });
 

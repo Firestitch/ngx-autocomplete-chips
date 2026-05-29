@@ -122,12 +122,43 @@
     .chips-container {
       display: flex;
       row-gap: 5px;
+      column-gap: 5px;
       align-items: center;
       min-width: 0;
       flex: 1;
 
-      .item-container:not(:last-child) {
-        margin-right: 5px;
+      .chip-drag {
+        display: flex;
+        align-items: center;
+        min-width: 0;
+
+        &.cdk-drag-placeholder {
+          opacity: 0.4;
+        }
+      }
+
+      // Persistent grip rendered inside each chip, just left of the content.
+      // It has no explicit color so it inherits the chip's text color, matching
+      // the remove icon. Only the grip itself shows the grab cursor.
+      .chip-drag-handle {
+        display: inline-flex;
+        align-items: center;
+        vertical-align: middle;
+        cursor: grab;
+
+        &:active {
+          cursor: grabbing;
+        }
+      }
+
+      &.cdk-drop-list-dragging {
+        .chip-drag-handle {
+          cursor: grabbing;
+        }
+
+        .chip-drag:not(.cdk-drag-placeholder) {
+          transition: transform 200ms cubic-bezier(0, 0, 0.2, 1);
+        }
       }
     }
   }
