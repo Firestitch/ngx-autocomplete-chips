@@ -4,6 +4,8 @@
     [ngClass]="{ 
       inited: inited, 
       multiple: multiple, 
+      'form-field-lineless': initOnClick,
+      'form-field-lineless-always': initOnClick && isOpen,
       'form-field-padless': padless,
       'panel-open': autocompleteSearch.isOpen, 
       'has-value': hasValue,

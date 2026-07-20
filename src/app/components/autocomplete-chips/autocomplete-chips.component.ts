@@ -477,6 +477,10 @@ implements OnInit, OnDestroy, ControlValueAccessor {
     return this._focused;
   }
 
+  public get isOpen(): boolean {
+    return this.autocomplete?.isOpen || false;
+  }
+
   // In multi-select add mode, selecting an option adds it and keeps the panel open
   private get _closePanelOnSelect(): boolean {
     return !(this.multiple && this.multipleAdd);

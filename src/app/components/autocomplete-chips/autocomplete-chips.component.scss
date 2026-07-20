@@ -41,14 +41,6 @@
       }
     }
 
-    &:not(.inited) {
-      &.mat-form-field-disabled {
-        .mat-mdc-notch-piece {
-          border-color: transparent;
-        }
-      }
-    }
-
     .input-container {
       position: relative;
       flex: 1;
@@ -89,14 +81,6 @@
     }
 
     &:not(.inited):not(:hover) {
-      .mat-form-field-underline {
-        visibility: hidden;
-      }
-
-      .mat-mdc-notch-piece {
-        border-color: transparent;
-      }
-
       fs-chip {
         cursor: pointer;
       }
