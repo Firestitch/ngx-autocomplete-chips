@@ -192,7 +192,7 @@
   </mat-autocomplete>
   <fs-clear
     [visible]="true"
-    [show]="model.length !== 0 && removable && !disabled && allowClear && inited"
+    [show]="model.length !== 0 && removable && !disabled && allowClear && inited && (initOnClick ? inited : true)"
     (clear)="clearClick()">
   </fs-clear>
   @if (hint) {
@@ -254,7 +254,9 @@
               class="chip-drag-handle"
               cdkDragHandle
               title="Drag to reorder">
-            <mat-icon>drag_indicator</mat-icon>
+            <mat-icon>
+              drag_indicator
+            </mat-icon>
           </span>
         }
         <ng-container

@@ -11,7 +11,7 @@
     [padless]="true"
     [chipImage]="config.image ? 'image' : null"
     [orderable]="config.orderable"
-    [initOnClick]="false"
+    [initOnClick]="true"
     [removable]="config.removable"
     [size]="config.size"
     [disabled]="config.disabled"
@@ -94,6 +94,9 @@
       </mat-checkbox>
       <mat-checkbox [(ngModel)]="config.fetchOnFocus">
         Fetch On Focus
+      </mat-checkbox>
+      <mat-checkbox [(ngModel)]="config.initOnClick">
+        Init On Click
       </mat-checkbox>
       <mat-checkbox [(ngModel)]="config.disabled">
         Disabled

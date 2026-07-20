@@ -400,6 +400,10 @@ implements OnInit, OnDestroy, ControlValueAccessor {
 
   public closed(): void {
     this.panelClosed.emit();
+    if(this.initOnClick) {
+      
+      this.inited = false;
+    }
   }
 
   public opened(): void {
@@ -467,6 +471,10 @@ implements OnInit, OnDestroy, ControlValueAccessor {
       this._fetch$.next(this.keyword);
       this.autocompleteTrigger.openPanel();
     }
+  }
+
+  public get isFocused(): boolean {
+    return this._focused;
   }
 
   // In multi-select add mode, selecting an option adds it and keeps the panel open
@@ -779,6 +787,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
         }),
       );
   }
+
   private _groupBy() {
     this.groupData = Object.values(this.data
       .reduce((acc, item) => {
