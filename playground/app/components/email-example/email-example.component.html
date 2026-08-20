@@ -1,23 +1,33 @@
 <fs-autocomplete-chips
     [(ngModel)]="model"
-    placeholder="Enter Email Addresses"
+    [fetch]="fetch"
     [allowText]="true"
     [allowObject]="true"
-    [fetch]="fetch"
     [validateText]="validateText"
     [confirm]="true"
+    label="Recipients"
+    floatLabel="always"
+    placeholder="Pick a contact, or type any address"
+    hint="Blurring with uncommitted text opens the confirm dialog"
+    chipImage="image"
     name="model">
   <ng-template
       fsAutocompleteChipsTextValidIndicator
       let-valid="valid">
-    {{ valid ? 'Valid Email' : 'Invalid Email' }}
+    {{ valid ? 'Valid email' : 'Invalid email' }}
   </ng-template>
   <ng-template
       fsAutocompleteChipsTemplate
       let-object="object">
-    {{ object }}
+    {{ object.firstName }} {{ object.lastName }} &lt;{{ object.email }}&gt;
   </ng-template>
 </fs-autocomplete-chips>
+<p class="note">
+  With both <code>allowText</code> and <code>allowObject</code> on, the model holds
+  <code>IAutocompleteItem</code> wrappers so each entry keeps its
+  <code>type</code> &mdash; <code>object</code> for a picked contact,
+  <code>text</code> for a typed address.
+</p>
 <fieldset>
   {{ model | json }}
 </fieldset>

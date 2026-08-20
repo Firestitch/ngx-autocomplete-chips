@@ -1,14 +1,38 @@
 import { Injectable } from '@angular/core';
 
 
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { delay } from 'rxjs/operators';
+
+
+export const DEPARTMENTS = [
+  { name: 'Engineering', background: '#569cd6', color: '#ffffff', icon: 'code' },
+  { name: 'Design', background: '#8155c6', color: '#ffffff', icon: 'brush' },
+  { name: 'Sales', background: '#3d8f5c', color: '#ffffff', icon: 'sell' },
+  { name: 'Support', background: '#d68a45', color: '#ffffff', icon: 'support_agent' },
+];
+
+export const TAGS = [
+  { id: 1, name: 'Urgent', color: '#fff', background: '#d64545', icon: 'priority_high' },
+  { id: 2, name: 'Follow Up', color: '#fff', background: '#d68a45', icon: 'schedule' },
+  { id: 3, name: 'Billing', color: '#fff', background: '#3d8f5c', icon: 'payments' },
+  { id: 4, name: 'Onboarding', color: '#fff', background: '#569cd6', icon: 'waving_hand' },
+  { id: 5, name: 'Churn Risk', color: '#fff', background: '#8155c6', icon: 'trending_down' },
+  { id: 6, name: 'VIP', color: '#3d3d3d', background: '#f0c419', icon: 'star' },
+];
+
+export interface FetchOptions {
+  limit?: number;
+  latency?: number;
+  empty?: boolean;
+}
 
 
 @Injectable()
 export class ExampleService {
 
   public names = [];
-  
+
   public people: any = [
     { firstName: 'Jessey', lastName: 'Wing', gender: 'Men', icon: 'settings' },
     { firstName: 'Linn', lastName: 'Boyce', gender: 'Men', icon: 'settings' },
@@ -111,24 +135,65 @@ export class ExampleService {
     { firstName: 'Wenda with a very very very very very long name', lastName: 'Dolley', gender: 'Women' },
   ];
 
+  public tags = TAGS;
+
   constructor() {
     this.people = this.people.map((item, index) => {
-      item.image = `https://randomuser.me/api/portraits/${item.gender.toLowerCase()}/${index}.jpg`;
+      const department = DEPARTMENTS[index % DEPARTMENTS.length];
 
-      return item;
+      return {
+        ...item,
+        id: index + 1,
+        image: `https://randomuser.me/api/portraits/${item.gender.toLowerCase()}/${index % 100}.jpg`,
+        email: `${item.firstName}.${item.lastName}`
+          .toLowerCase()
+          .replace(/[^a-z.]/g, '')
+          .concat('@example.com'),
+        department: department.name,
+        // Consumed by chipBackground/chipColor/chipIcon, which read a path off the item
+        background: department.background,
+        color: department.color,
+        icon: department.icon,
+      };
     });
   }
 
-  public fetch(keyword, limit = 10) {
-    const people = this.people
-      .filter((item) => {
-        return !keyword ||
-          item.firstName.toLowerCase().indexOf(keyword) >= 0 || 
-          item.lastName.toLowerCase().indexOf(keyword) >= 0;
-      });
-
-    return of(people.splice(0, limit));
+  public fetch(keyword, limit = 10): Observable<any[]> {
+    return of(this.filterPeople(keyword, limit));
   }
 
+  /**
+   * Same as fetch() but able to simulate network latency and empty responses,
+   * which the kitchen sink example exposes as toggles.
+   */
+  public fetchPeople(keyword, options: FetchOptions = {}): Observable<any[]> {
+    const { limit = 10, latency = 0, empty = false } = options;
+
+    return of(empty ? [] : this.filterPeople(keyword, limit))
+      .pipe(
+        delay(latency),
+      );
+  }
+
+  public filterPeople(keyword, limit = 10): any[] {
+    const search = String(keyword || '').toLowerCase();
+
+    return this.people
+      .filter((item) => {
+        return !search ||
+          item.firstName.toLowerCase().indexOf(search) >= 0 ||
+          item.lastName.toLowerCase().indexOf(search) >= 0 ||
+          item.email.indexOf(search) >= 0;
+      })
+      .slice(0, limit);
+  }
+
+  public fetchTags(keyword): Observable<any[]> {
+    const search = String(keyword || '').toLowerCase();
+
+    return of(
+      this.tags.filter((tag) => !search || tag.name.toLowerCase().indexOf(search) >= 0),
+    );
+  }
 
 }

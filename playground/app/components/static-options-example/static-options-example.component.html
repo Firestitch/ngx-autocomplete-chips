@@ -1,0 +1,64 @@
+<fs-autocomplete-chips
+    [fetch]="fetch"
+    [(ngModel)]="model"
+    label="Assignees"
+    floatLabel="always"
+    placeholder="Search, or create someone new"
+    hint="The bottom rows stay pinned while the results scroll"
+    chipImage="image"
+    name="model">
+  <ng-template
+      fsAutocompleteChipsTemplate
+      let-object="object">
+    {{ object.firstName }} {{ object.lastName }}
+  </ng-template>
+
+  <!-- Always visible -->
+  <ng-template
+      fsAutocompleteChipsStatic
+      (click)="selectAll()">
+    <span class="static-row">
+      <mat-icon>done_all</mat-icon>
+      Select all visible
+    </span>
+  </ng-template>
+
+  <!-- Only once something has been typed, and only enabled past 3 characters -->
+  <ng-template
+      fsAutocompleteChipsStatic
+      let-keyword="keyword"
+      [show]="showWithKeyword"
+      [disable]="disableWhenShort"
+      (selected)="create($event)">
+    <span class="static-row">
+      <mat-icon>person_add</mat-icon>
+      Create "{{ keyword }}"
+      @if (keyword?.length < 3) {
+        <em>&mdash; keep typing</em>
+      }
+    </span>
+  </ng-template>
+
+  <ng-template
+      fsAutocompleteChipsStatic
+      let-keyword="keyword"
+      [show]="showWithKeyword"
+      (selected)="invite($event)">
+    <span class="static-row">
+      <mat-icon>mail</mat-icon>
+      Invite "{{ keyword }}" by email
+    </span>
+  </ng-template>
+
+  <ng-template
+      fsAutocompleteChipsNoResults
+      let-keyword="keyword">
+    <div class="no-results-row">
+      <mat-icon>search_off</mat-icon>
+      No one matches "{{ keyword }}" &mdash; create or invite them below.
+    </div>
+  </ng-template>
+</fs-autocomplete-chips>
+<fieldset>
+  {{ model | json }}
+</fieldset>

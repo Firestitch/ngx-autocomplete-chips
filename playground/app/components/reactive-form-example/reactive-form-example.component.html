@@ -1,0 +1,69 @@
+<form [formGroup]="form">
+  <fs-autocomplete-chips
+      [fetch]="fetch"
+      formControlName="owner"
+      [multiple]="false"
+      [compareWith]="compareWith"
+      label="Owner"
+      floatLabel="always"
+      placeholder="Exactly one account"
+      chipImage="image"
+      [hint]="owner.touched && owner.invalid ? 'An owner is required' : 'Single select, required'">
+    <ng-template
+        fsAutocompleteChipsTemplate
+        let-object="object">
+      {{ object.firstName }} {{ object.lastName }}
+    </ng-template>
+  </fs-autocomplete-chips>
+
+  <fs-autocomplete-chips
+      [fetch]="fetch"
+      formControlName="watchers"
+      [compareWith]="compareWith"
+      label="Watchers"
+      floatLabel="always"
+      placeholder="One or more accounts"
+      chipImage="image"
+      [hint]="watchers.touched && watchers.invalid ? 'At least one watcher is required' : 'Multi select, required'">
+    <ng-template
+        fsAutocompleteChipsTemplate
+        let-object="object">
+      {{ object.firstName }} {{ object.lastName }}
+    </ng-template>
+  </fs-autocomplete-chips>
+
+  <div class="actions">
+    <button
+        mat-flat-button
+        color="primary"
+        type="button"
+        (click)="submit()">
+      Submit
+    </button>
+    <button
+        mat-stroked-button
+        type="button"
+        (click)="patch()">
+      patchValue()
+    </button>
+    <button
+        mat-stroked-button
+        type="button"
+        (click)="toggleDisabled()">
+      {{ form.disabled ? 'enable()' : 'disable()' }}
+    </button>
+    <button
+        mat-stroked-button
+        type="button"
+        (click)="reset()">
+      reset()
+    </button>
+  </div>
+
+  <div class="status">
+    status: <code>{{ form.status }}</code>
+  </div>
+</form>
+<fieldset>
+  {{ form.getRawValue() | json }}
+</fieldset>

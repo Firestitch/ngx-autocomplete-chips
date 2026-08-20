@@ -1,0 +1,28 @@
+<fs-autocomplete-chips
+    [fetch]="fetch"
+    [(ngModel)]="model"
+    [orderable]="true"
+    label="Approval Chain"
+    floatLabel="always"
+    placeholder="Add approvers, then drag to reorder"
+    hint="Grab the handle on a chip to move it"
+    chipImage="image"
+    (reordered)="reordered($event)"
+    name="model">
+  <ng-template
+      fsAutocompleteChipsTemplate
+      let-object="object">
+    {{ object.firstName }} {{ object.lastName }}
+  </ng-template>
+</fs-autocomplete-chips>
+
+@if (lastMove) {
+  <p class="last-move">
+    Moved <strong>{{ lastMove.name }}</strong>
+    from index {{ lastMove.from }} to {{ lastMove.to }}
+  </p>
+}
+
+<fieldset>
+  {{ model | json }}
+</fieldset>

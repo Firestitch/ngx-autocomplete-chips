@@ -1,18 +1,38 @@
 import { Component } from '@angular/core';
-import { environment } from '../environments/environment';
+
 import { FsExampleModule } from '@firestitch/example';
-import { AutocompleteChipsExampleComponent } from './components/autocomplete-chips-example/autocomplete-chips-example.component';
-import { AutocompleteChipsOrderableExampleComponent } from './components/autocomplete-chips-orderable-example/autocomplete-chips-orderable-example.component';
-import { EmailExampleComponent } from './components/email-example/email-example.component';
-import { TextExampleComponent } from './components/text-example/text-example.component';
-import { StatusExampleComponent } from './components/status-example/status-example.component';
+
+import { environment } from '../environments/environment';
+
+import { DialogExampleComponent } from './components/dialog-example';
+import { EmailExampleComponent } from './components/email-example';
+import { GroupedExampleComponent } from './components/grouped-example';
+import { KitchenSinkExampleComponent } from './components/kitchen-sink-example';
+import { OrderableExampleComponent } from './components/orderable-example';
+import { ReactiveFormExampleComponent } from './components/reactive-form-example';
+import { StaticOptionsExampleComponent } from './components/static-options-example';
+import { StatusExampleComponent } from './components/status-example';
+import { TemplatesExampleComponent } from './components/templates-example';
+import { TextExampleComponent } from './components/text-example';
 
 
 @Component({
-    selector: 'app-root',
-    templateUrl: 'app.component.html',
-    standalone: true,
-    imports: [FsExampleModule, AutocompleteChipsExampleComponent, AutocompleteChipsOrderableExampleComponent, EmailExampleComponent, TextExampleComponent, StatusExampleComponent]
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  standalone: true,
+  imports: [
+    FsExampleModule,
+    KitchenSinkExampleComponent,
+    TemplatesExampleComponent,
+    GroupedExampleComponent,
+    StaticOptionsExampleComponent,
+    OrderableExampleComponent,
+    StatusExampleComponent,
+    TextExampleComponent,
+    EmailExampleComponent,
+    ReactiveFormExampleComponent,
+    DialogExampleComponent,
+  ],
 })
 export class AppComponent {
   public config = environment;

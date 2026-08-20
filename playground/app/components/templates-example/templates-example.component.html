@@ -1,0 +1,67 @@
+<fs-autocomplete-chips
+    [fetch]="fetch"
+    [(ngModel)]="model"
+    label="Reviewers"
+    floatLabel="always"
+    placeholder="Every content slot is in use here"
+    chipImage="image"
+    size="large"
+    name="model">
+
+  <!-- Chip and option content -->
+  <ng-template
+      fsAutocompleteChipsTemplate
+      let-object="object"
+      let-selecting="selecting">
+    <span class="person">
+      {{ object.firstName }} {{ object.lastName }}
+      @if (selecting) {
+        <em class="person-email">{{ object.email }}</em>
+      }
+    </span>
+  </ng-template>
+
+  <!-- Leading icon on the form field -->
+  <ng-template
+    fsAutocompleteChipsPrefix
+    icon="group">
+  </ng-template>
+
+  <!-- Trailing template on the form field, told whether the panel is open -->
+  <ng-template
+      fsAutocompleteChipsSuffix
+      let-open="open">
+    <mat-icon class="suffix-icon">
+      {{ open ? 'expand_less' : 'expand_more' }}
+    </mat-icon>
+  </ng-template>
+
+  <!-- Action rendered on every selected chip -->
+  <ng-template
+    fsAutocompleteChipSelectedSuffix
+    icon="tune"
+    tooltip="Configure reviewer"
+    (click)="configure($event)">
+  </ng-template>
+
+  <!-- A second chip action, this one a link -->
+  <ng-template
+    fsAutocompleteChipSelectedSuffix
+    icon="open_in_new"
+    tooltip="Open profile"
+    link="https://example.com"
+    linkTarget="_blank">
+  </ng-template>
+
+  <ng-template
+      fsAutocompleteChipsNoResults
+      let-keyword="keyword">
+    <div class="no-results-row">
+      <mat-icon>person_search</mat-icon>
+      No reviewer named "{{ keyword }}"
+    </div>
+  </ng-template>
+</fs-autocomplete-chips>
+<fieldset>
+  {{ model | json }}
+</fieldset>

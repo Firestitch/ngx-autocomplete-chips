@@ -163,6 +163,7 @@
     gap: 5px;
     min-width: 0;
   }
+
 }
 
 .fs-autocomplete-chip {
@@ -175,6 +176,53 @@
       flex: 1;
     }
 
+    // fs-chip stacks its subcontent under the projected content, so a drag handle
+    // sitting inline with the name leaves the second line starting beneath the
+    // handle instead of under the name. Laying the content out as a grid lets the
+    // handle span both rows and sit beside the pair. Only applied when a handle is
+    // actually rendered, otherwise the two rows would end up side by side.
+    &.draggable .fs-chip-content {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      align-items: center;
+      column-gap: 4px;
+
+      // All three are placed explicitly. Left to auto-placement the subcontent
+      // lands in column 1 under the handle, which then sizes column 1 to the
+      // width of that line and pushes the name off to the right. `1 / -1` does
+      // not help either, since -1 is the last line of the explicit grid and the
+      // rows here are implicit.
+      .chip-drag-handle {
+        grid-column: 1;
+        grid-row: 1;
+      }
+
+      .chip-item {
+        grid-column: 2;
+        grid-row: 1;
+      }
+
+      .fs-chip-subcontent {
+        grid-column: 2;
+        grid-row: 2;
+      }
+    }
+
+    // The handle only spans both rows once there is a second line to span. A
+    // spanning item contributes its height to every row it covers, so spanning
+    // unconditionally splits the handle across a phantom second row and drops the
+    // single-line name below centre. fs-chip flags the second line for us.
+    &.draggable .fs-chip.sub-content .fs-chip-content .chip-drag-handle {
+      grid-row: 1 / span 2;
+    }
+
+    .chip-item {
+      display: block;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
   }
 
   .fs-autocomplete-chips-panel {

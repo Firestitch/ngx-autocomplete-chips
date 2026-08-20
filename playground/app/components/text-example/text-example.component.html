@@ -1,12 +1,22 @@
 <fs-autocomplete-chips
-  [(ngModel)]="model"
-  placeholder="Enter Text"
-  [allowText]="true"
-  [allowObject]="false"
-  [validateText]="validateText"
-  name="model">
+    [(ngModel)]="model"
+    [fetch]="fetch"
+    [allowText]="true"
+    [allowObject]="false"
+    [validateText]="validateText"
+    label="Tags"
+    floatLabel="always"
+    placeholder="Type a tag, then press comma or Enter"
+    hint="Two characters or more, no spaces"
+    shape="squareChip"
+    size="small"
+    name="model">
+  <ng-template
+      fsAutocompleteChipsTextValidIndicator
+      let-valid="valid">
+    {{ valid ? 'Press comma to add' : 'Too short, or contains a space' }}
+  </ng-template>
 </fs-autocomplete-chips>
-
 <fieldset>
   {{ model | json }}
 </fieldset>

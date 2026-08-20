@@ -1,16 +1,50 @@
-<fs-autocomplete-chips
-    [fetch]="fetch"
-    [(ngModel)]="status"
-    [label]="label"
-    size="small"
-    [initOnClick]="initOnClick"
-    chipColor="#fff"
-    chipBackground="color"
-    [multiple]="false"
-    [compareWith]="compareWith"
-    (ngModelChange)="changeStatus($event)"
-    [name]="'status' + guid">
-  <ng-template fsAutocompleteChipsTemplate let-object="object">
-    {{ object.name }}
-  </ng-template>
-</fs-autocomplete-chips>
+<div class="inline-row">
+  <span class="inline-label">Status</span>
+  <fs-autocomplete-chips
+      [fetch]="fetchStatus"
+      [(ngModel)]="status"
+      [multiple]="false"
+      [initOnClick]="true"
+      [padless]="true"
+      [compareWith]="compareWith"
+      size="small"
+      chipColor="#fff"
+      chipBackground="color"
+      (ngModelChange)="changeStatus($event)"
+      [name]="'status' + guid">
+    <ng-template
+        fsAutocompleteChipsTemplate
+        let-object="object">
+      {{ object.name }}
+    </ng-template>
+  </fs-autocomplete-chips>
+</div>
+
+<div class="inline-row">
+  <span class="inline-label">Tags</span>
+  <fs-autocomplete-chips
+      [fetch]="fetchTags"
+      [(ngModel)]="tags"
+      [initOnClick]="true"
+      [padless]="true"
+      [compareWith]="compareWith"
+      size="small"
+      shape="squareChip"
+      chipColor="color"
+      chipBackground="background"
+      chipIcon="icon"
+      [name]="'tags' + guid">
+    <ng-template
+        fsAutocompleteChipsTemplate
+        let-object="object">
+      {{ object.name }}
+    </ng-template>
+  </fs-autocomplete-chips>
+</div>
+
+<p class="note">
+  <code>initOnClick</code> plus <code>padless</code> renders the control as plain
+  text until it is clicked, which is what makes it usable inline in a table row or
+  a detail panel. Chip colors come from the data via
+  <code>chipBackground</code>, <code>chipColor</code> and <code>chipIcon</code>.
+</p>

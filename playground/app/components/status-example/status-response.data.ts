@@ -1,4 +1,4 @@
-export const statusData = [
+export const StatusData = [
   {
     id: 902,
     environmentId: 898,
@@ -16,5 +16,5 @@ export const statusData = [
     class: 'plan',
     color: '#ececec',
     default: false,
-  }
+  },
 ];

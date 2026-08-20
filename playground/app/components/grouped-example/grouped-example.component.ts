@@ -2,18 +2,16 @@ import { JsonPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { email } from '@firestitch/common';
-
 import { ExampleService } from 'playground/app/services/example.service';
 
 import { FsAutocompleteChipsComponent } from '../../../../src/app/components/autocomplete-chips/autocomplete-chips.component';
 import { FsAutocompleteObjectDirective } from '../../../../src/app/directives/autocomplete-object.directive';
-import { FsAutocompleteChipsTextValidIndicatorDirective } from '../../../../src/app/directives/text-valid-indicator.directive';
+import { FsAutocompleteChipsSubtemplateDirective } from '../../../../src/app/directives/autocomplete-chips-subtemplate.directive';
 
 
 @Component({
-  selector: 'email-example',
-  templateUrl: './email-example.component.html',
+  selector: 'grouped-example',
+  templateUrl: './grouped-example.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
@@ -21,25 +19,24 @@ import { FsAutocompleteChipsTextValidIndicatorDirective } from '../../../../src/
     JsonPipe,
     FsAutocompleteChipsComponent,
     FsAutocompleteObjectDirective,
-    FsAutocompleteChipsTextValidIndicatorDirective,
+    FsAutocompleteChipsSubtemplateDirective,
   ],
 })
-export class EmailExampleComponent {
+export class GroupedExampleComponent {
 
-  public model = ['bob@example.com'];
+  public model = [];
 
   private _exampleService = inject(ExampleService);
 
-  /**
-   * allowText + allowObject means the model holds IAutocompleteItem wrappers:
-   * known contacts come back as objects, anything typed comes back as text.
-   */
   public fetch = (keyword) => {
-    return this._exampleService.fetch(keyword, 6);
+    return this._exampleService.fetch(keyword, 15);
   };
 
-  public validateText = (text: string): boolean => {
-    return email(text);
+  /**
+   * Returning a label per item groups the panel into <mat-optgroup>s.
+   */
+  public groupBy = (item) => {
+    return item.department;
   };
 
 }

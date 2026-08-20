@@ -1,0 +1,13 @@
+<button
+    mat-flat-button
+    color="primary"
+    type="button"
+    (click)="open()">
+  Open Dialog
+</button>
+
+@if (result !== undefined) {
+  <fieldset>
+    {{ result | json }}
+  </fieldset>
+}

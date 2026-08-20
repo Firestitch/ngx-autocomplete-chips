@@ -1,33 +1,39 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { ExampleService } from 'playground/app/services/example.service';
-import { FsAutocompleteChipsComponent } from '../../../../src/app/components/autocomplete-chips/autocomplete-chips.component';
-import { FormsModule } from '@angular/forms';
-import { FsFormModule } from '@firestitch/form';
 import { JsonPipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
+import { of } from 'rxjs';
+
+import { FsAutocompleteChipsComponent } from '../../../../src/app/components/autocomplete-chips/autocomplete-chips.component';
+import { FsAutocompleteChipsTextValidIndicatorDirective } from '../../../../src/app/directives/text-valid-indicator.directive';
 
 
 @Component({
-    selector: 'text-example',
-    templateUrl: './text-example.component.html',
-    standalone: true,
-    imports: [FsAutocompleteChipsComponent, FormsModule, FsFormModule, JsonPipe]
+  selector: 'text-example',
+  templateUrl: './text-example.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    FormsModule,
+    JsonPipe,
+    FsAutocompleteChipsComponent,
+    FsAutocompleteChipsTextValidIndicatorDirective,
+  ],
 })
-export class TextExampleComponent implements OnInit {
-  private exampleService = inject(ExampleService);
+export class TextExampleComponent {
 
+  public model = ['angular', 'chips'];
 
+  /** With allowObject off, fetch is never called, but the input is still required. */
+  public fetch = () => {
+    return of([]);
+  };
 
-  public model = [];
+  /** Rejects anything shorter than two characters or containing a space. */
+  public validateText = (text: string): boolean => {
+    const value = String(text).trim();
 
-  public validateText = (e) => {
-    return true;
-  }
+    return value.length >= 2 && value.indexOf(' ') === -1;
+  };
 
-  ngOnInit() {
-  }
-
-  public fetch = keyword => {
-    return this.exampleService.fetch(keyword);
-  }
 }

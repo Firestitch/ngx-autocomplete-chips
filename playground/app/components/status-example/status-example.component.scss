@@ -1,0 +1,24 @@
+.inline-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 0;
+}
+
+.inline-label {
+  flex: none;
+  width: 60px;
+  font-size: 12px;
+  color: rgb(0 0 0 / 55%);
+}
+
+fs-autocomplete-chips {
+  min-width: 240px;
+}
+
+.note {
+  margin-top: 16px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: rgb(0 0 0 / 55%);
+}

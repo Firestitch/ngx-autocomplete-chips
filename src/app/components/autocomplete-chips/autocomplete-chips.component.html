@@ -227,67 +227,68 @@
     let-removable="removable"
     let-selecting="selecting">
   <div class="item-container">
-    @if (shape === 'none') {
-      <div class="item-content">
+    <!--
+      "none" is a chip like any other, so it keeps removing, reordering, images,
+      suffixes and the subcontent line; fs-chip drops the decoration itself. The
+      colours are still withheld in that mode, since a value picked to contrast a
+      chip background makes no sense once there is no background to contrast.
+    -->
+    <fs-chip
+        [removable]="removable && (!initOnClick || inited)"
+        [size]="size"
+        [shape]="chipShape"
+        (removed)="chipRemoved(item)"
+        [image]="item.image"
+        [icon]="item.icon"
+        [outlined]="true"
+        [padding]="chipPadding"
+        [class]="'fs-autocomplete-chip ' + item.class"
+        [backgroundColor]="chipShape === 'none' ? null : (item.background || background)"
+        [color]="chipShape === 'none' ? '' : (item.color || color)"
+        [ngClass]="{
+      imaged: item.image,
+      draggable: !selecting && orderable && !disabled,
+      'last-chip': model.length - 1 === index
+    }"
+        tabindex="-1">
+      @if (!selecting && orderable && !disabled) {
+        <span
+            class="chip-drag-handle"
+            cdkDragHandle
+            title="Drag to reorder">
+          <mat-icon>
+            drag_indicator
+          </mat-icon>
+        </span>
+      }
+      <span class="chip-item">
         <ng-container
           [ngTemplateOutlet]="itemTemplate"
           [ngTemplateOutletContext]="{ item: item, selecting: selecting, index: index }">
         </ng-container>
-      </div>
-    } @else {
-      <fs-chip
-          [removable]="removable && (!initOnClick || inited)"
-          [size]="size"
-          [shape]="shape === 'roundChip' ? 'round' : 'square'"
-          (removed)="chipRemoved(item)"
-          [image]="item.image"
-          [icon]="item.icon"
-          [outlined]="true"
-          [class]="'fs-autocomplete-chip ' + item.class"
-          [backgroundColor]="item.background || background"
-          [color]="item.color || color"
-          [ngClass]="{
-        imaged: item.image,
-        'last-chip': model.length - 1 === index
-      }"
-          tabindex="-1">
-        @if (!selecting && orderable && !disabled) {
-          <span
-              class="chip-drag-handle"
-              cdkDragHandle
-              title="Drag to reorder">
-            <mat-icon>
-              drag_indicator
-            </mat-icon>
-          </span>
-        }
-        <ng-container
-          [ngTemplateOutlet]="itemTemplate"
-          [ngTemplateOutletContext]="{ item: item, selecting: selecting, index: index }">
-        </ng-container>
-        @if (!selecting) {
-          @for (chipSelectedSuffix of chipSelectedSuffixes; track chipSelectedSuffix) {
-            <ng-template
-              fsChipSuffix
-              [icon]="chipSelectedSuffix.icon"
-              [color]="chipSelectedSuffix.color"
-              [link]="chipSelectedSuffix.link"
-              [tooltip]="chipSelectedSuffix.tooltip"
-              [data]="item.data"
-              [linkTarget]="chipSelectedSuffix.linkTarget"
-              (click)="chipSelectedSuffix.clicked($event)">
-            </ng-template>
-          }
-        }
-        @if (!!objectSubtemplate) {
-          <ng-template fsChipSubcontent>
-            <ng-template
-              [ngTemplateOutlet]="objectSubtemplate"
-              [ngTemplateOutletContext]="{ object: item.data, selecting: selecting, index: index }">
-            </ng-template>
+      </span>
+      @if (!selecting) {
+        @for (chipSelectedSuffix of chipSelectedSuffixes; track chipSelectedSuffix) {
+          <ng-template
+            fsChipSuffix
+            [icon]="chipSelectedSuffix.icon"
+            [color]="chipSelectedSuffix.color"
+            [link]="chipSelectedSuffix.link"
+            [tooltip]="chipSelectedSuffix.tooltip"
+            [data]="item.data"
+            [linkTarget]="chipSelectedSuffix.linkTarget"
+            (click)="chipSelectedSuffix.clicked($event)">
           </ng-template>
         }
-      </fs-chip>
-    }
+      }
+      @if (!!objectSubtemplate) {
+        <ng-template fsChipSubcontent>
+          <ng-template
+            [ngTemplateOutlet]="objectSubtemplate"
+            [ngTemplateOutletContext]="{ object: item.data, selecting: selecting, index: index }">
+          </ng-template>
+        </ng-template>
+      }
+    </fs-chip>
   </div>
 </ng-template>

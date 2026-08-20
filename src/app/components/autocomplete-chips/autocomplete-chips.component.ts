@@ -55,6 +55,9 @@ import { DataType } from '../../interfaces/data-type';
 import { ConfirmComponent } from '../confirm';
 
 
+const defaultBackground = '#ebebeb';
+
+
 @Component({
   selector: 'fs-autocomplete-chips',
   templateUrl: './autocomplete-chips.component.html',
@@ -127,7 +130,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   @ContentChild(FsAutocompleteChipsSubtemplateDirective, { read: TemplateRef })
   public objectSubtemplate: TemplateRef<FsAutocompleteChipsSubtemplateDirective> = null;
 
-  @Input() public fetch = null;
+  @Input() public fetch: (keyword: string) => Observable<unknown>;
   @Input() public appearance: MatFormFieldAppearance;
   @Input() public floatLabel: 'always' | 'auto';
   @Input() public readonly = false;
@@ -152,7 +155,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   @Input() public removable = true;
   @Input() public allowClear = true;
   @Input() public color = '';
-  @Input() public background = '#ebebeb';
+  @Input() public background = defaultBackground;
   @Input() public orderable = false;
   @Input() public padless = false;
   @Input() public initOnClick = false;
@@ -217,6 +220,32 @@ implements OnInit, OnDestroy, ControlValueAccessor {
     return this.autocomplete.isOpen;
   }
 
+  /** True once a chip background is supplied, either as a path or as a literal. */
+  public get hasChipBackground(): boolean {
+    return !!this.chipBackground || this.background !== defaultBackground;
+  }
+
+  /** Maps this component's shape names onto fs-chip's. */
+  public get chipShape(): 'round' | 'square' | 'none' {
+    // A single select holds one value rather than a collection, so it reads as a
+    // value and not as a chip. Supplying a background says the chip is meant to be
+    // seen, so that opts back out.
+    if (!this.multiple && !this.hasChipBackground) {
+      return 'none';
+    }
+
+    switch (this.shape) {
+      case 'squareChip':
+        return 'square';
+
+      case 'none':
+        return 'none';
+
+      default:
+        return 'round';
+    }
+  }
+
   public get placeholderText() {
     return this.model.length === 0 ? 
       (this.floatLabel === 'always' ? 
@@ -247,6 +276,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
 
   public setDisabledState?(isDisabled: boolean): void {
     this.disabled = isDisabled;
+    this._cdRef.markForCheck();
   }
 
   public ngOnInit(): void {

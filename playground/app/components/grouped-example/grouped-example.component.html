@@ -1,0 +1,24 @@
+<fs-autocomplete-chips
+    [fetch]="fetch"
+    [(ngModel)]="model"
+    [groupBy]="groupBy"
+    label="Team Members"
+    floatLabel="always"
+    placeholder="Search by name or email"
+    hint="Results are grouped by department"
+    chipImage="image"
+    name="model">
+  <ng-template
+      fsAutocompleteChipsTemplate
+      let-object="object">
+    {{ object.firstName }} {{ object.lastName }}
+  </ng-template>
+  <ng-template
+      fsAutocompleteChipsSubtemplate
+      let-object="object">
+    {{ object.department }}
+  </ng-template>
+</fs-autocomplete-chips>
+<fieldset>
+  {{ model | json }}
+</fieldset>
