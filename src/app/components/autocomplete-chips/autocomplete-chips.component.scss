@@ -216,6 +216,11 @@
       grid-row: 1 / span 2;
     }
 
+    // A selected chip sits on one line inside a form field of someone else's
+    // width, so its content is clipped rather than allowed to reflow the field.
+    // fs-chip already does the same to .fs-chip-content, which covers the
+    // subcontent line; this covers the name. The panel block below undoes both,
+    // since an option is read before it is picked and must not hide anything.
     .chip-item {
       display: block;
       min-width: 0;
@@ -264,6 +269,42 @@
       font-size: 80%;
     }
 
+    // Nothing in an option is clipped: the name and the subcontent both wrap and
+    // the row grows to fit. The ellipsis being undone comes from two places: the
+    // .chip-item rule above and fs-chip's own .fs-chip-content, so both are named.
+    // Scoping by the panel rather than by the template's `selecting` flag keeps the
+    // rule beside the other option styling; the panel is an overlay, so it is
+    // reached globally either way.
+    .fs-autocomplete-chip {
+      .fs-chip-content {
+        // fs-chip gives this `flex: 1`, so it is a flex item and floors at
+        // min-width:auto, i.e. min-content. Min-content here is a whole email
+        // address, wider than the row, so the line runs off the panel rather
+        // than wrapping inside it. Nothing wraps until this is 0.
+        min-width: 0;
+
+        // A name breaks at its spaces, but an email is one unbreakable token
+        // wider than the row and would still overhang. `anywhere` rather than
+        // `break-word` because only `anywhere` also drops min-content to a
+        // single character, which is what lets the floor above do anything.
+        // Inherited, so it reaches the subcontent line too.
+        overflow-wrap: anywhere;
+      }
+
+      // !important because fs-chip is emulated-encapsulation, so the rule being
+      // undone here compiles to `.fs-chip[_ngcontent-x] .fs-chip-content[_ngcontent-x]`
+      // -- two attribute selectors, specificity (0,4,0). No selector written from
+      // outside that component can reference the attribute, and matching (0,4,0)
+      // only ties, which fs-chip then wins on source order: its styles are appended
+      // to the head after this component's, since it renders as a child.
+      .fs-chip-content,
+      .chip-item {
+        white-space: normal !important;
+        overflow: visible !important;
+        text-overflow: clip !important;
+      }
+    }
+
     .option {
       line-height: normal;
       padding: 0;
@@ -309,9 +350,18 @@
         padding-left: 8px;
       }
 
+      // Vertical padding rather than none, so a row that wrapped past mat-option's
+      // 48px minimum keeps its lines off the rows above and below. It costs a
+      // single-line row nothing, which still bottoms out at that 48px.
       .option-chip {
         flex: 1;
-        padding: 0 16px;
+
+        // Same min-width:auto floor as .fs-chip-content above. .item-container and
+        // .mdc-list-item__primary-text on either side of it are already floored at
+        // 0; this one was missed, and one un-floored link is enough to push the
+        // whole chain past the row and get it clipped by mat-option's overflow.
+        min-width: 0;
+        padding: 6px 16px;
         align-items: center;
         display: flex;
         box-sizing: border-box;

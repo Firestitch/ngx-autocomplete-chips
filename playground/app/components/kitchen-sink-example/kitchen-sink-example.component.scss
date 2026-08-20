@@ -56,18 +56,12 @@
   opacity: .75;
 }
 
-.chip-subline-dept {
-  flex: none;
-}
-
-.chip-subline-sep {
-  flex: none;
-}
-
+// Deliberately carries no truncation of its own. fs-autocomplete-chips already
+// clips a selected chip and wraps a panel row, so a rule here would only fight
+// it -- and it would win, since this is projected content the component cannot
+// restyle from the outside.
 .chip-subline-email {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
 }
 
 .slot-no-results {

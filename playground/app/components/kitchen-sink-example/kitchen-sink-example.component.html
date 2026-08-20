@@ -1,5 +1,4 @@
 <div class="kitchen-sink">
-
   <!-- ------------------------------------------------------------------ -->
   <!-- Inspector                                                           -->
   <!-- ------------------------------------------------------------------ -->
@@ -7,391 +6,564 @@
     <mat-accordion
         multi
         displayMode="flat">
-
       <!-- Behaviour -->
       <mat-expansion-panel expanded>
         <mat-expansion-panel-header>
-          <mat-panel-title>Behaviour</mat-panel-title>
+          <mat-panel-title>
+            Behaviour
+          </mat-panel-title>
         </mat-expansion-panel-header>
-
         <div class="controls">
           <mat-slide-toggle
               [(ngModel)]="config.multiple"
               (ngModelChange)="multipleChanged()">
-            <code>multiple</code>
-            <small>Allow more than one chip</small>
+            <code>
+              multiple
+            </code>
+            <small>
+              Allow more than one chip
+            </small>
           </mat-slide-toggle>
-
           <mat-slide-toggle
               [(ngModel)]="config.multipleAdd"
               [disabled]="!config.multiple">
-            <code>multipleAdd</code>
-            <small>Keep the panel open while adding</small>
+            <code>
+              multipleAdd
+            </code>
+            <small>
+              Keep the panel open while adding
+            </small>
           </mat-slide-toggle>
-
           <mat-slide-toggle
               [(ngModel)]="config.allowObject"
               (ngModelChange)="dataShapeChanged()">
-            <code>allowObject</code>
-            <small>Offer fetched objects</small>
+            <code>
+              allowObject
+            </code>
+            <small>
+              Offer fetched objects
+            </small>
           </mat-slide-toggle>
-
           <mat-slide-toggle
               [(ngModel)]="config.allowText"
               (ngModelChange)="dataShapeChanged()">
-            <code>allowText</code>
-            <small>Accept free text, comma commits</small>
+            <code>
+              allowText
+            </code>
+            <small>
+              Accept free text, comma commits
+            </small>
           </mat-slide-toggle>
-
           <mat-slide-toggle
               [(ngModel)]="config.validateText"
               [disabled]="!config.allowText">
-            <code>validateText</code>
-            <small>Validate text as an email</small>
+            <code>
+              validateText
+            </code>
+            <small>
+              Validate text as an email
+            </small>
           </mat-slide-toggle>
-
           <mat-slide-toggle
               [(ngModel)]="config.confirm"
               [disabled]="!config.allowText">
-            <code>confirm</code>
-            <small>Prompt on blur with uncommitted text</small>
+            <code>
+              confirm
+            </code>
+            <small>
+              Prompt on blur with uncommitted text
+            </small>
           </mat-slide-toggle>
-
           <mat-slide-toggle [(ngModel)]="config.removable">
-            <code>removable</code>
-            <small>Show the chip remove icon</small>
+            <code>
+              removable
+            </code>
+            <small>
+              Show the chip remove icon
+            </small>
           </mat-slide-toggle>
-
           <mat-slide-toggle [(ngModel)]="config.allowClear">
-            <code>allowClear</code>
-            <small>Show the clear-all icon</small>
+            <code>
+              allowClear
+            </code>
+            <small>
+              Show the clear-all icon
+            </small>
           </mat-slide-toggle>
-
           <mat-slide-toggle [(ngModel)]="config.orderable">
-            <code>orderable</code>
-            <small>Drag chips to reorder</small>
+            <code>
+              orderable
+            </code>
+            <small>
+              Drag chips to reorder
+            </small>
           </mat-slide-toggle>
-
           <mat-slide-toggle [(ngModel)]="config.fetchOnFocus">
-            <code>fetchOnFocus</code>
-            <small>Open and fetch on focus</small>
+            <code>
+              fetchOnFocus
+            </code>
+            <small>
+              Open and fetch on focus
+            </small>
           </mat-slide-toggle>
-
           <mat-slide-toggle [(ngModel)]="config.initOnClick">
-            <code>initOnClick</code>
-            <small>Render read-only until clicked</small>
+            <code>
+              initOnClick
+            </code>
+            <small>
+              Render read-only until clicked
+            </small>
           </mat-slide-toggle>
-
           <mat-slide-toggle [(ngModel)]="config.readonly">
-            <code>readonly</code>
-            <small>Input is read-only</small>
+            <code>
+              readonly
+            </code>
+            <small>
+              Input is read-only
+            </small>
           </mat-slide-toggle>
-
           <mat-slide-toggle [(ngModel)]="config.disabled">
-            <code>disabled</code>
-            <small>Disable the whole control</small>
+            <code>
+              disabled
+            </code>
+            <small>
+              Disable the whole control
+            </small>
           </mat-slide-toggle>
-
           <mat-slide-toggle [(ngModel)]="config.compareWith">
-            <code>compareWith</code>
-            <small>Match on name instead of id</small>
+            <code>
+              compareWith
+            </code>
+            <small>
+              Match on name instead of id
+            </small>
           </mat-slide-toggle>
-
           <div class="control-row">
             <mat-form-field appearance="outline">
-              <mat-label>Group By</mat-label>
+              <mat-label>
+                Group By
+              </mat-label>
               <mat-select [(ngModel)]="config.groupBy">
-                <mat-option value="">None</mat-option>
-                <mat-option value="gender">Gender</mat-option>
-                <mat-option value="department">Department</mat-option>
+                <mat-option value="">
+                  None
+                </mat-option>
+                <mat-option value="gender">
+                  Gender
+                </mat-option>
+                <mat-option value="department">
+                  Department
+                </mat-option>
               </mat-select>
             </mat-form-field>
-
             <mat-form-field appearance="outline">
-              <mat-label>Delay</mat-label>
+              <mat-label>
+                Delay
+              </mat-label>
               <input
                 matInput
                 type="number"
                 [(ngModel)]="config.delay">
-              <span matTextSuffix>ms</span>
+              <span matTextSuffix>
+                ms
+              </span>
             </mat-form-field>
           </div>
         </div>
       </mat-expansion-panel>
-
       <!-- Form field -->
       <mat-expansion-panel expanded>
         <mat-expansion-panel-header>
-          <mat-panel-title>Form Field</mat-panel-title>
+          <mat-panel-title>
+            Form Field
+          </mat-panel-title>
         </mat-expansion-panel-header>
-
         <div class="controls">
           <div class="toggle-set">
-            <label>appearance</label>
+            <label>
+              appearance
+            </label>
             <mat-button-toggle-group [(ngModel)]="config.appearance">
-              <mat-button-toggle value="fill">fill</mat-button-toggle>
-              <mat-button-toggle value="outline">outline</mat-button-toggle>
+              <mat-button-toggle value="fill">
+                fill
+              </mat-button-toggle>
+              <mat-button-toggle value="outline">
+                outline
+              </mat-button-toggle>
             </mat-button-toggle-group>
           </div>
-
           <div class="toggle-set">
-            <label>floatLabel</label>
+            <label>
+              floatLabel
+            </label>
             <mat-button-toggle-group [(ngModel)]="config.floatLabel">
-              <mat-button-toggle value="always">always</mat-button-toggle>
-              <mat-button-toggle value="auto">auto</mat-button-toggle>
+              <mat-button-toggle value="always">
+                always
+              </mat-button-toggle>
+              <mat-button-toggle value="auto">
+                auto
+              </mat-button-toggle>
             </mat-button-toggle-group>
           </div>
-
           <mat-form-field appearance="outline">
-            <mat-label>Label</mat-label>
+            <mat-label>
+              Label
+            </mat-label>
             <input
               matInput
               [(ngModel)]="config.label">
           </mat-form-field>
-
           <mat-form-field appearance="outline">
-            <mat-label>Placeholder</mat-label>
+            <mat-label>
+              Placeholder
+            </mat-label>
             <input
               matInput
               [(ngModel)]="config.placeholder">
           </mat-form-field>
-
           <mat-form-field appearance="outline">
-            <mat-label>Hint</mat-label>
+            <mat-label>
+              Hint
+            </mat-label>
             <input
               matInput
               [(ngModel)]="config.hint">
           </mat-form-field>
-
           <mat-slide-toggle [(ngModel)]="config.padless">
-            <code>padless</code>
-            <small>Strip the form field padding</small>
+            <code>
+              padless
+            </code>
+            <small>
+              Strip the form field padding
+            </small>
           </mat-slide-toggle>
         </div>
       </mat-expansion-panel>
-
       <!-- Chips -->
       <mat-expansion-panel expanded>
         <mat-expansion-panel-header>
-          <mat-panel-title>Chips</mat-panel-title>
+          <mat-panel-title>
+            Chips
+          </mat-panel-title>
         </mat-expansion-panel-header>
-
         <div class="controls">
           <div class="toggle-set">
-            <label>size</label>
+            <label>
+              size
+            </label>
             <mat-button-toggle-group [(ngModel)]="config.size">
-              <mat-button-toggle value="small">small</mat-button-toggle>
-              <mat-button-toggle value="medium">medium</mat-button-toggle>
-              <mat-button-toggle value="large">large</mat-button-toggle>
+              <mat-button-toggle value="small">
+                small
+              </mat-button-toggle>
+              <mat-button-toggle value="medium">
+                medium
+              </mat-button-toggle>
+              <mat-button-toggle value="large">
+                large
+              </mat-button-toggle>
             </mat-button-toggle-group>
           </div>
-
           <div class="toggle-set">
-            <label>shape</label>
+            <label>
+              shape
+            </label>
             <mat-button-toggle-group [(ngModel)]="config.shape">
-              <mat-button-toggle value="roundChip">round</mat-button-toggle>
-              <mat-button-toggle value="squareChip">square</mat-button-toggle>
-              <mat-button-toggle value="none">none</mat-button-toggle>
+              <mat-button-toggle value="roundChip">
+                round
+              </mat-button-toggle>
+              <mat-button-toggle value="squareChip">
+                square
+              </mat-button-toggle>
+              <mat-button-toggle value="none">
+                none
+              </mat-button-toggle>
             </mat-button-toggle-group>
           </div>
-
           <mat-slide-toggle
               [(ngModel)]="config.slotSubtemplate"
               (ngModelChange)="rebuildChips()">
-            <code>Multi-line</code>
+            <code>
+              Multi-line
+            </code>
             <small>
               Add a second line to every chip and panel row, via
-              <code>fsAutocompleteChipsSubtemplate</code>
+              <code>
+                fsAutocompleteChipsSubtemplate
+              </code>
             </small>
           </mat-slide-toggle>
           @if (config.shape === 'none') {
             <div class="control-hint">
-              <code>none</code> is still a chip, so removing, reordering, images and the
+              <code>
+                none
+              </code>
+              is still a chip, so removing, reordering, images and the
               second line all keep working. Only the background, border and padding
               are dropped.
             </div>
           }
-
           <mat-slide-toggle
               [(ngModel)]="config.chipImage"
               (ngModelChange)="rebuildChips()">
-            <code>chipImage</code>
-            <small>Read the avatar from <code>image</code></small>
+            <code>
+              chipImage
+            </code>
+            <small>
+              Read the avatar from
+              <code>
+                image
+              </code>
+            </small>
           </mat-slide-toggle>
-
           <mat-slide-toggle
               [(ngModel)]="config.dataColors"
               (ngModelChange)="rebuildChips()">
-            <code>chipBackground</code> / <code>chipColor</code>
-            <small>Read colors from the data instead of the defaults</small>
+            <code>
+              chipBackground
+            </code>
+            /
+            <code>
+              chipColor
+            </code>
+            <small>
+              Read colors from the data instead of the defaults
+            </small>
           </mat-slide-toggle>
-
           <mat-slide-toggle
               [(ngModel)]="config.chipIcon"
               (ngModelChange)="rebuildChips()">
-            <code>chipIcon</code>
-            <small>Read the icon from <code>icon</code></small>
+            <code>
+              chipIcon
+            </code>
+            <small>
+              Read the icon from
+              <code>
+                icon
+              </code>
+            </small>
           </mat-slide-toggle>
           <div class="control-hint">
-            <code>chipIcon</code> resolves only as a path into the data. The other
-            <code>chip*</code> inputs below fall back to a literal value.
+            <code>
+              chipIcon
+            </code>
+            resolves only as a path into the data. The other
+            <code>
+              chip*
+            </code>
+            inputs below fall back to a literal value.
           </div>
-
           @if (config.chipIcon) {
             <label class="color-control">
-              <span><code>chipIconColor</code></span>
+              <span>
+                <code>
+                  chipIconColor
+                </code>
+              </span>
               <input
                 type="color"
                 [(ngModel)]="config.chipIconColor"
                 (ngModelChange)="rebuildChips()">
             </label>
           }
-
           <mat-form-field appearance="outline">
-            <mat-label>Chip Class</mat-label>
+            <mat-label>
+              Chip Class
+            </mat-label>
             <input
               matInput
               [(ngModel)]="config.chipClass"
               (ngModelChange)="rebuildChips()">
           </mat-form-field>
           <div class="control-hint">
-            Every <code>chip*</code> input above is resolved once, in
-            <code>_createObjectItem</code>, and stored on the item, so changing one does
+            Every
+            <code>
+              chip*
+            </code>
+            input above is resolved once, in
+            <code>
+              _createObjectItem
+            </code>
+            , and stored on the item, so changing one does
             not repaint chips that are already on screen. This example reassigns the model
-            on change to rebuild them. <code>background</code> and <code>color</code> below
+            on change to rebuild them.
+            <code>
+              background
+            </code>
+            and
+            <code>
+              color
+            </code>
+            below
             are bound live on the chip and need no rebuild.
           </div>
-
         </div>
       </mat-expansion-panel>
-
       <!-- Panel -->
       <mat-expansion-panel>
         <mat-expansion-panel-header>
-          <mat-panel-title>Panel</mat-panel-title>
+          <mat-panel-title>
+            Panel
+          </mat-panel-title>
         </mat-expansion-panel-header>
-
         <div class="controls">
           <div class="control-row">
             <mat-form-field appearance="outline">
-              <mat-label>Min Panel Width</mat-label>
+              <mat-label>
+                Min Panel Width
+              </mat-label>
               <input
                 matInput
                 type="number"
                 [(ngModel)]="config.minPanelWidth">
-              <span matTextSuffix>px</span>
+              <span matTextSuffix>
+                px
+              </span>
             </mat-form-field>
-
             <mat-form-field appearance="outline">
-              <mat-label>Panel Width</mat-label>
+              <mat-label>
+                Panel Width
+              </mat-label>
               <input
                 matInput
                 type="number"
                 placeholder="auto"
                 [(ngModel)]="config.panelWidth">
-              <span matTextSuffix>px</span>
+              <span matTextSuffix>
+                px
+              </span>
             </mat-form-field>
           </div>
-
           <mat-form-field appearance="outline">
-            <mat-label>Max Panel Height</mat-label>
+            <mat-label>
+              Max Panel Height
+            </mat-label>
             <input
               matInput
               type="number"
               [(ngModel)]="config.maxPanelHeight">
-            <span matTextSuffix>px</span>
+            <span matTextSuffix>
+              px
+            </span>
           </mat-form-field>
           <div class="control-hint">
-            <code>maxPanelHeight</code> is applied once on init, so it needs a reload
+            <code>
+              maxPanelHeight
+            </code>
+            is applied once on init, so it needs a reload
             of this example to take effect.
           </div>
-
           <mat-form-field appearance="outline">
-            <mat-label>Panel Class</mat-label>
+            <mat-label>
+              Panel Class
+            </mat-label>
             <input
               matInput
               [(ngModel)]="config.panelClass">
           </mat-form-field>
         </div>
       </mat-expansion-panel>
-
       <!-- Content slots -->
       <mat-expansion-panel expanded>
         <mat-expansion-panel-header>
-          <mat-panel-title>Content Slots</mat-panel-title>
+          <mat-panel-title>
+            Content Slots
+          </mat-panel-title>
         </mat-expansion-panel-header>
-
         <div class="controls">
           <mat-slide-toggle [(ngModel)]="config.slotPrefix">
-            <code>fsAutocompleteChipsPrefix</code>
-            <small>Icon before the chips</small>
+            <code>
+              fsAutocompleteChipsPrefix
+            </code>
+            <small>
+              Icon before the chips
+            </small>
           </mat-slide-toggle>
-
           <mat-slide-toggle [(ngModel)]="config.slotSuffix">
-            <code>fsAutocompleteChipsSuffix</code>
-            <small>Template after the chips</small>
+            <code>
+              fsAutocompleteChipsSuffix
+            </code>
+            <small>
+              Template after the chips
+            </small>
           </mat-slide-toggle>
-
           <mat-slide-toggle [(ngModel)]="config.slotChipSuffix">
-            <code>fsAutocompleteChipSelectedSuffix</code>
-            <small>Action on every selected chip</small>
+            <code>
+              fsAutocompleteChipSelectedSuffix
+            </code>
+            <small>
+              Action on every selected chip
+            </small>
           </mat-slide-toggle>
-
           <mat-slide-toggle [(ngModel)]="config.slotStatic">
-            <code>fsAutocompleteChipsStatic</code>
-            <small>Pinned rows at the bottom of the panel</small>
+            <code>
+              fsAutocompleteChipsStatic
+            </code>
+            <small>
+              Pinned rows at the bottom of the panel
+            </small>
           </mat-slide-toggle>
-
           <mat-slide-toggle [(ngModel)]="config.slotNoResults">
-            <code>fsAutocompleteChipsNoResults</code>
-            <small>Custom empty state</small>
+            <code>
+              fsAutocompleteChipsNoResults
+            </code>
+            <small>
+              Custom empty state
+            </small>
           </mat-slide-toggle>
-
           <mat-slide-toggle
               [(ngModel)]="config.slotTextValidIndicator"
               [disabled]="!config.allowText">
-            <code>fsAutocompleteChipsTextValidIndicator</code>
-            <small>Validity hint on the text option</small>
+            <code>
+              fsAutocompleteChipsTextValidIndicator
+            </code>
+            <small>
+              Validity hint on the text option
+            </small>
           </mat-slide-toggle>
         </div>
       </mat-expansion-panel>
-
       <!-- Data source -->
       <mat-expansion-panel>
         <mat-expansion-panel-header>
-          <mat-panel-title>Data Source</mat-panel-title>
+          <mat-panel-title>
+            Data Source
+          </mat-panel-title>
         </mat-expansion-panel-header>
-
         <div class="controls">
           <div class="control-row">
             <mat-form-field appearance="outline">
-              <mat-label>Results</mat-label>
+              <mat-label>
+                Results
+              </mat-label>
               <input
                 matInput
                 type="number"
                 [(ngModel)]="config.limit">
             </mat-form-field>
-
             <mat-form-field appearance="outline">
-              <mat-label>Latency</mat-label>
+              <mat-label>
+                Latency
+              </mat-label>
               <input
                 matInput
                 type="number"
                 [(ngModel)]="config.latency">
-              <span matTextSuffix>ms</span>
+              <span matTextSuffix>
+                ms
+              </span>
             </mat-form-field>
           </div>
-
           <mat-slide-toggle [(ngModel)]="config.emptyResults">
-            <code>Return no results</code>
-            <small>Exercise the empty state</small>
+            <code>
+              Return no results
+            </code>
+            <small>
+              Exercise the empty state
+            </small>
           </mat-slide-toggle>
         </div>
       </mat-expansion-panel>
-
     </mat-accordion>
   </div>
-
   <!-- ------------------------------------------------------------------ -->
   <!-- Stage                                                               -->
   <!-- ------------------------------------------------------------------ -->
@@ -442,7 +614,6 @@
           (panelOpened)="logEvent('panelOpened')"
           (panelClosed)="logEvent('panelClosed')"
           (ngModelChange)="logEvent('ngModelChange', $event)">
-
         <ng-template
             fsAutocompleteChipsTemplate
             let-object="object">
@@ -452,14 +623,12 @@
             {{ object }}
           }
         </ng-template>
-
         @if (config.slotPrefix) {
           <ng-template
             fsAutocompleteChipsPrefix
             icon="search">
           </ng-template>
         }
-
         @if (config.slotSuffix) {
           <ng-template
               fsAutocompleteChipsSuffix
@@ -469,7 +638,6 @@
             </mat-icon>
           </ng-template>
         }
-
         @if (config.slotChipSuffix) {
           <ng-template
             fsAutocompleteChipSelectedSuffix
@@ -478,7 +646,6 @@
             (click)="chipSuffixClick($event)">
           </ng-template>
         }
-
         <!-- Renders a second line under the chip content, in the chips and in
              the panel rows alike, which is what makes a chip multi-line. -->
         @if (config.slotSubtemplate) {
@@ -487,31 +654,33 @@
               let-object="object">
             @if (object?.department) {
               <span class="chip-subline">
-                <span class="chip-subline-dept">{{ object.department }}</span>
-                <span class="chip-subline-sep">&middot;</span>
-                <span class="chip-subline-email">{{ object.email }}</span>
+                {{ object.department }}
+                &middot;
+                {{ object.email }}
               </span>
             }
           </ng-template>
         }
-
         @if (config.slotNoResults) {
           <ng-template
               fsAutocompleteChipsNoResults
               let-keyword="keyword">
             <div class="slot-no-results">
-              <mat-icon>search_off</mat-icon>
+              <mat-icon>
+                search_off
+              </mat-icon>
               Nothing matches "{{ keyword }}"
             </div>
           </ng-template>
         }
-
         @if (config.slotStatic) {
           <ng-template
               fsAutocompleteChipsStatic
               (click)="staticSelectAllClick()">
             <span class="static-row">
-              <mat-icon>done_all</mat-icon>
+              <mat-icon>
+                done_all
+              </mat-icon>
               Select All
             </span>
           </ng-template>
@@ -521,12 +690,13 @@
               [show]="showWhenKeyword"
               (selected)="staticCreateClick($event)">
             <span class="static-row">
-              <mat-icon>add</mat-icon>
+              <mat-icon>
+                add
+              </mat-icon>
               Create "{{ keyword }}"
             </span>
           </ng-template>
         }
-
         @if (config.allowText && config.slotTextValidIndicator) {
           <ng-template
               fsAutocompleteChipsTextValidIndicator
@@ -536,10 +706,11 @@
         }
       </fs-autocomplete-chips>
     </div>
-
     <!-- Public API ---------------------------------------------------- -->
     <div class="actions">
-      <span class="actions-label">API</span>
+      <span class="actions-label">
+        API
+      </span>
       <button
           mat-stroked-button
           type="button"
@@ -584,7 +755,6 @@
         Reset all
       </button>
     </div>
-
     <!-- Output -------------------------------------------------------- -->
     <mat-tab-group
         class="output"
@@ -594,25 +764,43 @@
           <div class="tab-note">
             @if (wrappedModel) {
               allowText + allowObject &rarr; the model holds
-              <code>IAutocompleteItem</code> wrappers ({{ '{' }} type, data {{ '}' }}).
+              <code>
+                IAutocompleteItem
+              </code>
+              wrappers ({{ '{' }} type, data {{ '}' }}).
             } @else {
-              The model holds raw values as returned by <code>fetch</code>.
+              The model holds raw values as returned by
+              <code>
+                fetch
+              </code>
+              .
             }
           </div>
-          <pre class="code">{{ model | json }}</pre>
+          <pre class="code">
+            {{ model | json }}
+          </pre>
         </div>
       </mat-tab>
-
       <mat-tab>
         <ng-template mat-tab-label>
           Events
           @if (events.length) {
-            <span class="badge">{{ events.length }}</span>
+            <span class="badge">
+              {{ events.length }}
+            </span>
           }
         </ng-template>
         <div class="tab-body">
           <div class="tab-note">
-            Every <code>&#64;Output</code> plus each <code>fetch</code> call, newest first.
+            Every
+            <code>
+              &#64;Output
+            </code>
+            plus each
+            <code>
+              fetch
+            </code>
+            call, newest first.
             <a
                 class="link"
                 (click)="clearEvents()">
@@ -627,20 +815,23 @@
             <div class="events">
               @for (event of events; track $index) {
                 <div class="event">
-                  <span class="event-time">{{ event.time }}</span>
+                  <span class="event-time">
+                    {{ event.time }}
+                  </span>
                   <span
                       class="event-name"
                       [class.event-name-fetch]="event.name === 'fetch()'">
                     {{ event.name }}
                   </span>
-                  <span class="event-payload">{{ event.payload }}</span>
+                  <span class="event-payload">
+                    {{ event.payload }}
+                  </span>
                 </div>
               }
             </div>
           }
         </div>
       </mat-tab>
-
     </mat-tab-group>
   </div>
 </div>
