@@ -241,9 +241,14 @@
       }
     }
 
+    // The keyboard-active row while the pointer is elsewhere. This was
+    // rgb(42 42 42 / 10%) -- a 10% BLACK wash, which is invisible on a dark
+    // panel, so arrowing through the list highlighted nothing. --fs-color-selected
+    // is the same idea stated per scheme (black wash on light, white on dark);
+    // the literal keeps the exact previous light value.
     &:not(:hover) {
       .mat-active .option-chip {
-        background-color: rgb(42 42 42 / 10%);
+        background-color: var(--fs-color-selected, rgb(42 42 42 / 10%));
       }
     }
 
@@ -251,14 +256,17 @@
       background-color: transparent !important;
     }
 
+    // The sticky footer holding "Create new ..." and friends. It sits OVER the
+    // scrolling options, so its ground must be opaque and must match the panel
+    // -- a hardcoded #fff was a white bar across the bottom of a dark dropdown.
     .static-templates {
       position: sticky;
       bottom: 0;
       width: 100%;
-      background: #fff;
+      background: var(--fs-surface-background, #fff);
 
       mat-option:first-child {
-        border-top: 1px solid #e0e0e0;
+        border-top: 1px solid var(--fs-hairline, #e0e0e0);
       }
     }
 
@@ -342,8 +350,13 @@
         }
       }
 
+      // THE ROW HOVER. #F5F5F5 was hardcoded, which is a near-white slab on a
+      // dark panel -- the hovered option lit up white instead of washing.
+      // --fs-color-hover is a TRANSLUCENT wash in both schemes, so it takes its
+      // tone from the panel behind it rather than asserting a colour of its own;
+      // the literal is the light half, for a host without @firestitch/style.
       &:hover {
-        background-color: #F5F5F5 !important;
+        background-color: var(--fs-color-hover, #F5F5F5) !important;
       }
 
       &.multiple .option-chip {
