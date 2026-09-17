@@ -63,19 +63,29 @@
         width: 100% !important;
       }
 
-      &:not(.mat-focused):not(.float-label-always) {
+      // An empty, unfocused field sinks its label into the box to stand in for a
+      // placeholder. The label itself is styled the same way in every appearance;
+      // only `outline` wraps it in a notch, whose gap has to be closed separately
+      // — keying the whole thing off the notch left `fill` (and `flat`) floating.
+      //
+      // `panel-open` belongs here with focus: picking an option blurs the input
+      // before the chip lands, so focus is gone for an instant while the value is
+      // still empty. Without it the label drops and lifts again in that gap, and
+      // the pick reads as a flinch. The panel spans the whole interaction, so it
+      // holds the label up across the handover.
+      &:not(.mat-focused):not(.panel-open):not(.float-label-always) {
         .mdc-notched-outline__notch {
           border-top-width: 1px;
           border-top-style: solid;
           width: auto !important;
+        }
 
-          label {
-            transform: none !important;
-            top: 0 !important;
-            height: 100%;
-            display: flex;
-            align-items: center;
-          }
+        .mat-mdc-floating-label {
+          transform: none !important;
+          top: 0 !important;
+          height: 100%;
+          display: flex;
+          align-items: center;
         }
       }
     }

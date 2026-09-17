@@ -246,10 +246,14 @@ implements OnInit, OnDestroy, ControlValueAccessor {
     }
   }
 
-  public get placeholderText() {
-    return this.model.length === 0 ? 
-      (this.floatLabel === 'always' ? 
-        (this.placeholder === undefined ? 'None' : this.placeholder) : this.placeholder) : 
+  // Only while empty: once there are chips a placeholder would sit beside them as
+  // if it were another value. What is given is always shown — for a field with no
+  // label the placeholder is the only thing naming it. Nothing is invented when
+  // none is given, though: a "None" in that space reads as a value the field
+  // holds rather than as the absence of one.
+  public get placeholderText(): string {
+    return this.model.length === 0 ?
+      (this.placeholder ?? '') :
       '';
   }
 

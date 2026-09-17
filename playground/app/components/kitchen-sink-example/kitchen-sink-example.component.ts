@@ -117,7 +117,7 @@ const defaultConfig: KitchenSinkConfig = {
   groupBy: '',
 
   appearance: 'fill',
-  floatLabel: 'always',
+  floatLabel: 'auto',
   label: 'Account',
   placeholder: 'Start typing to search',
   hint: 'Pick one or more accounts',
