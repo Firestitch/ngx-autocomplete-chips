@@ -166,6 +166,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   @Input() public disabled = false;
   @Input() public groupBy: (item: any) => string;
   @Input() public panelWidth: string | number;
+  @Input() public panelPosition: 'auto' | 'above' | 'below' = 'auto';
   @Input() public set panelClass(value) {
     this.panelClasses = [
       ...['fs-autocomplete-chips-panel', 'fs-autocomplete-chips-panel-'.concat(this.guid)],
